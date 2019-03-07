@@ -6,11 +6,11 @@ import { withStyles } from "@material-ui/core/styles";
 import {Typography, Snackbar} from "@material-ui/core";
 import {checkAddress} from "walletcs";
 import InputWCS from "../../components/InputWCS";
-import Details from "../../components/DetailsWCS";
+import DetailsWCS from "../../components/DetailsWCS";
 import DropDownWCS from "../../components/DropDownWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import SnackbarWCS from "../../components/SnackbarWCS";
-import {useContractInfo, useMethodInfo, downloadOneTransaction} from './getContractData'
+import {useContractInfo, useMethodInfo, downloadOneTransaction, RecalculateGasLimit} from './actionsSingleTransaction'
 import ParamsAreaWCS from "../../components/ParamsAreaWCS";
 import Web3Context from '../../contexts/Web3Context'
 
@@ -57,7 +57,7 @@ const styles = theme => ({
   }
 });
 
-const SingleTransaction = ({className, ...props}) => {
+const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useContractInfo();
   const {web3} = useContext(Web3Context);
@@ -73,7 +73,7 @@ const SingleTransaction = ({className, ...props}) => {
     }
     dispatch({type: 'set_params', payload: params});
   };
-
+  
   return (
       <>
         <ContentCardWCS
@@ -106,7 +106,7 @@ const SingleTransaction = ({className, ...props}) => {
                     dispatch({type: 'set_contract_address', payload: e.target.value})
                 }/>
           </div>
-          <Details
+          <DetailsWCS
               className={classes.details}
               header="Details"
               details={state.contractName ? [{'key': 'Name:', 'value': state.contractName}]: []}/>
@@ -119,6 +119,7 @@ const SingleTransaction = ({className, ...props}) => {
           {state.methodName && !state.methodCallResult ?
               <ParamsAreaWCS
                   onChange={onInput}
+                  recalculateGasLimit={e => RecalculateGasLimit(state, dispatch, web3)}
                   additionalInputs={state.methodParams.filter((val) =>{
                     return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
                   })}
@@ -126,7 +127,7 @@ const SingleTransaction = ({className, ...props}) => {
                     return !['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
                   })} />: ''}
           {state.methodCallResult ?
-              <Details
+              <DetailsWCS
                   className={classes.result}
                   details={[{'key': state.methodName, 'value': state.methodCallResult}]}/>: ''}
           <ButtonWCS
@@ -146,8 +147,8 @@ const SingleTransaction = ({className, ...props}) => {
   )
 };
 
-SingleTransaction.propTypes = {
+SingleTransactionEtherC.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SingleTransaction);
+export default withStyles(styles)(SingleTransactionEtherC);

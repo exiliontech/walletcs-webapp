@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {useContext, useEffect, useReducer} from "react";
 import {checkAddress, EtherTransaction, FileTransactionGenerator} from "walletcs";
-import {ethers} from 'ethers';
 import Web3Context from "../../contexts/Web3Context";
 import {contractReducer, initStateContractReducer} from "../../reducers";
 
@@ -31,7 +30,7 @@ export const useContractInfo = () => {
       let result = await fetchContract(state.contractAddress);
       if(result.abi.error) {
         dispatch({type: 'set_global_error', payload: result.abi.error});
-        dispatch({type: 'reset_data'})
+        dispatch({type: 'reset_data'});
       } else{
         dispatch({type: 'set_abi', payload: result.abi.data});
         
@@ -78,6 +77,8 @@ export const useMethodInfo = (state, dispatch) => {
           {name: "gasLimit", value: state.gasLimit || 21000, type: "uint256"},
           {name: "nonce", value: state.nonce || 0, type: "uint256"}];
         params = params.concat(defaultData);
+        if(method.payable)  params = params.concat({name: "value", value: 0, type: "uint256"});
+        
         dispatch({type: 'set_params', payload: params});
       }else {
         dispatch({type: 'set_params', payload: params});
@@ -104,7 +105,7 @@ export const useMethodInfo = (state, dispatch) => {
   }, [state.methodName]);
 };
 
-const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName, web3) => {
+export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName, web3) => {
   let defaultValues = ["gasPrice", "gasLimit", "nonce", "value"];
 
   let newTx = {};
@@ -158,4 +159,32 @@ export const downloadOneTransaction = (state, web3) => {
     a.click();
     document.body.removeChild(a);
     }
+};
+
+export const RecalculateGasLimit = async (state, dispatch, web3) => {
+  let transaction = normalizeTransaction(state.publicKey, state.contractAddress,
+      state.methodParams, state.abi, state.methodName, web3);
+  
+  try{
+    const esimateGas = await web3.eth.estimateGas({
+      "from"      : state.publicKey,
+      "nonce"     : state.nonce,
+      "to"        : state.contractAddress,
+      "data"      : transaction.data
+    });
+    
+    let params = state.params;
+    
+    for(let key in params){
+      if(params[key].name === 'gasLimit'){
+        params[key].value = esimateGas;
+      }
+    }
+    dispatch({type: 'set_params', payload: params})
+    
+  }catch (e) {
+    let msg =  e.message ? e.message : e;
+    dispatch({type: 'set_error', payload: msg.split('(')[0]})
+  }
+  
 };

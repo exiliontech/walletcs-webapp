@@ -1,0 +1,12 @@
+image: node:latest
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - apt-get update && apt-get install -y python-dev
+            - curl -O https://bootstrap.pypa.io/get-pip.py
+            - python get-pip.py
+            - pip install awscli
+            - npm install && CI=false npm run build && aws s3 sync build/ s3://beta.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers

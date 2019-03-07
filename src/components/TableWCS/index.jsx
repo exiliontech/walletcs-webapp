@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
-import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -27,7 +26,8 @@ const styles = theme => ({
     padding: 10,
     paddingRight: 5,
     '&:last-child': {
-      paddingRight: 0
+      paddingRight: 10,
+      textAlign: 'right'
     }
   },
   close:{
@@ -48,34 +48,40 @@ const styles = theme => ({
 });
 
 const TableWCS = ({className, ...props}) => {
-  const {classes, rows, headers, isDelete} = props;
-  
-  const onDelete = (e) => {
-  
-  };
+  const {classes, rows, headers, isDelete, onDelete, onClick} = props;
   
   return (
       <>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
+        <Paper
+            className={classes.root}>
+          <Table
+              className={classes.table}>
             <TableHead >
-              <TableRow className={classes.tableRow}>
+              <TableRow
+                  className={classes.tableRow}>
                 {headers.map((val) => {
-                  return  <TableCell className={classes.tableCell} style={{fontWeight: 'bold'}}>{val}</TableCell>
+                  return  <TableCell
+                      className={classes.tableCell}
+                      style={{fontWeight: 'bold'}}>{val}</TableCell>
                 })}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
-                  <TableRow key={row.id}>
-                    <TableCell className={classes.tableCell}>{row.contract}</TableCell>
-                    <TableCell className={classes.tableCell}>{row.method}
+              {rows.map((row, index)=> (
+                  <TableRow key={index}>
+                    <TableCell
+                        className={classes.tableCell}
+                        onClick={e => onClick(index)}
+                        style={{cursor: 'pointer'}}>{row.contractAddress}</TableCell>
+                    <TableCell
+                        align="right"
+                        className={classes.tableCell}>{row.methodName}
                       {isDelete? (<IconButton
                         key="close"
                         aria-label="Close"
                         color="inherit"
                         className={classes.close}
-                        onClick={onDelete}>
+                        onClick={e => onDelete(index)}>
                         <CancelIcon className={classes.icon} />
                         </IconButton>): ''}
                     </TableCell>
@@ -92,6 +98,8 @@ TableWCS.propTypes = {
   classes: PropTypes.object.isRequired,
   headers: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
+  onClick: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
 export default withStyles(styles)(TableWCS);

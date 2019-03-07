@@ -1,44 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { withStyles } from "@material-ui/core/styles";
-import Typography from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 
 const styles = theme => ({
   detailsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
+    marginTop: 57
   },
   detailsHeader: {
-    color: '#6894BC'
-  },
-  name: {
-    color: '#828282',
-    fontSize: 16
+    color: '#6894BC',
+    display: 'flex',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginLeft: 20,
   },
   key: {
+    color: '#828282',
+    fontSize: 16,
+    textAlign: 'left'
+  },
+  value: {
     color: '#4F4F4F',
-    fontSize: 26
+    fontSize: 26,
+    textAlign: 'left'
+  },
+  contentContainer: {
+    display: 'flex',
+    justifyContent: 'start',
+    flexFlow: 'wrap',
+    '& div' : {
+      marginLeft: 20,
+      marginTop: 24
+    }
   }
 });
 
-const Details = ({className, ...props}) => {
+const DetailsWCS = ({className, ...props}) => {
   const {classes} = props;
-  
   return (
-      <div className={classes.detailsContainer}>
+      <div className={cx(
+          classes.detailsContainer,
+          className
+      )}>
         <Typography className={classes.detailsHeader}>
           {props.header}
         </Typography>
-        <div>
+        <div
+            className={cx(
+                classes.contentContainer,
+                props.classNameContent
+            )}>
           {props.details.map((value) => {
             return (
                 <div>
-                  <Typography className={classes.name}>
-                    {value.name}
-                  </Typography>
                   <Typography className={classes.key}>
                     {value.key}
+                  </Typography>
+                  <Typography className={classes.value}>
+                    {value.value}
                   </Typography>
                 </div>)
           })}
@@ -47,8 +70,11 @@ const Details = ({className, ...props}) => {
   )
 };
 
-Details.propTypes = {
+DetailsWCS.propTypes = {
+  details: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  header: PropTypes.object,
+  
 };
 
-export default withStyles(styles)(Details);
+export default withStyles(styles)(DetailsWCS);

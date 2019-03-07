@@ -1,78 +1,100 @@
 import React from 'react';
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {checkAddress} from 'walletcs';
 
 import { withStyles } from "@material-ui/core/styles";
-import InputWCS from '../../components/InputWCS'
-import {checkAddress} from 'walletcs';
-
-const DEFAULT_SETTING = {
-  root: 'root'
-};
+import InputWCS from '../InputWCS'
 
 const styles = theme => ({
   mainArea: {
     display: 'flex',
-    flex: 'wrap'
+    flexWrap: 'wrap',
+    marginLeft: 20,
+    marginRight: 20
   },
   additionalArea: {
     display: 'flex',
-    flex: 'wrap'
+    justifyContent: 'space-around',
+    backgroundColor: '#EEEEEE',
+    marginLeft: 20,
+    marginRight: 20,
+    height: 144
   },
   mainInput: {
-  
+    minWidth: '45%',
+    margin: 15
   },
   additionInput: {
-    backgroundColor: '#EEEEEE',
-    width: 957,
-    height: 144
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'center',
+    marginTop: 12
   }
 });
 
-const ParamsArea = ({className, ...props}) => {
-  const {classes, mainInputs, additionalInputs} = props;
+const ParamsAreaWCS = ({className, ...props}) => {
+  const {classes, mainInputs, additionalInputs, onChange, recalculateGasLimit} = props;
   
   const validation = (value, type) => {
+    const isInt = (n) => {
+      return Number(n) === n && n % 1 === 0;
+    };
+  
+    const isFloat = (n) => {
+      return Number(n) === n && n % 1 !== 0;
+    };
+    
+    if(!type){
+      return true
+    }
     if(type === 'address'){
       return checkAddress(value)
     }
-    if(type.indexOf('unit') > -1){
-    
+    if(type.indexOf('uint') > -1){
+      let data = parseInt(value);
+      return (isInt(data) || isFloat(data));
     }
-  }
+    return true
+  };
   
   return (
       <>
         <div className={classes.mainArea}>
-          {mainInputs.map((val) => {
+          {mainInputs.map((val, index) => {
             return <InputWCS
+                key={val.name + index.toString()}
                 className={classes.mainInput}
                 label={val.name}
+                error={val.value ? !validation(val.value, val.type) : false}
+                onChange={e => onChange(e.target.value, val.name)}
+                value={val.value}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">{val.type}</InputAdornment>,}
                 }/>
           })}
         </div>
         <div className={classes.additionalArea}>
-          {additionalInputs.map((val) => {
+          {additionalInputs.map((val, index) => {
             return <InputWCS
-                className={classes.additionalInputs}
-                label={val.name}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">{val.type}</InputAdornment>,}
-                }/>
+                key={val.name + index.toString()}
+                className={classes.additionInput}
+                label={val.name + '(' + val.type + ')'}
+                error={val.value ? !validation(val.value, val.type) : false}
+                onChange={e => onChange(e.target.value, val.name)}
+                value={val.value}
+                isQuestion={true}
+            />
           })}
         </div>
       </>
   )
 };
 
-ParamsArea.propTypes = {
+ParamsAreaWCS.propTypes = {
   classes: PropTypes.object.isRequired,
+  additionalInputs: PropTypes.array,
+  onChange: PropTypes.func,
   mainInputs: PropTypes.array,
-  additionalInputs: PropTypes.array
 };
 
-export default withStyles(styles)(ParamsArea);
+export default withStyles(styles)(ParamsAreaWCS);

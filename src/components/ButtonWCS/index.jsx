@@ -11,6 +11,8 @@ const DEFAULT_SETTING = {
 
 const styles = theme => ({
   defaultButton: {
+    backgroundColor: '#6894BC !important',
+    color: '#FFFFFF !important',
     fontSize: 16,
     width: 251,
     height: 60

@@ -1,4 +1,3 @@
-
 export const styles = theme => ({
   content: {
     display: 'flex',
@@ -63,5 +62,8 @@ export const styles = theme => ({
     display: 'flex',
     flexDirection: 'center',
     justifyContent: 'space-around'
-  }
+  },
+  hiddenInput:{
+    transform: 'translate(100, 0)'
+  },
 });

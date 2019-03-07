@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-const ContentCard = ({className, ...props}) => {
+const ContentCardWCS = ({className, ...props}) => {
   const {classes} = props;
   
   return (
@@ -26,8 +26,8 @@ const ContentCard = ({className, ...props}) => {
   )
 };
 
-ContentCard.propTypes = {
+ContentCardWCS.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ContentCard);
+export default withStyles(styles)(ContentCardWCS);

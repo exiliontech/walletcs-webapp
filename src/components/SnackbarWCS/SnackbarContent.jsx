@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -12,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
-import { withStyles } from "@material-ui/core/styles";
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -48,7 +46,7 @@ const styles = theme => ({
 });
 
 const SnackbarContentWCS = ({className, ...props}) => {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
   
   return (
