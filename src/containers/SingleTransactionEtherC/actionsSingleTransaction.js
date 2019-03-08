@@ -132,7 +132,7 @@ export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, m
   
   newTx["data"] = txData;
   newTx["to"] = addressCon;
-  console.log(newTx)
+
   return newTx;
   
 };
