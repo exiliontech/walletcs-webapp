@@ -43,17 +43,19 @@ export const useContractInfo = () => {
         }else if(!result.name.error){
           dispatch({type: 'set_contract_name', payload: result.name.data})
         }
-        let nonce = await web3.eth.getTransactionCount(state.publicKey);
         let gasPrice = await await web3.eth.getGasPrice();
-        dispatch({type: 'set_nonce', payload: nonce});
         dispatch({type: 'set_gas_price', payload: gasPrice});
       }
+    }
+    if(checkAddress(state.publicKey)){
+      let nonce = await web3.eth.getTransactionCount(state.publicKey);
+      dispatch({type: 'set_nonce', payload: nonce});
     }
   };
   
   useEffect(() => {
     getContractInformation();
-  }, [state.contractAddress]);
+  }, [state.contractAddress, state.publicKey]);
   
   return [state, dispatch]
 };
@@ -102,7 +104,7 @@ export const useMethodInfo = (state, dispatch) => {
   
   useEffect(() => {
     if(state.methodName) getMethodInformation();
-  }, [state.methodName]);
+  }, [state.methodName, state.nonce]);
 };
 
 export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName, web3) => {
@@ -130,6 +132,7 @@ export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, m
   
   newTx["data"] = txData;
   newTx["to"] = addressCon;
+  console.log(newTx)
   return newTx;
   
 };
@@ -147,7 +150,7 @@ export const downloadOneTransaction = (state, web3) => {
   
   let contentType = "text/json;charset=utf-8;";
   let filename = 'no_sign_transaction_' + new Date().getTime().toString() + ".json";
-  
+
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     let blob = new Blob([decodeURIComponent(encodeURI(fileGenerator.generateJson()))], { type: contentType });
     navigator.msSaveOrOpenBlob(blob, filename);

@@ -2,41 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="788a942b-2c63-4899-ba0e-ed6f4c02ada2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/_template.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ButtonWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ContentCardWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DetailsWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DropDownWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/InputWCS/QuestionIcon.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/InputWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ModalWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ParamsAreaWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/SnackbarWCS/SnackbarContent.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/SnackbarWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TableWCS/CancelIcon.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/TableWCS/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/BatchTransactionEtherC/actionsBatchTransactions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/BatchTransactionEtherC/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/BatchTransactionEtherC/styles.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Header/IconWCS.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Header/TextIconWCS.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Header/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Header/styles.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/LoadTransactionEther/LoadIcon.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/LoadTransactionEther/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/contexts/Web3Context.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reducers/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/themes/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -50,42 +19,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/Header/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-543">
-              <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="119" column="24" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#73#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/ParamsAreaWCS/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-590">
-              <caret line="35" column="77" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="77" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/Header/styles.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="519">
@@ -95,9 +28,33 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="229">
+              <caret line="23" column="33" lean-forward="true" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#73#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="149" column="3" lean-forward="true" selection-start-line="149" selection-start-column="3" selection-end-line="149" selection-end-column="3" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/LoadTransactionEther/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
+            <state relative-caret-position="-2034">
               <caret line="51" selection-start-line="51" selection-end-line="52" selection-end-column="63" />
               <folding>
                 <element signature="e#0#62#0" expanded="true" />
@@ -217,9 +174,12 @@
         <option value="$PROJECT_DIR$/src/containers/Header/index.jsx" />
         <option value="$PROJECT_DIR$/src/containers/Header/IconWCS.jsx" />
         <option value="$PROJECT_DIR$/src/containers/Header/styles.js" />
-        <option value="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js" />
-        <option value="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx" />
         <option value="$PROJECT_DIR$/src/components/ParamsAreaWCS/index.jsx" />
+        <option value="$PROJECT_DIR$/bitbucket-pipelines.yml" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/styles.js" />
+        <option value="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx" />
+        <option value="$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js" />
       </list>
     </option>
   </component>
@@ -250,20 +210,7 @@
               <item name="walletcs-new" type="b2602c69:ProjectViewProjectNode" />
               <item name="walletcs-new" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="walletcs-new" type="b2602c69:ProjectViewProjectNode" />
-              <item name="walletcs-new" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="walletcs-new" type="b2602c69:ProjectViewProjectNode" />
-              <item name="walletcs-new" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="LoadTransactionEther" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="walletcs-new" type="b2602c69:ProjectViewProjectNode" />
@@ -337,15 +284,16 @@
       <option name="presentableId" value="Default" />
       <updated>1551812204141</updated>
       <workItem from="1551812206184" duration="67823000" />
-      <workItem from="1551944267191" duration="36623000" />
+      <workItem from="1551944267191" duration="38468000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104446000" />
+    <option name="totallyTimeSpent" value="106291000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -361,7 +309,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32923833" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32923833" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -371,16 +319,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../experimental-walletcs-site/walletcs-site/src/molecules/WalletCSInputTip.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-174">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/DropDownWCS/ArrowIcon.jsx" />
     <entry file="file://$PROJECT_DIR$/src/App.css">
       <provider selected="true" editor-type-id="text-editor">
@@ -589,9 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/BatchTransactionEtherC/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -656,20 +591,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js">
+    <entry file="file://$PROJECT_DIR$/../walletcs-site/bitbucket-pipelines.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="163" column="32" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="253">
+          <caret line="11" column="69" lean-forward="true" selection-end-line="11" selection-end-column="172" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/Header/styles.js">
+    <entry file="file://$PROJECT_DIR$/bitbucket-pipelines.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="99" column="19" selection-start-line="99" selection-start-column="19" selection-end-line="99" selection-end-column="19" />
+        <state relative-caret-position="253">
+          <caret line="11" column="172" selection-start-line="11" selection-start-column="172" selection-end-line="11" selection-end-column="172" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ParamsAreaWCS/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="35" column="77" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -683,9 +632,12 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Downloads/signed-myy.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/LoadTransactionEther/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
+        <state relative-caret-position="-2034">
           <caret line="51" selection-start-line="51" selection-end-line="52" selection-end-column="63" />
           <folding>
             <element signature="e#0#62#0" expanded="true" />
@@ -693,20 +645,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/styles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="10" lean-forward="true" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/Header/styles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="99" column="19" selection-start-line="99" selection-start-column="19" selection-end-line="99" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="119" column="24" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
+        <state relative-caret-position="229">
+          <caret line="23" column="33" lean-forward="true" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="33" />
           <folding>
             <element signature="e#0#73#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ParamsAreaWCS/index.jsx">
+    <entry file="file://$USER_HOME$/Downloads/no_sign_transaction_1552032670220.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-590">
-          <caret line="35" column="77" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="77" />
+        <state>
+          <caret column="248" selection-end-column="248" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/no_sign_transaction_1552032853158.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/no_sign_transaction_1552032987113.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/no_sign_transaction_1552033274077.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/SingleTransactionEtherC/actionsSingleTransaction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="149" column="3" lean-forward="true" selection-start-line="149" selection-start-column="3" selection-end-line="149" selection-end-column="3" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
