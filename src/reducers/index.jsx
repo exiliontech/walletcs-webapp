@@ -10,7 +10,8 @@ export const initStateContractReducer = {
   methodParams: [],
   abi: [],
   methodCallResult: undefined,
-  table: []
+  table: [],
+  isViewMethod: false
 };
 
 export const contractReducer = (state, action) => {
@@ -21,22 +22,10 @@ export const contractReducer = (state, action) => {
       return {...state, contractAddress: action.payload};
     case 'set_contract_name':
       return {...state, contractName: action.payload};
-    case 'set_method_name':
-      return {...state, methodName: action.payload};
-    case 'set_params':
-      return {...state, methodParams: action.payload};
     case 'set_abi':
       return {...state, abi: action.payload};
     case 'set_global_error':
       return {...state, error: action.payload};
-    case 'set_gas_price':
-      return {...state, gasPrice: action.payload};
-    case 'set_gas_limit':
-      return {...state, gasLimit: action.payload};
-    case 'set_nonce':
-      return {...state, nonce: action.payload};
-    case 'set_method_call_result':
-      return {...state, methodCallResult: action.payload};
     case 'add_to_table':
       let table = state.table;
       table.push(action.payload);
@@ -48,9 +37,48 @@ export const contractReducer = (state, action) => {
     case 'reset_data':
       initStateContractReducer.publicKey = state.publicKey;
       initStateContractReducer.contractAddress = state.contractAddress;
-      return {...state, ...initStateContractReducer}
+      return {...state, ...initStateContractReducer};
+    case 'set_contract':
+      return{...state, contract: action.payload};
   }
 };
+
+export const initStateMethodReducer = {
+  methodName: undefined,
+  gasPrice: undefined,
+  gasLimit: undefined,
+  nonce: undefined,
+  methodParams: [],
+  methodCallResult: undefined,
+  isViewMethod: false,
+  isLoding: false
+};
+
+export const methodReducer = (state, action) => {
+  switch (action.type) {
+    case 'set_view_method':
+      return {...state, isViewMethod: action.payload};
+    case 'set_method_name':
+      return {...state, methodName: action.payload};
+    case 'set_params':
+      return {...state, methodParams: action.payload};
+    case 'set_gas_price':
+      return {...state, gasPrice: action.payload};
+    case 'set_gas_limit':
+      return {...state, gasLimit: action.payload};
+    case 'set_nonce':
+      return {...state, nonce: action.payload};
+    case 'set_method_call_result':
+      return {...state, methodCallResult: action.payload};
+    case 'reset_data':
+      let _reset = {methodParams: [], methodCallResult: undefined, isViewMethod:false};
+      return {...state, };
+    case 'set_is_loding':
+      return {...state, isLoding: !state.isLoding};
+    case 'set_mode':
+      return {...state, mode: action.payload}
+  };
+}
 
 export const initLoadTransactionState = {
   table: [],
@@ -84,5 +112,16 @@ export const loadTransactionsReducer = (state, action) => {
       _t.splice(action.payload, 1);
       _rows.splice(action.payload, 1);
       return {...state, ...{rows: _rows, originTransactions: _ot, table: _t}}
+  }
+};
+
+export const initGlobalState = {
+  error: undefined
+};
+
+export const  globalReducer = (state, action) => {
+  switch (action.type) {
+    case 'set_global_error':
+      return ({...state, error: action.payload})
   }
 };

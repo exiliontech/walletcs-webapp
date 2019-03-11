@@ -73,19 +73,20 @@ const ParamsAreaWCS = ({className, ...props}) => {
                 }/>
           })}
         </div>
-        <div className={classes.additionalArea}>
-          {additionalInputs.map((val, index) => {
-            return <InputWCS
-                key={val.name + index.toString()}
-                className={classes.additionInput}
-                label={val.name + '(' + val.type + ')'}
-                error={val.value ? !validation(val.value, val.type) : false}
-                onChange={e => onChange(e.target.value, val.name)}
-                value={val.value}
-                isQuestion={true}
-            />
-          })}
-        </div>
+        {!!additionalInputs ?
+          <div className={classes.additionalArea}>
+            {additionalInputs.map((val, index) => {
+              return <InputWCS
+                  key={val.name + index.toString()}
+                  className={classes.additionInput}
+                  label={val.name + '(' + val.type + ')'}
+                  error={val.value ? !validation(val.value, val.type) : false}
+                  onChange={e => onChange(e.target.value, val.name)}
+                  value={val.value}
+                  isQuestion={true}
+              />
+            })}
+        </div> : ''}
       </>
   )
 };

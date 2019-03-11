@@ -6,6 +6,7 @@ import {checkAddress, FileTransactionReader} from "walletcs";
 import { withStyles } from "@material-ui/core/styles";
 import ContentCardWCS from "../../components/ContentCardWCS";
 import {Button, IconButton, InputAdornment, Typography} from "@material-ui/core";
+import UploadCloudIcon from '@material-ui/icons/CloudUpload';
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import TableWCS from "../../components/TableWCS";
@@ -131,7 +132,7 @@ const LoadTransactionEther = ({className, ...props}) => {
                 InputProps={{endAdornment: (
                   <InputAdornment position="end">
                     <IconButton  htmlFor="input-file-download" component="label">
-                      <LoadIcon/>
+                      <UploadCloudIcon className={classes.uploadIcon}/>
                       <input
                           id="input-file-download"
                           type="file"

@@ -38,5 +38,19 @@ export const styles = theme => ({
   },
   result: {
     marginTop: 5
+  },
+  callMethodWrapper: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignSelf: 'center',
+    width: 700,
+    
+  },
+  buttonSecondary: {
+    marginLeft: '20',
+  },
+  progress: {
+    color: theme.palette.primary.main,
+    alignSelf: 'center'
   }
 });

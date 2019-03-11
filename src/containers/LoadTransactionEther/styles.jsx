@@ -29,27 +29,12 @@ export const styles = theme => ({
   details:{
     height: 108
   },
-  dropDown: {
-    width: 956,
-    height: 64,
-    marginLeft: 20,
-    marginTop: 80
-  },
   button: {
     fontWeight: 'bold',
     borderRadius: 8,
     alignSelf: 'center',
     marginTop: 35,
     marginBottom: 20
-  },
-  result: {
-    marginTop: 5
-  },
-  addTransaction: {
-    '& a': {
-      textDecoration: 'none',
-      color: theme.palette.primary.main
-    }
   },
   containerAddTransaction: {
     display: 'flex',
@@ -66,4 +51,7 @@ export const styles = theme => ({
   hiddenInput:{
     transform: 'translate(100, 0)'
   },
+  uploadIcon:{
+    color: theme.palette.primary.main
+  }
 });

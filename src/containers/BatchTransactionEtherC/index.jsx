@@ -7,40 +7,29 @@ import {checkAddress} from "walletcs";
 import {Typography} from "@material-ui/core";
 import {Button} from "@material-ui/core";
 import InputWCS from "../../components/InputWCS";
-import DropDownWCS from "../../components/DropDownWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import SnackbarWCS from "../../components/SnackbarWCS";
-import DetailsWCS from "../../components/DetailsWCS";
 import ContentCardWCS from "../../components/ContentCardWCS";
 import {useContractInfo, useMethodInfo} from '../SingleTransactionEtherC/actionsSingleTransaction'
-import ParamsAreaWCS from "../../components/ParamsAreaWCS";
 import Web3Context from '../../contexts/Web3Context'
+import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import TableWCS from "../../components/TableWCS";
 import ModalWrappedWCS from '../../components/ModalWCS';
 import {downloadBatchTransaction} from "./actionsBatchTransactions"
 
 import {styles} from './styles';
+import DetailInformation from "../SingleTransactionEtherC/DetailInformation";
 
 const BatchTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useContractInfo();
+  const [stateMethod, dispatchMethod] = useMethodInfo(state, dispatch);
+  const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
   
   const {web3} = useContext(Web3Context);
-  
-  useMethodInfo(state, dispatch);
-  
-  const onInput = (val, name) => {
-    let params = state.methodParams;
-    for(let key in params){
-      if(params[key].name === name){
-        params[key].value = val;
-      }
-    }
-    dispatch({type: 'set_params', payload: params});
-  };
   
   const onDelete = (index) => {
     dispatch({type: 'delete_from_table', payload: index});
@@ -88,51 +77,32 @@ const BatchTransactionEtherC = ({className, ...props}) => {
                       dispatch({type: 'set_contract_address', payload: e.target.value})
                   }/>
             </div>
-            <DetailsWCS
-                className={classes.details}
-                header="Details"
-                details={state.contractName ? [{'key': 'Name:', 'value': state.contractName}]: []}/>
-            <DropDownWCS
-                className={classes.dropDown}
-                defaultInput="Choose contract method *"
-                value={state.methodName}
-                items={state.abi.filter((val) => val.type === 'function')}
-                onChange={e => dispatch({type: 'set_method_name', payload: e.target.value})}/>
-            {state.methodName && !state.methodCallResult ?
-                <ParamsAreaWCS
-                    onChange={onInput}
-                    additionalInputs={state.methodParams.filter((val) =>{
-                      return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
-                    })}
-                    mainInputs={state.methodParams.filter((val) =>{
-                      return !['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
-                    })} />: ''}
-            {state.methodCallResult ?
-                <DetailsWCS
-                    className={classes.result}
-                    details={[{'key': state.methodName, 'value': state.methodCallResult}]}/>: ''}
-           <div className={classes.containerButtons}>
-             <ButtonWCS
-                 className={classes.button}
-                 disabled={!(!!state.contractAddress && !!state.methodName && !!state.methodParams.length)}
-                 onClick={e => {
-                   dispatch(
-                     {type: 'add_to_table',
-                       payload: {
-                       contractAddress: state.contractAddress,
-                         methodName: state.methodName,
-                         params: state.methodParams,
-                         abi: state.abi}}
-                         );
-                   setIsAddingTransaction(false)}}>
-               Save
-             </ButtonWCS>
-             <ButtonWCS
-                 className={classes.button}
-                 disabled={!isAddingTransaction}
-                 onClick={e => setIsAddingTransaction(false)}>
-               Cancel
-             </ButtonWCS>
+              <DetailInformation
+                  stateMethod={stateMethod}
+                  state={state}
+                  dispatchMethod={dispatchMethod}/>
+              <div className={classes.containerButtons}>
+                <ButtonWCS
+                    className={classes.button}
+                    disabled={!(!!state.contractAddress && !!stateMethod.methodName && !!stateMethod.methodParams.length)}
+                    onClick={e => {
+                     dispatch(
+                       {type: 'add_to_table',
+                         payload: {
+                         contractAddress: state.contractAddress,
+                           methodName: stateMethod.methodName,
+                           params: stateMethod.methodParams,
+                           abi: state.abi}}
+                           );
+                     setIsAddingTransaction(false)}}>
+                 Save
+               </ButtonWCS>
+               <ButtonWCS
+                   className={classes.button}
+                   disabled={!isAddingTransaction}
+                   onClick={e => setIsAddingTransaction(false)}>
+                 Cancel
+               </ButtonWCS>
            </div>
           </ContentCardWCS>) : (
               <ContentCardWCS
@@ -172,7 +142,10 @@ const BatchTransactionEtherC = ({className, ...props}) => {
                     </div>
                   <ButtonWCS
                       className={classes.button}
-                      disabled={!(!!state.publicKey && !!state.contractAddress && !!state.methodName && !!state.methodParams.length)}
+                      disabled={!(!!state.publicKey &&
+                          !!state.contractAddress &&
+                          !!stateMethod.methodName &&
+                          !!stateMethod.methodParams.length)}
                       onClick={e => downloadBatchTransaction(state, web3)}>
                     Download Transaction
                   </ButtonWCS>
@@ -182,12 +155,12 @@ const BatchTransactionEtherC = ({className, ...props}) => {
             isOpen={modalIsOpen}
             onClose={onCloseModal}
             data={{header: 'Transaction information', details: modalData}}/>: '' }
-        {state.error ?
+        {stateGlobal.error ?
             <SnackbarWCS
               message={state.error}
               variant='error'
               isOpen={true}
-              onClose={e => dispatch({type: 'set_global_error', payload: undefined})}/> : ''}
+              onClose={e => dispatchGlobal({type: 'set_global_error', payload: undefined})}/> : ''}
           </>
   )
 };
