@@ -5,12 +5,11 @@ import {checkAddress, FileTransactionReader} from "walletcs";
 
 import { withStyles } from "@material-ui/core/styles";
 import ContentCardWCS from "../../components/ContentCardWCS";
-import {Button, IconButton, InputAdornment, Typography} from "@material-ui/core";
+import {IconButton, InputAdornment, Typography} from "@material-ui/core";
 import UploadCloudIcon from '@material-ui/icons/CloudUpload';
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import TableWCS from "../../components/TableWCS";
-import LoadIcon from './LoadIcon';
 import {loadTransactionsReducer, initLoadTransactionState} from "../../reducers";
 import SnackbarWCS from "../../components/SnackbarWCS";
 import ModalWrappedWCS from "../../components/ModalWCS";

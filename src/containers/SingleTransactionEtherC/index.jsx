@@ -8,7 +8,7 @@ import {checkAddress} from "walletcs";
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import SnackbarWCS from "../../components/SnackbarWCS";
-import {useContractInfo, useMethodInfo, downloadOneTransaction, RecalculateGasLimit} from './actionsSingleTransaction'
+import {useContractInfo, useMethodInfo, downloadOneTransaction} from './actionsSingleTransaction'
 import Web3Context from '../../contexts/Web3Context'
 import GlobalReducerContext from "../../contexts/GlobalReducerContext"
 
@@ -59,6 +59,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
               state={state}
               stateMethod={stateMethod}
               isLoding={stateMethod.isLoding}/>
+              
           {/* Download button */}
           <ButtonWCS
               className={classes.button}
