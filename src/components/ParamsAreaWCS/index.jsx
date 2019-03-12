@@ -19,13 +19,19 @@ const styles = theme => ({
   },
   additionalArea: {
     display: 'flex',
-    justifyContent: 'space-around',
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: '#EEEEEE',
     marginLeft: 20,
     marginRight: 20,
     height: 144,
     '& div': {
-      maxWidth: 210
+      display: 'flex',
+      maxWidth: '100%',
+      justifyContent: 'space-around',
+      '& div': {
+        maxWidth: 210
+      }
     }
   },
   mainInput: {
@@ -35,12 +41,12 @@ const styles = theme => ({
   additionInput: {
     backgroundColor: '#FFFFFF',
     alignSelf: 'center',
-    marginTop: 12
+    marginTop: 12,
   }
 });
 
 const ParamsAreaWCS = ({className, ...props}) => {
-  const {classes, mainInputs, additionalInputs, onChange, recalculateGasLimit, isLoading} = props;
+  const {classes, mainInputs, additionalInputs, onChange, isLoading, button} = props;
   
   const validation = (value, type) => {
     const isInt = (n) => {
@@ -83,18 +89,23 @@ const ParamsAreaWCS = ({className, ...props}) => {
         </div>
         {!!additionalInputs ?
           <div className={classes.additionalArea}>
-            {additionalInputs.map((val, index) => {
-              return <InputWCS
-                  key={val.name + index.toString()}
-                  className={classes.additionInput}
-                  label={val.name + '(' + val.type + ')'}
-                  error={val.value ? !validation(val.value, val.type) : false}
-                  onChange={e => onChange(e.target.value, val.name)}
-                  value={val.value}
-                  isQuestion={true}
-              />
-            })}
-        </div> : ''}
+            <div>
+              {additionalInputs.map((val, index) => {
+                return <InputWCS
+                    key={val.name + index.toString()}
+                    className={classes.additionInput}
+                    label={val.name + '(' + val.type + ')'}
+                    error={val.value ? !validation(val.value, val.type) : false}
+                    onChange={e => onChange(e.target.value, val.name)}
+                    value={val.value}
+                    isQuestion={true}
+                />
+              })}
+            </div>
+            <div>
+              {button ? button: ''}
+            </div>
+          </div> : ''}
       </>
   )
 };

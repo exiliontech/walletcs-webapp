@@ -122,18 +122,17 @@ export const useMethodInfo = (stateContract) => {
   return [state, dispatch]
 };
 
-export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName) => {
+export const  normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName) => {
   let defaultValues = ["gasPrice", "gasLimit", "nonce"];
 
   let newTx = {};
   let newParams = [];
-  
   let inter = new ethers.utils.Interface(abi);
   
   for(let i=0; i < methodParams.length; i++){
     let l = methodParams[i];
     if(defaultValues.includes(l.name)) {
-      newTx[l.name] = l.value
+      newTx[l.name] = l.name === 'gasPrice'? ethers.utils.bigNumberify(l.value) : l.value
     }else if(inter.functions[methodName].payable && l.name === 'value'){
       newTx[l.name] = l.value
     }else{
@@ -142,13 +141,13 @@ export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, m
   }
   
   let txData;
-  
+
   try{
     txData = inter.functions[methodName].encode(newParams);
   }catch (e) {
     console.log(e, methodName)
   }
-  console.log(txData, newParams, inter);
+
   newTx["data"] = txData;
   newTx["to"] = addressCon;
   
@@ -184,30 +183,26 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     }
 };
 
-export const RecalculateGasLimit = async (state, dispatch, web3) => {
-  let transaction = normalizeTransaction(state.publicKey, state.contractAddress,
-      state.methodParams, state.abi, state.methodName, web3);
+export const RecalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
+  let {contractAddress, abi} = stateContract;
+  let {methodParams, methodName, publicKey } = stateMethod;
   
   try{
-    const estimateGas = await web3.eth.estimateGas({
-      "from"      : state.publicKey,
-      "nonce"     : state.nonce,
-      "to"        : state.contractAddress,
-      "data"      : transaction.data
-    });
-    
-    let params = state.params;
+    let transaction = normalizeTransaction(publicKey, contractAddress, methodParams, abi, methodName);
+    console.log(transaction)
+    const estimateGas = await provider.estimateGas(transaction);
+
+    let params = stateMethod.methodParams;
     
     for(let key in params){
       if(params[key].name === 'gasLimit'){
-        params[key].value = estimateGas;
+        params[key].value = estimateGas.toNumber();
       }
     }
-    dispatch({type: 'set_params', payload: params})
+    dispatchMethod({type: 'set_params', payload: params})
     
   }catch (e) {
     let msg =  e.message ? e.message : e;
-    dispatch({type: 'set_error', payload: msg.split('(')[0]})
+    dispatchGlobal({type: 'set_global_error', payload: msg.split('(')[0]})
   }
-  
 };

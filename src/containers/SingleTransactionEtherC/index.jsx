@@ -8,7 +8,7 @@ import {checkAddress} from "walletcs";
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import SnackbarWCS from "../../components/SnackbarWCS";
-import {useContractInfo, useMethodInfo, downloadOneTransaction} from './actionsSingleTransaction'
+import {useContractInfo, useMethodInfo, downloadOneTransaction, RecalculateGasLimit} from './actionsSingleTransaction'
 import Web3Context from '../../contexts/Web3Context'
 import GlobalReducerContext from "../../contexts/GlobalReducerContext"
 
@@ -18,6 +18,7 @@ import DetailInformation from "./DetailInformation";
 const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useContractInfo();
+  const {provider} = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
   
@@ -56,7 +57,9 @@ const SingleTransactionEtherC = ({className, ...props}) => {
           <DetailInformation
               dispatchMethod={dispatchMethod}
               state={state}
-              stateMethod={stateMethod}/>
+              stateMethod={stateMethod}
+              recalculateButton={e => RecalculateGasLimit(state,
+                  stateMethod, dispatchMethod, dispatchGlobal, provider)}/>
           <ButtonWCS
               className={classes.button}
               disabled={!(!!stateMethod.publicKey &&

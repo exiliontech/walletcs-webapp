@@ -53,5 +53,14 @@ export const styles = theme => ({
   progress: {
     color: theme.palette.primary.main,
     alignSelf: 'center'
+  },
+  recalculateButton: {
+    maxWidth: 100,
+    maxHeight: 30,
+    fontSize: 12,
+    textTransform: 'none',
+    alignSelf: 'center',
+    boxShadow: 'none',
+    marginTop: 20
   }
 });

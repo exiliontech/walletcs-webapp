@@ -1,7 +1,7 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {Button, CircularProgress, InputAdornment} from "@material-ui/core";
+import {Button, InputAdornment} from "@material-ui/core";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import InputWCS from "../../components/InputWCS";
 import DetailsWCS from "../../components/DetailsWCS";
@@ -9,11 +9,13 @@ import DropDownWCS from "../../components/DropDownWCS";
 import ParamsAreaWCS from "../../components/ParamsAreaWCS";
 
 import {styles} from "./styles"
+import Web3Context from "../../contexts/Web3Context";
 
 const DetailInformation = props => {
   const {classes} = props;
   const {dispatchGlobal, stateGlobal} = useContext(GlobalReducerContext);
   const {stateMethod, dispatchMethod, state,} = props;
+  const {provider} = useContext(Web3Context);
   
   const onInput = (val, name) => {
     let params = stateMethod.methodParams;
@@ -66,7 +68,13 @@ const DetailInformation = props => {
                 additionalInputs={stateMethod.methodParams.filter((val) =>{
                   return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
                 })}
-            />
+                button={
+                  <Button
+                      onClick={props.recalculateButton}
+                      className={classes.recalculateButton}
+                      variant="contained">
+                    Recalculate
+                  </Button>}/>
                 :
             ''}
   
@@ -108,7 +116,8 @@ DetailInformation.propTypes = {
   dispatchMethod: PropTypes.func.isRequired,
   stateMethod: PropTypes.object.isRequired,
   state: PropTypes.object.isRequired,
-  isLoading: PropTypes.object.isRequired
+  isLoading: PropTypes.object.isRequired,
+  recalculateButton: PropTypes.func
 };
 
 export default withStyles(styles)(DetailInformation);
