@@ -72,7 +72,6 @@ export const useMethodInfo = (stateContract) => {
       let _inter = new ethers.utils.Interface(stateContract.abi);
       
       // If method with Gas limit
-      dispatch({type: 'set_method_call_result', payload: undefined});
       dispatch({type: 'set_method_type', payload: _inter.functions[method.name].type});
 
       if(_inter.functions[method.name].type === 'transaction'){

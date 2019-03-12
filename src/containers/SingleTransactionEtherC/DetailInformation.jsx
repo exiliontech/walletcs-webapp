@@ -28,9 +28,9 @@ const DetailInformation = props => {
   const onCallMethod = async () => {
     dispatchGlobal({type: 'set_is_loading_method'});
     try{
-      let _params = !!stateMethod.methodParams.length ?  stateMethod.methodParams.map(val => !val.value) : [];
+      let _params = stateMethod.methodParams.map(val => val.value);
       let result = await state.contract[stateMethod.methodName](..._params);
-      dispatchMethod({type: 'set_method_call_result', payload: result})
+      dispatchMethod({type: 'set_method_call_result', payload: result.toString()})
     }catch (e) {
       dispatchGlobal({type: 'set_global_error', payload: e.message})
     }
@@ -78,7 +78,7 @@ const DetailInformation = props => {
             details={[{'key': stateMethod.methodName || '', 'value': stateMethod.methodCallResult || ''}]}/> : ''}
   
         {/*Result view method*/}
-        {stateMethod.methodType === 'call' && !!stateMethod.methodParams.length ?
+        {stateMethod.methodType === 'call' && !stateMethod.methodCallResult && !stateGlobal.isLoadingMethod?
             <div className={classes.callMethodWrapper}>
               {stateMethod.methodParams.map(val => {
                 return <InputWCS
