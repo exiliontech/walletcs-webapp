@@ -148,7 +148,7 @@ const BatchTransactionEtherC = ({className, ...props}) => {
                           !!state.contractAddress &&
                           !!stateMethod.methodName &&
                           !!stateMethod.methodParams.length)}
-                      onClick={e => downloadBatchTransaction(state, stateMethod, web3)}>
+                      onClick={e => downloadBatchTransaction(state, stateMethod)}>
                     Download Transaction
                   </ButtonWCS>
               </ContentCardWCS>

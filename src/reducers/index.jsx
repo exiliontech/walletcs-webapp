@@ -36,6 +36,7 @@ export const contractReducer = (state, action) => {
 
 export const initStateMethodReducer = {
   methodName: undefined,
+  methodType: undefined,
   gasPrice: undefined,
   gasLimit: undefined,
   nonce: undefined,
@@ -49,8 +50,8 @@ export const methodReducer = (state, action) => {
   switch (action.type) {
     case 'set_public_key':
       return {...state, publicKey: action.payload};
-    case 'set_view_method':
-      return {...state, isViewMethod: action.payload};
+    case 'set_method_type':
+      return {...state, methodType: action.payload};
     case 'set_method_name':
       return {...state, methodName: action.payload};
     case 'set_params':
@@ -63,9 +64,6 @@ export const methodReducer = (state, action) => {
       return {...state, nonce: action.payload};
     case 'set_method_call_result':
       return {...state, methodCallResult: action.payload};
-    case 'reset_data':
-      let _reset = {methodParams: [], methodCallResult: undefined, isViewMethod:false};
-      return {...state, };
     case 'set_mode':
       return {...state, mode: action.payload}
   };

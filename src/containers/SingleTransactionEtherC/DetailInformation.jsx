@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {Button, InputAdornment} from "@material-ui/core";
+import {Button, CircularProgress, InputAdornment} from "@material-ui/core";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import InputWCS from "../../components/InputWCS";
 import DetailsWCS from "../../components/DetailsWCS";
@@ -56,27 +56,29 @@ const DetailInformation = props => {
             }}/>
             
         {/*Area for inputs if call methods with many params*/}
-        {stateMethod.methodName && stateMethod.mode === 'inputMethod' ?
-          <ParamsAreaWCS
-              onChange={onInput}
-              mainInputs={stateMethod.methodParams.filter((val) =>{
-                return !['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
-              })}
-              additionalInputs={stateMethod.methodParams.filter((val) =>{
-                return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
-              })}
-          />
-          : ''}
+        {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length ?
+            <ParamsAreaWCS
+                isLoading={stateGlobal.isLoadingMethod}
+                onChange={onInput}
+                mainInputs={stateMethod.methodParams.filter((val) =>{
+                  return !['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
+                })}
+                additionalInputs={stateMethod.methodParams.filter((val) =>{
+                  return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
+                })}
+            />
+                :
+            ''}
   
         {/*Result for call method*/}
-        {stateMethod.methodCallResult ?
+        {stateMethod.methodType === 'call' && stateMethod.methodCallResult ?
             <DetailsWCS
-                className={classes.result}
-                isLoading={stateGlobal.isLoadingMethod}
-                details={[{'key': stateMethod.methodName, 'value': stateMethod.methodCallResult}]}/>: ''}
+            className={classes.result}
+            isLoading={stateGlobal.isLoadingMethod}
+            details={[{'key': stateMethod.methodName || '', 'value': stateMethod.methodCallResult || ''}]}/> : ''}
   
         {/*Result view method*/}
-        {stateMethod.mode === 'viewMethod'?
+        {stateMethod.methodType === 'call' && !!stateMethod.methodParams.length ?
             <div className={classes.callMethodWrapper}>
               {stateMethod.methodParams.map(val => {
                 return <InputWCS

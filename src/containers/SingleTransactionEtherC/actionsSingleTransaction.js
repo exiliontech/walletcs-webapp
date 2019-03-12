@@ -15,27 +15,35 @@ export const useContractInfo = () => {
   const getContractInformation = async() => {
     
     if(checkAddress(state.contractAddress)){
-      dispatchGlobal({type: 'set_is_loading_contract'});
-      const url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${state.contractAddress}`;
-      const urlToken = `https://api-rinkeby.etherscan.io/api?module=account&action=tokentx&contractaddress=${state.contractAddress}&page=1&offset=1`;
-      
-      let response = await axios(url);
-      if(response.data.status === '0'){
-        dispatchGlobal({type: 'set_global_error', payload: response.data.result})
-      }else{
-        let abi = JSON.parse(response.data.result);
-        dispatch({type: 'set_abi', payload: abi});
-        let contract = new ethers.Contract(state.contractAddress, abi,  provider);
+      try {
+        dispatchGlobal({type: 'set_is_loading_contract'});
+        const url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${state.contractAddress}`;
+        const urlToken = `https://api-rinkeby.etherscan.io/api?module=account&action=tokentx&contractaddress=${state.contractAddress}&page=1&offset=1`;
   
-        dispatch({type: 'set_contract', payload: contract});
-
-        response =  await axios(urlToken);
-        if(response.data.status === '1'){
-          dispatch({type: 'set_contract_name', payload: response.data.result[0] ? response.data.result[0].tokenName: undefined})
-        }else{
-          let name = await contract.name();
-          dispatch({type: 'set_contract_name', payload: typeof name === 'object' ? '' : name})
+        let response = await axios(url);
+        if (response.data.status === '0') {
+          dispatchGlobal({type: 'set_global_error', payload: response.data.result})
+        } else {
+          let abi = JSON.parse(response.data.result);
+          dispatch({type: 'set_abi', payload: abi});
+          
+          let contract = new ethers.Contract(state.contractAddress, abi, provider);
+    
+          dispatch({type: 'set_contract', payload: contract});
+    
+          response = await axios(urlToken);
+          if (response.data.status === '1') {
+            dispatch({
+              type: 'set_contract_name',
+              payload: response.data.result[0] ? response.data.result[0].tokenName : undefined
+            })
+          } else {
+            let name = await contract.name();
+            dispatch({type: 'set_contract_name', payload: typeof name === 'object' ? '' : name})
+          }
         }
+      }catch (e) {
+        dispatchGlobal({type: 'set_global_error', payload: typeof e === 'object'? e.message: e})
       }
       dispatchGlobal({type: 'set_is_loading_contract'});
     }
@@ -56,15 +64,18 @@ export const useMethodInfo = (stateContract) => {
   const getMethodInformation = async() => {
     try{
       dispatchGlobal({type: 'set_is_loading_method'});
+      
       let method = stateContract.abi.filter((val) => state.methodName === val.name)[0];
       let callMethod = stateContract.contract[method.name];
       let params = !!method? method.inputs : [];
       
+      let _inter = new ethers.utils.Interface(stateContract.abi);
+      
       // If method with Gas limit
       dispatch({type: 'set_method_call_result', payload: undefined});
-  
-      if(!!params.length && method.stateMutability !== 'view'){
-        dispatch({type: 'set_mode', payload: 'inputMethod'});
+      dispatch({type: 'set_method_type', payload: _inter.functions[method.name].type});
+
+      if(_inter.functions[method.name].type === 'transaction'){
         
         let nonce = 0;
         let gasPrice =  await provider.getGasPrice();
@@ -81,25 +92,21 @@ export const useMethodInfo = (stateContract) => {
           {name: "gasLimit", value: 21000, type: "uint256"},
           {name: "nonce", value: nonce, type: "uint256"}];
         
-        params = params.concat(defaultData);
+        if(!!params.length) params = params.concat(defaultData);
         
-        if(method.payable)  params = params.concat({name: "value", value: 0, type: "uint256"});
+        if(!!params.length && method.payable)  params = params.concat({name: "value", value: 0, type: "uint256"});
         
         dispatch({type: 'set_params', payload: params});
         // If method without params
-      }else if(!params.length) {
-        dispatch({type: 'set_mode', payload: 'callMethod'});
+      }else if(_inter.functions[method.name].type === 'call' && !params.length) {
         let methodResult = await callMethod();
         
         if(method.outputs[0].type === 'uint256'){
           methodResult = methodResult.toNumber();
         }
         
-        console.log(methodResult, params);
-  
         dispatch({type: 'set_method_call_result', payload: methodResult});
       }else{
-        dispatch({type: 'set_mode', payload: 'viewMethod'});
         dispatch({type: 'set_params', payload: params});
       }
       
@@ -116,15 +123,19 @@ export const useMethodInfo = (stateContract) => {
   return [state, dispatch]
 };
 
-export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName, web3) => {
-  let defaultValues = ["gasPrice", "gasLimit", "nonce", "value"];
+export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, methodName) => {
+  let defaultValues = ["gasPrice", "gasLimit", "nonce"];
 
   let newTx = {};
   let newParams = [];
   
+  let inter = new ethers.utils.Interface(abi);
+  
   for(let i=0; i < methodParams.length; i++){
     let l = methodParams[i];
-    if(defaultValues.includes(l.name)){
+    if(defaultValues.includes(l.name)) {
+      newTx[l.name] = l.value
+    }else if(inter.functions[methodName].payable && l.name === 'value'){
       newTx[l.name] = l.value
     }else{
       newParams.push(l.value)
@@ -132,25 +143,25 @@ export const normalizeTransaction = (publicKey, addressCon, methodParams, abi, m
   }
   
   let txData;
-  let contract = new web3.eth.Contract(abi, addressCon);
+  
   try{
-    txData = contract.methods[methodName](...newParams).encodeABI();
+    txData = inter.functions[methodName].encode(newParams);
   }catch (e) {
     console.log(e, methodName)
   }
-  
+  console.log(txData, newParams, inter);
   newTx["data"] = txData;
   newTx["to"] = addressCon;
-
+  
   return newTx;
   
 };
 
-export const downloadOneTransaction = (stateContract, stateMethod, web3) => {
+export const downloadOneTransaction = (stateContract, stateMethod) => {
   let {contractAddress, abi} = stateContract;
   let {methodParams, methodName, publicKey} = stateMethod;
   
-  let transaction = normalizeTransaction(publicKey, contractAddress, methodParams, abi, methodName, web3);
+  let transaction = normalizeTransaction(publicKey, contractAddress, methodParams, abi, methodName);
   let fileGenerator = new FileTransactionGenerator(publicKey);
   
   if(EtherTransaction.checkCorrectTx(transaction)){

@@ -30,11 +30,11 @@ const styles = theme => ({
   },
   contentContainer: {
     display: 'flex',
-    justifyContent: 'start',
+    justifyContent: 'space-between',
     flexFlow: 'wrap',
     '& div' : {
       marginLeft: 20,
-      marginTop: 24
+      marginTop: 24,
     }
   },
   progress: {
@@ -69,7 +69,6 @@ const DetailsWCS = ({className, ...props}) => {
               </div>)
         })}
       </div>);
-  
   return (
       <div className={cx(
           classes.detailsContainer,

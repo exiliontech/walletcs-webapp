@@ -20,7 +20,6 @@ const SingleTransactionEtherC = ({className, ...props}) => {
   const [state, dispatch] = useContractInfo();
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
-  const {web3} = useContext(Web3Context);
   
   return (
       <>
@@ -62,10 +61,8 @@ const SingleTransactionEtherC = ({className, ...props}) => {
               className={classes.button}
               disabled={!(!!stateMethod.publicKey &&
                   !!state.contractAddress &&
-                  !!stateMethod.methodName &&
-                  !!stateMethod.methodParams.length &&
-                  stateMethod.mode === 'inputMethod')}
-              onClick={e => downloadOneTransaction(state, stateMethod, web3)}>
+                  stateMethod.methodType === 'transaction')}
+              onClick={e => downloadOneTransaction(state, stateMethod)}>
             Download Transaction
           </ButtonWCS>
           

@@ -5,13 +5,17 @@ import {checkAddress} from 'walletcs';
 
 import { withStyles } from "@material-ui/core/styles";
 import InputWCS from '../InputWCS'
+import {CircularProgress} from "@material-ui/core";
 
 const styles = theme => ({
   mainArea: {
     display: 'flex',
     flexWrap: 'wrap',
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
+    '& div:first-child':{
+      marginLeft: 5,
+    }
   },
   additionalArea: {
     display: 'flex',
@@ -19,7 +23,10 @@ const styles = theme => ({
     backgroundColor: '#EEEEEE',
     marginLeft: 20,
     marginRight: 20,
-    height: 144
+    height: 144,
+    '& div': {
+      maxWidth: 210
+    }
   },
   mainInput: {
     minWidth: '45%',
@@ -33,7 +40,7 @@ const styles = theme => ({
 });
 
 const ParamsAreaWCS = ({className, ...props}) => {
-  const {classes, mainInputs, additionalInputs, onChange, recalculateGasLimit} = props;
+  const {classes, mainInputs, additionalInputs, onChange, recalculateGasLimit, isLoading} = props;
   
   const validation = (value, type) => {
     const isInt = (n) => {
@@ -58,6 +65,7 @@ const ParamsAreaWCS = ({className, ...props}) => {
   };
   
   return (
+    isLoading ? <CircularProgress style={{alignSelf: 'center', marginTop: 20}}/> :
       <>
         <div className={classes.mainArea}>
           {mainInputs.map((val, index) => {
@@ -96,6 +104,7 @@ ParamsAreaWCS.propTypes = {
   additionalInputs: PropTypes.array,
   onChange: PropTypes.func,
   mainInputs: PropTypes.array,
+  isLoading: PropTypes.bool,
 };
 
 export default withStyles(styles)(ParamsAreaWCS);
