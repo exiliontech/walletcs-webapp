@@ -1,5 +1,6 @@
 import React, {Component, useReducer} from 'react';
 import Web3 from 'web3';
+import {ethers} from 'ethers';
 
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -14,6 +15,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import {globalReducer, initGlobalState} from "./reducers";
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
+const provider =  ethers.getDefaultProvider('rinkeby');
 
 const App = props => {
   const [state, dispatch] = useReducer(globalReducer, initGlobalState);
@@ -21,7 +23,7 @@ const App = props => {
         <Router>
           <div className="App">
             <GlobalReducerContext.Provider value={{stateGlobal: state, dispatchGlobal: dispatch}}>
-              <Web3Context.Provider value={{web3: web3}}>
+              <Web3Context.Provider value={{web3: web3, provider: provider}}>
                 <MuiThemeProvider theme={WalletCSTheme}>
                   <Header/>
                   <Switch>

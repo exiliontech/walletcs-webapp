@@ -2,8 +2,9 @@ import {FileTransactionGenerator, EtherTransaction} from 'walletcs';
 import {normalizeTransaction} from '../SingleTransactionEtherC/actionsSingleTransaction'
 
 
-export const downloadBatchTransaction = (state, web3) => {
-  let {publicKey, table} = state;
+export const downloadBatchTransaction = (state, stateMethod, web3) => {
+  let {table} = state;
+  let {publicKey} = stateMethod;
   
   let fileGenerator = new FileTransactionGenerator(publicKey);
   

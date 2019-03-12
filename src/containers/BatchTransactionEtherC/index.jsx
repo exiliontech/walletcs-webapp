@@ -25,6 +25,7 @@ const BatchTransactionEtherC = ({className, ...props}) => {
   const [state, dispatch] = useContractInfo();
   const [stateMethod, dispatchMethod] = useMethodInfo(state, dispatch);
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
+  
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
@@ -49,6 +50,7 @@ const BatchTransactionEtherC = ({className, ...props}) => {
       obj['value'] = data.params[key].value;
       formatedData.details.push(obj)
     }
+
     setModalData(formatedData);
     setModalIsOpen(true)
   };
@@ -120,11 +122,11 @@ const BatchTransactionEtherC = ({className, ...props}) => {
                       className={classes.input}
                       isQuestion={true}
                       label='Public key of a signatory *'
-                      value={state.publicKey}
-                      error={state.publicKey ? !checkAddress(state.publicKey): false}
-                      helperText={state.publicKey && !checkAddress(state.publicKey) ? 'Not correct address format': ''}
+                      value={stateMethod.publicKey}
+                      error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey): false}
+                      helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
                       onChange={e => {
-                        dispatch({type: 'set_public_key', payload: e.target.value})}
+                        dispatchMethod({type: 'set_public_key', payload: e.target.value})}
                       }/>
                 </div>
                 <TableWCS
@@ -142,11 +144,11 @@ const BatchTransactionEtherC = ({className, ...props}) => {
                     </div>
                   <ButtonWCS
                       className={classes.button}
-                      disabled={!(!!state.publicKey &&
+                      disabled={!(!!stateMethod.publicKey &&
                           !!state.contractAddress &&
                           !!stateMethod.methodName &&
                           !!stateMethod.methodParams.length)}
-                      onClick={e => downloadBatchTransaction(state, web3)}>
+                      onClick={e => downloadBatchTransaction(state, stateMethod, web3)}>
                     Download Transaction
                   </ButtonWCS>
               </ContentCardWCS>

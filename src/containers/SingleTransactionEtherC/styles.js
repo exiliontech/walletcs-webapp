@@ -37,7 +37,8 @@ export const styles = theme => ({
     marginBottom: 20
   },
   result: {
-    marginTop: 5
+    marginTop: 5,
+    maxWidth: 956
   },
   callMethodWrapper: {
     display: 'flex',
