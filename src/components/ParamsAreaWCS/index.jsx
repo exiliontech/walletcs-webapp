@@ -13,9 +13,6 @@ const styles = theme => ({
     flexWrap: 'wrap',
     marginLeft: 20,
     marginRight: 20,
-    '& div:first-child':{
-      marginLeft: 5,
-    }
   },
   additionalArea: {
     display: 'flex',

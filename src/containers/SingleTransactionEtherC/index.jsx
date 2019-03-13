@@ -18,7 +18,7 @@ import DetailInformation from "./DetailInformation";
 const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useContractInfo();
-  const {provider} = useContext(Web3Context);
+  const {provider, web3} = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
   
@@ -56,10 +56,10 @@ const SingleTransactionEtherC = ({className, ...props}) => {
           </div>
           <DetailInformation
               dispatchMethod={dispatchMethod}
-              state={state}
+              stateContract={state}
               stateMethod={stateMethod}
               recalculateButton={e => RecalculateGasLimit(state,
-                  stateMethod, dispatchMethod, dispatchGlobal, provider)}/>
+                  stateMethod, dispatchMethod, dispatchGlobal, provider, web3)}/>
           <ButtonWCS
               className={classes.button}
               disabled={!(!!stateMethod.publicKey &&

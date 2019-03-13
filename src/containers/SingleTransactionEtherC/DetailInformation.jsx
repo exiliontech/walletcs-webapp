@@ -10,11 +10,12 @@ import ParamsAreaWCS from "../../components/ParamsAreaWCS";
 
 import {styles} from "./styles"
 import Web3Context from "../../contexts/Web3Context";
+import {ethers} from "ethers";
 
 const DetailInformation = props => {
   const {classes} = props;
   const {dispatchGlobal, stateGlobal} = useContext(GlobalReducerContext);
-  const {stateMethod, dispatchMethod, state,} = props;
+  const {stateMethod, dispatchMethod, stateContract} = props;
   const {provider} = useContext(Web3Context);
   
   const onInput = (val, name) => {
@@ -31,7 +32,7 @@ const DetailInformation = props => {
     dispatchGlobal({type: 'set_is_loading_method'});
     try{
       let _params = stateMethod.methodParams.map(val => val.value);
-      let result = await state.contract[stateMethod.methodName](..._params);
+      let result = await stateContract.contract[stateMethod.methodName](..._params);
       dispatchMethod({type: 'set_method_call_result', payload: result.toString()})
     }catch (e) {
       dispatchGlobal({type: 'set_global_error', payload: e.message})
@@ -45,14 +46,14 @@ const DetailInformation = props => {
             className={classes.details}
             header="Details"
             isLoading={stateGlobal.isLoadingContract}
-            details={state.contractName ? [{'key': 'Name:', 'value': state.contractName}]: []}/>
+            details={stateContract.contractName ? [{'key': 'Name:', 'value': stateContract.contractName}]: []}/>
             
         <DropDownWCS
             className={classes.dropDown}
             defaultInput="Choose contract method *"
             disabled={!stateMethod.methodParams}
             value={stateMethod.methodName}
-            items={state.abi.filter((val) => val.type === 'function')}
+            items={stateContract.abi.filter((val) => val.type === 'function')}
             onChange={e => {
               dispatchMethod({type: 'set_method_name', payload: e.target.value})
             }}/>
@@ -63,10 +64,16 @@ const DetailInformation = props => {
                 isLoading={stateGlobal.isLoadingMethod}
                 onChange={onInput}
                 mainInputs={stateMethod.methodParams.filter((val) =>{
-                  return !['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
+                  if(!val.payable && val.name === 'value'){
+                    return true
+                  }
+                  return !['nonce', 'gasLimit', 'gasPrice'].includes(val.name)
                 })}
                 additionalInputs={stateMethod.methodParams.filter((val) =>{
-                  return ['nonce', 'gasLimit', 'value', 'gasPrice'].includes(val.name)
+                  if(val.payable && val.name === 'value'){
+                    return true
+                  }
+                  return ['nonce', 'gasLimit', 'gasPrice' ].includes(val.name)
                 })}
                 button={
                   <Button
@@ -115,7 +122,7 @@ const DetailInformation = props => {
 DetailInformation.propTypes = {
   dispatchMethod: PropTypes.func.isRequired,
   stateMethod: PropTypes.object.isRequired,
-  state: PropTypes.object.isRequired,
+  stateContract: PropTypes.object.isRequired,
   isLoading: PropTypes.object.isRequired,
   recalculateButton: PropTypes.func
 };

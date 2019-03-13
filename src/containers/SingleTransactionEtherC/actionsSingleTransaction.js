@@ -183,17 +183,21 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     }
 };
 
-export const RecalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
+
+export const RecalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider, web3) => {
   let {contractAddress, abi} = stateContract;
   let {methodParams, methodName, publicKey } = stateMethod;
   
   try{
     let transaction = normalizeTransaction(publicKey, contractAddress, methodParams, abi, methodName);
-    console.log(transaction)
-    const estimateGas = await provider.estimateGas(transaction);
+    let tx = shallowCopy(transaction);
+    tx.from = publicKey;
+    tx.gasLimit = null;
+
+    const estimateGas = await provider.estimateGas(tx);
 
     let params = stateMethod.methodParams;
-    
+  
     for(let key in params){
       if(params[key].name === 'gasLimit'){
         params[key].value = estimateGas.toNumber();
@@ -206,3 +210,9 @@ export const RecalculateGasLimit = async (stateContract, stateMethod, dispatchMe
     dispatchGlobal({type: 'set_global_error', payload: msg.split('(')[0]})
   }
 };
+
+export function shallowCopy(object) {
+  let result = {};
+  for (var key in object) { result[key] = object[key]; }
+  return result;
+}
