@@ -18,6 +18,8 @@ const DetailInformation = props => {
   const {stateMethod, dispatchMethod, stateContract} = props;
   const {provider} = useContext(Web3Context);
   
+  let _inter = new ethers.utils.Interface(stateContract.abi);
+  
   const onInput = (val, name) => {
     let params = stateMethod.methodParams;
     for(let key in params){
@@ -95,7 +97,7 @@ const DetailInformation = props => {
         {/*Result view method*/}
         {stateMethod.methodType === 'call' && !stateMethod.methodCallResult && !stateGlobal.isLoadingMethod?
             <div className={classes.callMethodWrapper}>
-              {stateMethod.methodParams.map(val => {
+              {_inter.functions[stateMethod.methodName].inputs.map(val => {
                 return <InputWCS
                     key='view-input'
                     label={stateMethod.name}

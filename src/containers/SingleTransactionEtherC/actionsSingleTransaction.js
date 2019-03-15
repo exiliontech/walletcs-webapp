@@ -64,7 +64,7 @@ export const useMethodInfo = (stateContract) => {
   const getMethodInformation = async() => {
     try{
       dispatchGlobal({type: 'set_is_loading_method'});
-      
+      dispatch({type: 'set_method_call_result', payload: undefined});
       let method = stateContract.abi.filter((val) => state.methodName === val.name)[0];
       let callMethod = stateContract.contract[method.name];
       let params = !!method? method.inputs : [];
@@ -193,7 +193,7 @@ export const RecalculateGasLimit = async (stateContract, stateMethod, dispatchMe
     let tx = shallowCopy(transaction);
     tx.from = publicKey;
     tx.gasLimit = null;
-
+    console.log(tx);
     const estimateGas = await provider.estimateGas(tx);
 
     let params = stateMethod.methodParams;
