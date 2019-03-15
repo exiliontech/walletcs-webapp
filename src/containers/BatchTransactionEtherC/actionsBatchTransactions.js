@@ -18,7 +18,7 @@ export const downloadBatchTransaction = (state, stateMethod) => {
   }
   
   let contentType = "text/json;charset=utf-8;";
-  let filename = 'no_sign_batch_transaction_' + new Date().getTime().toString() + ".json";
+  let filename = ' tr-' + new Date().getTime().toString() + ".json";
   
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     let blob = new Blob([decodeURIComponent(encodeURI(fileGenerator.generateJson()))], { type: contentType });
