@@ -44,20 +44,15 @@ const DetailInformation = props => {
   
   return(
       <React.Fragment>
-        <DetailsWCS
-            className={classes.details}
-            header="Details"
-            isLoading={stateGlobal.isLoadingContract}
-            details={stateContract.contractName ? [{'key': 'Name:', 'value': stateContract.contractName}]: []}/>
-            
         <DropDownWCS
             className={classes.dropDown}
-            defaultInput="Choose contract method *"
+            defaultInput="Choose method"
             disabled={!stateMethod.methodParams}
             value={stateMethod.methodName}
             items={stateContract.abi.filter((val) => val.type === 'function')}
-            onChange={e => {
-              dispatchMethod({type: 'set_method_name', payload: e.target.value})
+            onChange={value => {
+              console.log(value);
+              dispatchMethod({type: 'set_method_name', payload: value})
             }}/>
             
         {/*Area for inputs if call methods with many params*/}
@@ -76,24 +71,10 @@ const DetailInformation = props => {
                     return true
                   }
                   return ['nonce', 'gasLimit', 'gasPrice' ].includes(val.name)
-                })}
-                button={
-                  <Button
-                      onClick={props.recalculateButton}
-                      className={classes.recalculateButton}
-                      variant="contained">
-                    Recalculate
-                  </Button>}/>
+                })}/>
                 :
             ''}
-  
-        {/*Result for call method*/}
-        {stateMethod.methodType === 'call' && stateMethod.methodCallResult ?
-            <DetailsWCS
-            className={classes.result}
-            isLoading={stateGlobal.isLoadingMethod}
-            details={[{'key': stateMethod.methodName || '', 'value': stateMethod.methodCallResult || ''}]}/> : ''}
-  
+            
         {/*Result view method*/}
         {stateMethod.methodType === 'call' && !stateMethod.methodCallResult && !stateGlobal.isLoadingMethod?
             <div className={classes.callMethodWrapper}>
@@ -109,12 +90,12 @@ const DetailInformation = props => {
                           </InputAdornment>}
                     }/>
               })}
-              <Button
-                  key="view-call"
-                  className={classes.buttonSecondary}
-                  onClick={onCallMethod}>
-                Call method
-              </Button>
+              {/*<Button*/}
+                  {/*key="view-call"*/}
+                  {/*className={classes.buttonSecondary}*/}
+                  {/*onClick={onCallMethod}>*/}
+                {/*Call method*/}
+              {/*</Button>*/}
             </div>
             : ''}
       </React.Fragment>

@@ -1,20 +1,26 @@
 export const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    maxHeight: 50
+    backgroundColor: theme.palette.primary.main,
+    color: '#9198A0',
+    minHeight: 72
   },
-  tabsRoot: {
+  tabsSecondary: {
     borderBottom: '1px solid #e8e8e8',
   },
   tabsIndicator: {
     backgroundColor: theme.palette.primary.main,
-    minHeight: 5
+  },
+  rowHeader: {
+    display: 'flex',
+    maxHeight: 72
   },
   tabRoot: {
+    display: 'flex',
     textTransform: 'initial',
     minWidth: 39,
-    fontWeight: theme.typography.fontWeightRegular,
+    fontSize: 16,
+    fontWeight: 'bold',
     marginRight: theme.spacing.unit * 4,
     fontFamily: [
       '-apple-system',
@@ -29,22 +35,28 @@ export const styles = theme => ({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      color: theme.palette.primary.main,
+      color: '#FFFFFF',
       opacity: 1,
     },
-    '&$tabSelected': {
-      color: theme.palette.primary.main,
+    '&tabSelected': {
+      color: '#FFFFFF',
       fontWeight: 'bold',
       fontSize: 16,
-      
+
     },
     '&:focus': {
-      color: theme.palette.primary.main,
+      color: '#FFFFFF',
+      fontWeight: 'bold',
     },
+    '& button': {
+      display: 'flex',
+      marginTop: 12,
+    }
   },
   tabSelected: {
     fontWeight: 'bold',
-    color: '#9A9A9A',
+    color: '#FFFFFF',
+    backgroundColor: theme.palette.primary.main
   },
   typography: {
     padding: theme.spacing.unit * 3,
@@ -62,11 +74,12 @@ export const styles = theme => ({
     }
   },
   logo: {
-    width: 330,
-    height: 138,
+    width: 292,
+    height: 72,
     '& svg:first-child': {
       fontSize: 24
-    }
+    },
+    display: 'flex'
   },
   menu: {
     width: '100%',
@@ -74,32 +87,47 @@ export const styles = theme => ({
     flexDirection: 'column'
   },
   secondary: {
-    minHeight: 90,
+    marginLeft: 292,
+    minHeight: 64,
     display: 'flex',
+    '& a + a':{
+      marginLeft: 22
+    }
   },
+  
   link: {
     cursor: 'pointer',
-    height: 83,
+    height: 60,
     '&:hover':{
-      borderBottom: '7px solid rgba(104, 148, 188, 0.4)',
-      color: theme.palette.primary.main,
       '& div': {
         color: theme.palette.primary.main,
       }
     },
     '& div':{
-      color: '#9A9A9A',
-      fontSize: 18,
+      color: '#9198A0',
+      fontSize: 16,
+      fontWeight: 'bold'
     },
-    paddingBottom: '0 !important',
+    paddingBottom: '0 !important'
   },
-  wallet: {
-    fontSize: '50px !important',
-    color: '#5B9BD5 !important',
-    paddingBottom: 45,
-    marginRight: 10
+  
+  linkSelected: {
+    borderBottom: '4px solid #26CD58',
+    color: theme.palette.primary.main,
+    
+    '& div':{
+      color: theme.palette.primary.main,
+      fontSize: 16,
+      fontWeight: 'bold'
+    }
   },
+  
   textWallet: {
-    fontSize: '142px !important'
+    fontSize: '220px !important',
+    alignSelf: 'start'
+  },
+  primaryLabel: {
+    alignSelf: 'start',
+    padding: 0
   }
 });

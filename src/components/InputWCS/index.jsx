@@ -10,11 +10,29 @@ const INPUT_FIELD = {
   root: 'root',
   variant: 'outlined',
   type: 'text',
+  margin: 'normal'
 };
 
 const styles = theme => ({
   default: {
-  }
+    marginBottom: 22,
+    marginTop: 0,
+    '& div': {
+      minHeight: 64,
+      backgroundColor: '#FFFFFF',
+    },
+    '& input': {
+      paddingTop: 30,
+    },
+    '& label': {
+      fontSize:  '16px !important',
+      color: '#6E7782 !important',
+      paddingTop: 7
+    },
+    '& legend':{
+      width:  '0 !important',
+    }
+  },
 });
 
 const InputWCS = ({className, ...props}) => {
@@ -38,18 +56,18 @@ const InputWCS = ({className, ...props}) => {
         )}
         variant={INPUT_FIELD.variant}
         type={INPUT_FIELD.type}
+        margin={INPUT_FIELD.margin}
         label={props.label ? props.label: ''}
-        InputProps={props.isQuestion ? {
-          endAdornment: (
-              <InputAdornment position="end">
+        InputLabelProps={{variant: 'filled', margin: 'dense', classes: props.classes, }}
+        InputProps={{endAdornment: props.isQuestion ? (
+              <InputAdornment position="start">
                 <IconButton
                     aria-label="Toggle tip"
                     onClick={onClickTip}>
                   <QuestionIcon/>
                 </IconButton>
               </InputAdornment>
-          ),
-        }: ''} {...props}/>
+          ): ''}} {...props}/>
   )
 };
 

@@ -11,14 +11,21 @@ const DEFAULT_SETTING = {
 
 const styles = theme => ({
   defaultButton: {
-    backgroundColor: '#6894BC !important',
+    backgroundColor: '#04AA42 !important',
     color: '#FFFFFF !important',
+    borderRadius: '4px !important',
     fontSize: 16,
-    width: 251,
-    height: 60
+    width: 256,
+    height: 54,
+    '&:hover': {
+      backgroundColor: '#05C44C',
+    },
+    '&:active': {
+      backgroundColor: '#039138'
+    }
   },
   disabledButton: {
-    backgroundColor: 'rgba(104, 148, 188, 0.5) !important',
+    backgroundColor: 'rgba(38, 205, 88, 0.241423) !important',
     color: '#FFFFFF !important'
   }
 });

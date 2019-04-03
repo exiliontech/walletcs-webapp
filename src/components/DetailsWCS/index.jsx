@@ -2,40 +2,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { withStyles } from "@material-ui/core/styles";
-import {CircularProgress, Typography} from '@material-ui/core';
+import {CircularProgress, Typography, Paper} from '@material-ui/core';
 
 const styles = theme => ({
   detailsContainer: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    marginTop: 57
+    height: '100%',
+    boxShadow: 'none',
   },
   detailsHeader: {
     color: '#6894BC',
     display: 'flex',
     fontWeight: 'bold',
     fontSize: 18,
-    marginLeft: 20,
+    marginLeft: 44,
   },
   key: {
-    color: '#828282',
+    color: '#6E7782',
     fontSize: 16,
     textAlign: 'left'
   },
   value: {
-    color: '#4F4F4F',
-    fontSize: 26,
+    color: '#04AA42',
+    fontSize: 32,
     textAlign: 'left'
   },
   contentContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     flexFlow: 'wrap',
-    '& div' : {
-      marginLeft: 20,
-      marginTop: 24,
-    }
+    width: 348,
+    height: 164,
+    paddingLeft: 112,
+    '& div':{
+      width: 348,
+      height: 164,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      paddingLeft: 44,
+      boxShadow: 'none'
+    },
   },
   progress: {
     alignSelf: 'center',
@@ -45,9 +54,7 @@ const styles = theme => ({
 
 const DetailsWCS = ({className, ...props}) => {
   const {classes} = props;
-  const detail = (props.isLoading ?
-      <CircularProgress className={classes.progress}/>
-      :
+  const detail =
       <div
           className={cx(
               classes.contentContainer,
@@ -55,7 +62,7 @@ const DetailsWCS = ({className, ...props}) => {
           )}>
         {props.details.map((value) => {
           return (
-              <div>
+              <Paper>
                 <Typography
                     className={classes.key}
                     key={value.key}>
@@ -66,9 +73,10 @@ const DetailsWCS = ({className, ...props}) => {
                     key={value.value.toString()}>
                   {typeof value.value === 'object' ? value.value.toNumber(): value.value}
                 </Typography>
-              </div>)
+              </Paper>)
         })}
-      </div>);
+      </div>;
+  
   return (
       <div className={cx(
           classes.detailsContainer,

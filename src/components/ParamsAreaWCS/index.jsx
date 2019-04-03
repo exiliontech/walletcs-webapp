@@ -2,44 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {checkAddress} from 'walletcs';
-
 import { withStyles } from "@material-ui/core/styles";
 import InputWCS from '../InputWCS'
-import {CircularProgress} from "@material-ui/core";
+import SecondaryInputWCS from '../SecondaryInputWCS';
 
 const styles = theme => ({
   mainArea: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: 20,
-    marginRight: 20,
   },
   additionalArea: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#EEEEEE',
-    marginLeft: 20,
-    marginRight: 20,
-    height: 144,
-    '& div': {
-      display: 'flex',
-      maxWidth: '100%',
-      justifyContent: 'space-around',
-      '& div': {
-        maxWidth: 210
-      }
-    }
+    flexDirection: 'row',
+    justifyContent: 'start',
+    flexWrap: 'wrap',
+    backgroundColor: '#EBEDED',
+    borderRadius: 4,
+    minHeight: 136,
   },
   mainInput: {
-    minWidth: '45%',
-    margin: 15
+    minWidth: 624,
   },
-  additionInput: {
-    backgroundColor: '#FFFFFF',
-    alignSelf: 'center',
-    marginTop: 12,
-  }
 });
 
 const ParamsAreaWCS = ({className, ...props}) => {
@@ -68,7 +51,6 @@ const ParamsAreaWCS = ({className, ...props}) => {
   };
   
   return (
-    isLoading ? <CircularProgress style={{alignSelf: 'center', marginTop: 20}}/> :
       <>
         <div className={classes.mainArea}>
           {mainInputs.map((val, index) => {
@@ -86,9 +68,8 @@ const ParamsAreaWCS = ({className, ...props}) => {
         </div>
         {!!additionalInputs ?
           <div className={classes.additionalArea}>
-            <div>
               {additionalInputs.map((val, index) => {
-                return <InputWCS
+                return <SecondaryInputWCS
                     key={val.name + index.toString()}
                     className={classes.additionInput}
                     label={val.name + '(' + val.type + ')'}
@@ -98,10 +79,6 @@ const ParamsAreaWCS = ({className, ...props}) => {
                     isQuestion={true}
                 />
               })}
-            </div>
-            <div>
-              {button ? button: ''}
-            </div>
           </div> : ''}
       </>
   )

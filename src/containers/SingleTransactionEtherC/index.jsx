@@ -14,9 +14,12 @@ import GlobalReducerContext from "../../contexts/GlobalReducerContext"
 
 import {styles} from './styles'
 import DetailInformation from "./DetailInformation";
+import DropDownWCS from "../../components/DropDownWCS";
+import DetailsWCS from "../../components/DetailsWCS";
 
 const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
+  
   const [state, dispatch] = useContractInfo();
   const {provider, web3} = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
@@ -24,51 +27,56 @@ const SingleTransactionEtherC = ({className, ...props}) => {
   
   return (
       <>
-        <ContentCardWCS
-            className={cx(
+        <ContentCardWCS className={cx(
                 classes.content,
                 className
             )}>
-          <Typography
-              className={classes.header}>
-            Smart Contract Transaction
-          </Typography>
           <div className={classes.inputContainer}>
             <InputWCS
                 className={classes.input}
-                isQuestion={true}
-                label='Public key of a signatory *'
-                value={stateMethod.publicKey}
-                error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey): false}
-                helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
-                onChange={e => {
-                  dispatchMethod({type: 'set_public_key', payload: e.target.value})}
-                }/>
-            <InputWCS
-                className={classes.input}
-                label="Contract *"
+                label="Contract"
                 value={state.contractAddress}
                 error={state.contractAddress ? !checkAddress(state.contractAddress): false}
                 helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format': ''}
                 onChange={e =>
                     dispatch({type: 'set_contract_address', payload: e.target.value})
                 }/>
+            <InputWCS
+                className={classes.input}
+                isQuestion={true}
+                label='Public key of a signatory'
+                value={stateMethod.publicKey}
+                error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey): false}
+                helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
+                onChange={e => {
+                  dispatchMethod({type: 'set_public_key', payload: e.target.value})}
+                }/>
+                
+            {!!state.contractAddress && !!state.contractName ? <DetailInformation
+                dispatchMethod={dispatchMethod}
+                stateContract={state}
+                stateMethod={stateMethod}
+                recalculateButton={e => RecalculateGasLimit(state,
+                    stateMethod, dispatchMethod, dispatchGlobal, provider, web3)}/>: ''}
+                    
+            {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length ? <ButtonWCS
+                className={classes.button}
+                disabled={!(!!stateMethod.publicKey &&
+                    !!state.contractAddress &&
+                    stateMethod.methodType === 'transaction')}
+                onClick={e => downloadOneTransaction(state, stateMethod)}>
+              Download Transaction
+            </ButtonWCS>: ''}
+            
           </div>
-          <DetailInformation
-              dispatchMethod={dispatchMethod}
-              stateContract={state}
-              stateMethod={stateMethod}
-              recalculateButton={e => RecalculateGasLimit(state,
-                  stateMethod, dispatchMethod, dispatchGlobal, provider, web3)}/>
-          <ButtonWCS
-              className={classes.button}
-              disabled={!(!!stateMethod.publicKey &&
-                  !!state.contractAddress &&
-                  stateMethod.methodType === 'transaction')}
-              onClick={e => downloadOneTransaction(state, stateMethod)}>
-            Download Transaction
-          </ButtonWCS>
-          
+          <div className={classes.informationContainer}>
+            {/*Result for call method*/}
+            {!!state.contractAddress && !!state.contractName ?
+              <DetailsWCS
+                  className={classes.result}
+                  isLoading={stateGlobal.isLoadingMethod}
+                  details={[{'key': 'Contract name' || '', 'value': state.contractName || ''}]}/> : ''}
+          </div>
           {/*Error snackbar*/}
           {stateGlobal.error ?
               <SnackbarWCS
