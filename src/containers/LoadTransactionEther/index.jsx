@@ -2,7 +2,7 @@ import React, {useContext, useReducer, useState} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import {checkAddress, FileTransactionReader} from "walletcs";
-
+import {ethers} from 'ethers';
 import { withStyles } from "@material-ui/core/styles";
 import ContentCardWCS from "../../components/ContentCardWCS";
 import {IconButton, InputAdornment, Typography} from "@material-ui/core";
@@ -21,7 +21,7 @@ import {styles} from './styles';
 const LoadTransactionEther = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useReducer(loadTransactionsReducer, initLoadTransactionState);
-  const {web3} = useContext(Web3Context);
+  const {provider} = useContext(Web3Context);
 
   const onDelete = (index) => {
     dispatch({type: 'delete_transaction', payload: index});
@@ -73,7 +73,10 @@ const LoadTransactionEther = ({className, ...props}) => {
   const onBroadcast = async(e) => {
     try{
       for(let key in state.originTransactions){
-        await web3.eth.sendSignedTransaction(state.originTransactions[key].transaction)
+        provider.sendTransaction(state.originTransactions[key].transaction).then((tx) => {
+          console.log(tx)
+        })
+        // await web3.eth.sendSignedTransaction(state.originTransactions[key].transaction)
       }
     }catch (e) {
       let msg =  e.message ? e.message : e;
