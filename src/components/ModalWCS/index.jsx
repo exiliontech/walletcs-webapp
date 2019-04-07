@@ -81,11 +81,17 @@ const ModalWCS = ({className, ...props}) => {
                     {data.details.contractAddress}</Typography>
                 </>
               : ''}
-            {data.details ? <DetailsWCS
-                className={classes.detailsWrapper}
-                classNemeContent={classes.detailContentWrapper}
-                details={data.details.details}
-                header="Details"/> : '' }
+            {console.log( data.details.details)}
+            {!!data.details ? data.details.details.map((val) => {
+             return (
+                 <React.Fragment>
+                   <Typography className={classes.contractAddressTitle}>
+                     {val.key}
+                   </Typography>
+                   <Typography variant="subtitle1" className={classes.contractAddress}>
+                     {val.value}</Typography>
+                 </React.Fragment>)
+            }) : '' }
             <ModalWrappedWCS />
           </div>: '' }
         </Modal>

@@ -2,6 +2,7 @@ export const styles = theme => ({
   content: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'start'
   },
   inputContainer:{
     display: 'flex',
@@ -13,6 +14,7 @@ export const styles = theme => ({
   },
   informationContainer:{
     display: 'flex',
+    flexDirection: 'column',
     paddingTop: 46,
     width: '100%',
     height: '100%'
@@ -65,5 +67,9 @@ export const styles = theme => ({
     alignSelf: 'center',
     boxShadow: 'none',
     marginTop: 20
+  },
+  result: {
+    marginBottom: 40,
+    maxWidth: 164,
   }
 });

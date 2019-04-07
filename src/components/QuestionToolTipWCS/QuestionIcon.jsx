@@ -12,7 +12,12 @@ const MENU_ICON = {
 const styles = theme => ({
   default:{
     width: 16,
-    height: 16
+    height: 16,
+    '& path': {
+      '&:hover':{
+        fill: 'black !important'
+      }
+    }
   }
 });
 

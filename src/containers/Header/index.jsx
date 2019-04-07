@@ -10,6 +10,13 @@ import {Link, Route, Switch} from 'react-router-dom';
 import {styles} from './styles'
 import TextIconWCS from './TextIconWCS';
 
+const LINKS = {
+  eth_single: "/ether/contract/single",
+  eth_batch: "/ether/contract/batch",
+  broadcast: "/ether/broadcast",
+  transfer_ether: "/ether/transfer"
+};
+
 const TabContainer = (props) => {
   return (
       <Typography
@@ -23,7 +30,7 @@ const TabContainer = (props) => {
 const Index = ({className, ...props}) => {
   const {classes} = props;
   const [currentCurrency, setCurrency] = useState(0);
-  const [linkActive, setLinkActive] = useState(0);
+  const [linkActive, setLinkActive] = useState('');
   
   const handleChangeCurrency = (e, value) => {
     setCurrency({value})
@@ -63,31 +70,30 @@ const Index = ({className, ...props}) => {
                 </div>
               </div>
               <div className={classes.secondary}>
-                <Link to="/ether/contract/single"
+                <Link to={LINKS.eth_single}
                       style={{ textDecoration: 'none'}}
-                      className={cx(classes.link, linkActive === 0 ? classes.linkSelected: false)}
-                      onClick={e => handleChangeLink(e, 0)}>
+                      className={cx(classes.link, window.location.pathname === LINKS.eth_single ? classes.linkSelected: false)}>
                   <TabContainer>
                   Smart Contract Single
                 </TabContainer></Link>
-              <Link to="/ether/contract/batch"
+              <Link to={LINKS.eth_batch}
                     style={{ textDecoration: 'none' }}
-                    className={cx(classes.link,  linkActive === 1 ? classes.linkSelected: false)}
-                    onClick={e => handleChangeLink(e, 1)}>
+                    className={cx(classes.link, window.location.pathname === LINKS.eth_batch ? classes.linkSelected: false)}>
                 <TabContainer>
                   Smart Contract Batch
               </TabContainer></Link>
-                <Link to="/ether/broadcast"
+                <Link to={LINKS.broadcast}
                       style={{ textDecoration: 'none' }}
-                      className={cx(classes.link,  linkActive === 2 ? classes.linkSelected: false)}
-                      onClick={e => handleChangeLink(e, 2)}>
+                      className={cx(classes.link, window.location.pathname === LINKS.broadcast ? classes.linkSelected: false)}>
                   <TabContainer>
                   Broadcast Transaction
                 </TabContainer></Link>
-                {/*<TabContainer*/}
-                    {/*className={classes.link}>*/}
-                  {/*ETH Transfer Batch*/}
-                {/*</TabContainer>*/}
+                <Link to={LINKS.transfer_ether}
+                      style={{ textDecoration: 'none' }}
+                      className={cx(classes.link, window.location.pathname === LINKS.transfer_ether ? classes.linkSelected: false)}>
+                  <TabContainer>
+                    Transfer Ethereum
+                  </TabContainer></Link>
               </div>
             </div>
           </AppBar>

@@ -32,7 +32,7 @@ const ParamsAreaWCS = ({className, ...props}) => {
     const isInt = (n) => {
       return Number(n) === n && n % 1 === 0;
     };
-  
+    
     const isFloat = (n) => {
       return Number(n) === n && n % 1 !== 0;
     };
@@ -70,13 +70,16 @@ const ParamsAreaWCS = ({className, ...props}) => {
           <div className={classes.additionalArea}>
               {additionalInputs.map((val, index) => {
                 return <SecondaryInputWCS
-                    key={val.name + index.toString()}
+                    key={ + index.toString()}
                     className={classes.additionInput}
                     label={val.name + '(' + val.type + ')'}
                     error={val.value ? !validation(val.value, val.type) : false}
                     onChange={e => onChange(e.target.value, val.name)}
                     value={val.value}
                     isQuestion={true}
+                    isEndButton={val.name === 'gasLimit' && !val.value}
+                    onClickEndButton={props.recalculateButton}
+                    textEndButton="Calculate"
                 />
               })}
           </div> : ''}

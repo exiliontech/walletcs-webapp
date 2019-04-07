@@ -1,14 +1,23 @@
 export const styles = theme => ({
   content: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: 'start'
   },
   inputContainerContractInput:{
     display: 'flex',
     justifyContent: 'space-around',
+    flexDirection: 'column',
     paddingTop: 46
   },
-  
+  inputContainer:{
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    paddingTop: 46,
+    paddingLeft: 292,
+    maxWidth: 624
+  },
   inputContainerPublicKeyInput: {
     display: 'flex',
     justifyContent: 'space-around',
@@ -23,7 +32,7 @@ export const styles = theme => ({
     marginTop: 20
   },
   input: {
-    width: 468,
+    width: 624,
     height: 64
   },
   details:{
@@ -32,7 +41,6 @@ export const styles = theme => ({
   button: {
     fontWeight: 'bold',
     borderRadius: 8,
-    alignSelf: 'center',
     marginTop: 35,
     marginBottom: 20
   },
@@ -40,13 +48,12 @@ export const styles = theme => ({
     display: 'flex',
     justifyContent: 'start',
     alignSelf: 'center',
-    width: 467,
+    width: 624,
     marginTop: 10
   },
   containerButtons: {
     display: 'flex',
-    flexDirection: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
   },
   hiddenInput:{
     transform: 'translate(100, 0)'

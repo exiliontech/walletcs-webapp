@@ -9,6 +9,7 @@ import Header from "./containers/Header";
 import SingleTransactionEtherC from './containers/SingleTransactionEtherC'
 import BatchTransactionEtherC from './containers/BatchTransactionEtherC'
 import LoadTransactionEther from './containers/LoadTransactionEther'
+import TransferEther from './containers/TransferEther'
 import Web3Context from './contexts/Web3Context'
 import GlobalReducerContext from './contexts/GlobalReducerContext';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
@@ -30,6 +31,7 @@ const App = props => {
                     <Route path="/ether/contract/single" component={SingleTransactionEtherC}/>
                     <Route path="/ether/contract/batch" component={BatchTransactionEtherC}/>
                     <Route path="/ether/broadcast" component={LoadTransactionEther}/>
+                    <Route path="/ether/transfer" component={TransferEther}/>
                     <Redirect from="/" to="/ether/contract/single" />
                   </Switch>
                 </MuiThemeProvider>

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {InputAdornment, IconButton} from '@material-ui/core'
+import {InputAdornment} from '@material-ui/core'
 import TextField from "@material-ui/core/es/TextField/TextField";
-import QuestionIcon from './QuestionIcon';
+import QuestionToolTipWCS from '../QuestionToolTipWCS';
 
 const INPUT_FIELD = {
   root: 'root',
@@ -33,19 +33,13 @@ const styles = theme => ({
       width:  '0 !important',
     }
   },
+  error: {
+    margin: 1
+  }
 });
 
 const InputWCS = ({className, ...props}) => {
-  const {classes, update} = props;
-  const [updateState, setUpdateState] = useState(undefined);
-  
-  if(updateState !== update){
-    setUpdateState(update);
-  }
-  
-  const onClickTip = () => {
-    console.log('CLICK TIP');
-  };
+  const {classes} = props;
   
   return (
       <TextField
@@ -59,13 +53,10 @@ const InputWCS = ({className, ...props}) => {
         margin={INPUT_FIELD.margin}
         label={props.label ? props.label: ''}
         InputLabelProps={{variant: 'filled', margin: 'dense', classes: props.classes, }}
+        FormHelperTextProps={{error: classes.error, ...props}}
         InputProps={{endAdornment: props.isQuestion ? (
               <InputAdornment position="start">
-                <IconButton
-                    aria-label="Toggle tip"
-                    onClick={onClickTip}>
-                  <QuestionIcon/>
-                </IconButton>
+                <QuestionToolTipWCS text={props.textTip}/>
               </InputAdornment>
           ): ''}} {...props}/>
   )

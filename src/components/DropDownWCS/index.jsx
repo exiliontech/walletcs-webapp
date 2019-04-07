@@ -62,11 +62,12 @@ const DropDownWCS = props => {
       ...provided,
       zIndex: 1000,
       paddingTop: 0,
+      marginTop: 0,
       border: '1px solid #010D17',
       borderTop: 'none',
       borderTopLeftRadius: 0,
       borderTopRightRadius:0,
-      marginTop: 0,
+      boxShadow: 'none'
     }),
     option: (provided, state) => ({
       ...provided,

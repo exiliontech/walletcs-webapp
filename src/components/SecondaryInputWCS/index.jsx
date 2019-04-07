@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {InputAdornment, IconButton, Typography} from '@material-ui/core'
+import {InputAdornment, Button} from '@material-ui/core'
 import TextField from "@material-ui/core/es/TextField/TextField";
-import QuestionIcon from '../InputWCS/QuestionIcon';
-
+import QuestionToolTipWCS from "../QuestionToolTipWCS";
 
 const INPUT_FIELD = {
   root: 'root',
@@ -22,31 +21,30 @@ const styles = theme => ({
     marginLeft: 16,
     marginTop: 16,
     '& input': {
-      direction: 'rtl'
+      textAlign: 'right',
     }
   },
   startText: {
     fontSize: 14,
     color: '#6E7782'
   },
+  classEndButton: {
+    textTransform: 'none',
+    color: '#F95721',
+    fontSize: 16
+  },
+  hidden: {
+    color: 'transparent'
+  }
 });
 
 const SecondaryInputWCS = ({className, ...props}) => {
-  const {classes, update, label} = props;
+  const {classes, label} = props;
   delete props.label;
-  
-  const [updateState, setUpdateState] = useState(undefined);
-  
-  if(updateState !== update){
-    setUpdateState(update);
-  }
-  
-  const onClickTip = () => {
-    console.log('CLICK TIP');
-  };
-  
+
   return (
       <TextField
+          {...props}
           className={cx(
               INPUT_FIELD.root,
               classes.default,
@@ -55,20 +53,23 @@ const SecondaryInputWCS = ({className, ...props}) => {
           variant={INPUT_FIELD.variant}
           type={INPUT_FIELD.type}
           margin={INPUT_FIELD.margin}
-          InputProps={props.isQuestion ? {
-            startAdornment: (
+          InputProps={{
+            startAdornment: props.isQuestion ? (
                 <InputAdornment position="start">
                   <p className={classes.startText}>
                     {!!label ? label : ''}
                   </p>
-                  <IconButton
-                      aria-label="Toggle tip"
-                      onClick={onClickTip}>
-                    <QuestionIcon/>
-                  </IconButton>
+                  <QuestionToolTipWCS text={props.textTip}/>
+                </InputAdornment>): '',
+            endAdornment: props.isEndButton ? (
+                <InputAdornment position="start">
+                  <Button onClick={props.onClickEndButton}
+                          className={classes.classEndButton}>
+                    {props.textEndButton}
+                  </Button>
                 </InputAdornment>
-            ),
-          }: ''} {...props} />
+              ): '', className: props.isEndButton ? classes.hidden: ''}}
+      />
   )
 };
 
