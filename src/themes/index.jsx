@@ -3,8 +3,9 @@ import blueGrey from '@material-ui/core/colors/blueGrey';
 
 const WalletCSTheme = createMuiTheme({
   palette: {
-    primary: { main: '#6894BC' }, // Purple and green play nicely together.
-    secondary: { main: blueGrey[700]}, // This is just green.A700 as hex.
+    primary: { main: '#010D17' },
+    secondary: { main: '#26CD58'},
+    error: {main: '#F95721'}
   },
   typography: { useNextVariants: true },
 });

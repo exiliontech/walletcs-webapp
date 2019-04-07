@@ -15,7 +15,7 @@ import SnackbarWCS from "../../components/SnackbarWCS";
 import ModalWrappedWCS from "../../components/ModalWCS";
 import Web3Context from "../../contexts/Web3Context";
 
-import {styles} from './styles';
+import {styles} from './styles.js';
 
 
 const LoadTransactionEther = ({className, ...props}) => {
@@ -42,7 +42,7 @@ const LoadTransactionEther = ({className, ...props}) => {
       let rows = [];
       for(let key in parser.transactions){
         let contractAddress = parser.transactions[key].transaction.to;
-        let methodName = parser.transactions[key].transaction.data.name;
+        let methodName = parser.transactions[key].transaction.data.name || 'Transfer';
         rows.push({'contractAddress': contractAddress, 'methodName': methodName})
       }
       
@@ -120,11 +120,11 @@ const LoadTransactionEther = ({className, ...props}) => {
                 classes.content,
                 className
             )} key="broadcastTransaction">
-          <Typography
-              className={classes.header} style={{alignSelf: 'center'}}>
-            Broadcast Transaction
-          </Typography>
-          <div className={classes.inputContainerPublicKeyInput}>
+          <div className={classes.inputContainer}>
+            {/*<Typography*/}
+                {/*className={classes.header} style={{alignSelf: 'center'}}>*/}
+              {/*Broadcast Transaction*/}
+            {/*</Typography>*/}
             <InputWCS
                 key="loadFiles"
                 className={classes.input}
@@ -132,32 +132,30 @@ const LoadTransactionEther = ({className, ...props}) => {
                 value={state.filename}
                 disabled={true}
                 InputProps={{endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton  htmlFor="input-file-download" component="label">
-                      <UploadCloudIcon className={classes.uploadIcon}/>
-                      <input
-                          id="input-file-download"
-                          type="file"
-                          style={{display: 'none'}}
-                          onChange={onAttachFile} />
-                    </IconButton>
-                  </InputAdornment>
-              )}}/>
+                      <InputAdornment position="end">
+                        <IconButton  htmlFor="input-file-download" component="label">
+                          <UploadCloudIcon className={classes.uploadIcon}/>
+                          <input
+                              id="input-file-download"
+                              type="file"
+                              style={{display: 'none'}}
+                              onChange={onAttachFile} />
+                        </IconButton>
+                      </InputAdornment>
+                  )}}/>
+            <TableWCS
+                headers={['CONTRACT', 'METHOD']}
+                isDelete={true}
+                onDelete={onDelete}
+                onClick={onOpenModal}
+                rows={state.rows || []}/>
+            <ButtonWCS
+                className={classes.button}
+                disabled={!state.table.length}
+                onClick={onBroadcast}>
+              Broadcast Transaction
+            </ButtonWCS>
           </div>
-          <TableWCS
-              headers={['CONTRACT', 'METHOD']}
-              isDelete={true}
-              onDelete={onDelete}
-              onClick={onOpenModal}
-              rows={state.rows || []}/>
-          <div className={classes.containerAddTransaction}>
-          </div>
-          <ButtonWCS
-              className={classes.button}
-              disabled={!state.table.length}
-              onClick={onBroadcast}>
-            Broadcast Transaction
-          </ButtonWCS>
         </ContentCardWCS>
         {state.error ?
             <SnackbarWCS

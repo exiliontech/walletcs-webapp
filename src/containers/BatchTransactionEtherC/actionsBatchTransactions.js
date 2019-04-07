@@ -1,5 +1,5 @@
 import {FileTransactionGenerator, EtherTransaction} from 'walletcs';
-import {normalizeTransaction} from '../SingleTransactionEtherC/actionsSingleTransaction'
+import {normalize} from '../SingleTransactionEtherC/actionsSingleTransaction'
 
 
 export const downloadBatchTransaction = (state, stateMethod) => {
@@ -9,8 +9,10 @@ export const downloadBatchTransaction = (state, stateMethod) => {
   let fileGenerator = new FileTransactionGenerator(publicKey);
   
   for(let key in table){
+    console.log(key, table);
     const {contractAddress, params, abi, methodName} = table[key];
-    let transaction = normalizeTransaction(publicKey, contractAddress, params, abi, methodName);
+
+    let transaction = normalize(publicKey, contractAddress, params, abi, methodName);
     if(EtherTransaction.checkCorrectTx(transaction)){
       fileGenerator.addTx(contractAddress, transaction);
       fileGenerator.addContract(contractAddress, abi);

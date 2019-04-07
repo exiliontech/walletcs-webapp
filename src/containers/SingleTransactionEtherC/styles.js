@@ -1,12 +1,23 @@
 export const styles = theme => ({
   content: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: 'start'
   },
   inputContainer:{
     display: 'flex',
-    justifyContent: 'space-around',
-    paddingTop: 46
+    justifyContent: 'center',
+    flexDirection: 'column',
+    paddingTop: 46,
+    paddingLeft: 292,
+    maxWidth: 624
+  },
+  informationContainer:{
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 46,
+    width: '100%',
+    height: '100%'
   },
   header: {
     display: 'flex',
@@ -17,8 +28,8 @@ export const styles = theme => ({
     marginTop: 20
   },
   input: {
-    width: 468,
-    height: 64
+    width: 624,
+    height: 64,
   },
   details:{
     height: 108
@@ -26,19 +37,13 @@ export const styles = theme => ({
   dropDown: {
     width: 956,
     height: 64,
-    marginLeft: 20,
-    marginTop: 80
   },
   button: {
     fontWeight: 'bold',
     borderRadius: 8,
-    alignSelf: 'center',
+    alignSelf: 'start',
     marginTop: 35,
     marginBottom: 20
-  },
-  result: {
-    marginTop: 5,
-    maxWidth: 956
   },
   callMethodWrapper: {
     display: 'flex',
@@ -62,5 +67,9 @@ export const styles = theme => ({
     alignSelf: 'center',
     boxShadow: 'none',
     marginTop: 20
+  },
+  result: {
+    marginBottom: 40,
+    maxWidth: 164,
   }
 });

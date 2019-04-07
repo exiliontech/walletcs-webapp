@@ -6,11 +6,9 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   blankContent: {
     display: 'flex',
-    width: 995,
-    minHeight: 590,
-    backgroundColor: '#FFFFFF',
-    alignSelf: 'center',
-    marginTop: 30
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#F2F2F2',
   }
 });
 

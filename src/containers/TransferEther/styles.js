@@ -1,4 +1,3 @@
-
 export const styles = theme => ({
   content: {
     display: 'flex',
@@ -76,4 +75,10 @@ export const styles = theme => ({
     width: '100%',
     height: '100%'
   },
+  progress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%'
+    
+  }
 });
