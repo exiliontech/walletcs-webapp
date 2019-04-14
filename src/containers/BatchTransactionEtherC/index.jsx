@@ -6,10 +6,9 @@ import {checkAddress} from "walletcs";
 import SnackbarWCS from "../../components/SnackbarWCS";
 import {useContractInfo, useMethodInfo} from '../SingleTransactionEtherC/actionsSingleTransaction'
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
-
-import AddTransactionEther from "../AddTransactionEther";
-import TableBatchEther from "../TableBatchEther";
-import AddTransferEther from "../AddTransferEther";
+import AddTransactionEther from "./AddTransactionEther";
+import TableBatchEther from "./TableBatchEther";
+import AddTransferEther from "./AddTransferEther";
 
 import {styles} from './styles';
 

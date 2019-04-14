@@ -34,14 +34,11 @@ export const styles = theme => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
-    '&:hover': {
-      color: '#FFFFFF',
-      opacity: 1,
-    },
     '&tabSelected': {
       color: '#FFFFFF',
       fontWeight: 'bold',
       fontSize: 16,
+      opacity: 1,
 
     },
     '&:focus': {
@@ -51,6 +48,10 @@ export const styles = theme => ({
     '& button': {
       display: 'flex',
       marginTop: 12,
+      '&:hover': {
+        color: '#FFFFFF',
+        opacity: 1,
+      },
     }
   },
   tabSelected: {
@@ -113,7 +114,7 @@ export const styles = theme => ({
   
   linkSelected: {
     borderBottom: '4px solid #26CD58',
-    color: theme.palette.primary.main,
+    color: '#FFFFFF',
     
     '& div':{
       color: theme.palette.primary.main,

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { withStyles } from "@material-ui/core/styles";
-import {CircularProgress, Typography, Paper} from '@material-ui/core';
+import {Typography, Paper} from '@material-ui/core';
 
 const styles = theme => ({
   detailsContainer: {

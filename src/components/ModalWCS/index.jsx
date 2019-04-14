@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
-import DetailsWCS from "../DetailsWCS";
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 

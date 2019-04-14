@@ -9,7 +9,7 @@ import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import ParamsAreaWCS from "../../components/ParamsAreaWCS";
 import {useTransfer} from "./actionsAddTransferEther";
 import {CircularProgress} from "@material-ui/core";
-import {GAS_LIMIT, recalculateGasLimit, downloadOneTransaction, validationInput} from "../SingleTransactionEtherC/actionsSingleTransaction";
+import {recalculateGasLimit, downloadOneTransaction, validationInput} from "../SingleTransactionEtherC/actionsSingleTransaction";
 import Web3Context from "../../contexts/Web3Context";
 
 import {styles} from './styles';

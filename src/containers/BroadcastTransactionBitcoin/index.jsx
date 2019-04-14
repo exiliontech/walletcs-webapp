@@ -1,11 +1,10 @@
-import React, {useContext, useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import {checkAddress, FileTransactionReader} from "walletcs";
-import {ethers} from 'ethers';
+import {checkAddress, FileTransactionReader, BitcoinTransaction} from "walletcs";
 import { withStyles } from "@material-ui/core/styles";
 import ContentCardWCS from "../../components/ContentCardWCS";
-import {IconButton, InputAdornment, Typography} from "@material-ui/core";
+import {IconButton, InputAdornment} from "@material-ui/core";
 import UploadCloudIcon from '@material-ui/icons/CloudUpload';
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
@@ -13,15 +12,13 @@ import TableWCS from "../../components/TableWCS";
 import {loadTransactionsReducer, initLoadTransactionState} from "../../reducers";
 import SnackbarWCS from "../../components/SnackbarWCS";
 import ModalWrappedWCS from "../../components/ModalWCS";
-import Web3Context from "../../contexts/Web3Context";
 
 import {styles} from './styles.js';
 
 
-const LoadTransactionEther = ({className, ...props}) => {
+const BroadcastTransactionBitcoin = ({className, ...props}) => {
   const {classes} = props;
   const [state, dispatch] = useReducer(loadTransactionsReducer, initLoadTransactionState);
-  const {provider} = useContext(Web3Context);
 
   const onDelete = (index) => {
     dispatch({type: 'delete_transaction', payload: index});
@@ -73,10 +70,7 @@ const LoadTransactionEther = ({className, ...props}) => {
   const onBroadcast = async(e) => {
     try{
       for(let key in state.originTransactions){
-        provider.sendTransaction(state.originTransactions[key].transaction).then((tx) => {
-          console.log(tx)
-        })
-        // await web3.eth.sendSignedTransaction(state.originTransactions[key].transaction)
+        await BitcoinTransaction.broadcast(state.originTransactions[key])
       }
     }catch (e) {
       let msg =  e.message ? e.message : e;
@@ -104,9 +98,6 @@ const LoadTransactionEther = ({className, ...props}) => {
     };
     
     let params = parse(transaction.data.params);
-    params.push({key: 'gasLimit', value: transaction.gasLimit});
-    params.push({key: 'gasPrice', value: transaction.gasPrice});
-    params.push({key: 'nonce', value: transaction.nonce});
     formatedData.details = params;
     
     dispatch({type: 'set_modal_data', payload: formatedData});
@@ -121,10 +112,6 @@ const LoadTransactionEther = ({className, ...props}) => {
                 className
             )} key="broadcastTransaction">
           <div className={classes.inputContainer}>
-            {/*<Typography*/}
-                {/*className={classes.header} style={{alignSelf: 'center'}}>*/}
-              {/*Broadcast Transaction*/}
-            {/*</Typography>*/}
             <InputWCS
                 key="loadFiles"
                 className={classes.input}
@@ -176,8 +163,8 @@ const LoadTransactionEther = ({className, ...props}) => {
   )
 };
 
-LoadTransactionEther.propTypes = {
+BroadcastTransactionBitcoin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoadTransactionEther);
+export default withStyles(styles)(BroadcastTransactionBitcoin);

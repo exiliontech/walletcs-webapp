@@ -2,24 +2,17 @@ import React, {useEffect, useState} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {checkAddress} from "walletcs"
+import {checkAddress, FileTransactionGenerator, EtherTransaction} from "walletcs"
 
 import InputWCS from "../../components/InputWCS";
 import {Button} from "@material-ui/core";
-import {downloadBatchTransaction} from "../BatchTransactionEtherC/actionsBatchTransactions";
+import {downloadFile, normalize} from "../SingleTransactionEtherC/actionsSingleTransaction";
 import ContentCardWCS from "../../components/ContentCardWCS";
 import TableWCS from "../../components/TableWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import ModalWrappedWCS from "../../components/ModalWCS"
 
-const DEFAULT_SETTING = {
-  root: 'root'
-};
-
 const styles = theme => ({
-  default: {
-  
-  }
 });
 
 const TableBatchEther = ({className, ...props}) => {
@@ -29,6 +22,24 @@ const TableBatchEther = ({className, ...props}) => {
   
   const onCloseModal = () => {
     setModalIsOpen(false)
+  };
+  
+  const downloadBatchTransaction = () => {
+    let {table} = stateContract;
+    let {publicKey} = stateMethod;
+    
+    let fileGenerator = new FileTransactionGenerator(publicKey);
+    
+    for(let key in table){
+      const {contractAddress, params, abi, methodName} = table[key];
+      
+      let transaction = normalize(publicKey, contractAddress, params, abi, methodName);
+      if(EtherTransaction.checkCorrectTx(transaction)){
+        fileGenerator.addTx(contractAddress, transaction);
+        fileGenerator.addContract(contractAddress, abi);
+      }
+    }
+    downloadFile('tr-', fileGenerator.generateJson())
   };
   
   const onOpenModal = (index) => {
@@ -95,7 +106,7 @@ const TableBatchEther = ({className, ...props}) => {
           <ButtonWCS
               className={classes.button}
               disabled={!(!!stateMethod.publicKey && !!stateContract.table.length)}
-              onClick={e => downloadBatchTransaction(stateContract, stateMethod)}>
+              onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
         </div>

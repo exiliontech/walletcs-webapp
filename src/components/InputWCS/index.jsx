@@ -54,6 +54,8 @@ const InputWCS = ({className, ...props}) => {
         label={props.label ? props.label: ''}
         InputLabelProps={{variant: 'filled', margin: 'dense', classes: props.classes, }}
         FormHelperTextProps={{error: classes.error, ...props}}
+        error={!!props.validator ? !!props.validator(props.value): null}
+        helperText={!!props.validator ? props.validator(props.value): null}
         InputProps={{endAdornment: props.isQuestion ? (
               <InputAdornment position="start">
                 <QuestionToolTipWCS text={props.textTip}/>
@@ -66,6 +68,7 @@ InputWCS.propTypes = {
   classes: PropTypes.object.isRequired,
   isQuestion: PropTypes.bool,
   label: PropTypes.string,
+  validator: PropTypes.func,
 };
 
 export default withStyles(styles)(InputWCS);

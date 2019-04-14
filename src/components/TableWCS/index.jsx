@@ -72,18 +72,18 @@ const TableWCS = ({className, ...props}) => {
                     <TableCell
                         className={classes.tableCell}
                         onClick={e => onClick(index)}
-                        style={{cursor: 'pointer'}}>{!!row ? row.contractAddress || row.params.filter((val) => val.name === 'to')[0].value : ''}</TableCell>
+                        style={{cursor: 'pointer'}}>{!!row ? row.contractAddress || row.params.filter((val) => val.name.startsWith('to'))[0].value : ''}</TableCell>
                     <TableCell
                         align="right"
                         className={classes.tableCell}>{!!row ? row.methodName || 'Transfer' : ''}
-                      {isDelete? (<IconButton
+                      {isDelete? <IconButton
                         key="close"
                         aria-label="Close"
                         color="inherit"
                         className={classes.close}
                         onClick={e => onDelete(index)}>
                         <CancelIcon className={classes.icon} />
-                        </IconButton>): ''}
+                        </IconButton>: ''}
                     </TableCell>
                   </TableRow>
               ))}

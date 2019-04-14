@@ -12,10 +12,6 @@ import {CircularProgress} from "@material-ui/core";
 import {GAS_LIMIT, recalculateGasLimit, validationInput} from "../SingleTransactionEtherC/actionsSingleTransaction";
 import Web3Context from "../../contexts/Web3Context";
 
-const DEFAULT_SETTING = {
-  root: 'root'
-};
-
 const styles = theme => ({
   progress: {
     position: 'absolute',

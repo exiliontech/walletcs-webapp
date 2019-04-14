@@ -161,6 +161,24 @@ const _normalizeTransferTransaction = (methodParams) => {
   
 };
 
+export const downloadFile = (name, data) => {
+  
+  let contentType = "text/json;charset=utf-8;";
+  let filename = name + new Date().getTime().toString() + ".json";
+  
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    let blob = new Blob([decodeURIComponent(encodeURI(data))], { type: contentType });
+    navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    let a = document.createElement('a');
+    a.download = filename;
+    a.href = 'data:' + contentType + ',' + encodeURIComponent(data);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+};
+
 export const downloadOneTransaction = (stateContract, stateMethod) => {
   let {contractAddress, abi} = stateContract;
   let {methodParams, methodName, publicKey} = stateMethod;
@@ -173,20 +191,7 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     fileGenerator.addContract(contractAddress, abi);
   }
   
-  let contentType = "text/json;charset=utf-8;";
-  let filename = 'tr-' + new Date().getTime().toString() + ".json";
-
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    let blob = new Blob([decodeURIComponent(encodeURI(fileGenerator.generateJson()))], { type: contentType });
-    navigator.msSaveOrOpenBlob(blob, filename);
-  } else {
-    let a = document.createElement('a');
-    a.download = filename;
-    a.href = 'data:' + contentType + ',' + encodeURIComponent(fileGenerator.generateJson());
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    }
+  downloadFile('tr-', fileGenerator.generateJson())
 };
 
 const calculateGasLimit = async (transaction, params, publicKey, provider) => {
