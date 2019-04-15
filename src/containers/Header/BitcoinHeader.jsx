@@ -39,7 +39,7 @@ const BitcoinHeader = ({className, ...props}) => {
               style={{ textDecoration: 'none'}}
               className={cx(classes.link, window.location.pathname === links.bitcoin_broadcast ? classes.linkSelected: false)}>
           <TabContainer>
-            Batch Transaction
+            Broadcast Transactions
           </TabContainer>
         </Link>
       </React.Fragment>)
