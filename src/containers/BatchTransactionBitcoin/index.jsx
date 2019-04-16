@@ -7,14 +7,14 @@ import SnackbarWCS from "../../components/SnackbarWCS";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import TableBatchBitcon from "./TableBatchBitcoin"
 import AddBitcoinTransaction from "./AddBitcoinTransaction";
-import {bitcoinReducer, initBitcoinState} from "../../reducers";
+import {bitcoinReducer, initStateBitcoin} from "../../reducers";
 
 import {styles} from "./styles";
 
 const BatchTransactionBitcoin = ({className, ...props}) => {
   const {classes} = props;
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
-  const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initBitcoinState);
+  const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
   
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   

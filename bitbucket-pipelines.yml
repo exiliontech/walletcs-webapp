@@ -2,6 +2,14 @@ image: node:latest
 
 pipelines:
   branches:
+    develop:
+      - step:
+          script:
+            - apt-get update && apt-get install -y python-dev
+            - curl -O https://bootstrap.pypa.io/get-pip.py
+            - python get-pip.py
+            - pip install awscli
+            - npm install && CI=false REACT_APP_BITCOIN_NETWORK=test3 npm run build && aws s3 sync build/ s3://beta.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
     master:
       - step:
           script:
@@ -9,4 +17,4 @@ pipelines:
             - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
             - pip install awscli
-            - npm install && CI=false npm run build && aws s3 sync build/ s3://beta.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+            - npm install && CI=false REACT_APP_BITCOIN_NETWORK=main npm run build && aws s3 sync build/ s3://walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers

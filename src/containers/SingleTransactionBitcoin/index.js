@@ -8,18 +8,18 @@ import ButtonWCS from "../../components/ButtonWCS";
 import {downloadFile} from "../SingleTransactionEtherC/actionsSingleTransaction";
 
 import { checkBitcoinAddress } from "walletcs"
-import {bitcoinReducer, initBitcoinState} from "../../reducers";
+import {bitcoinReducer, initStateBitcoin} from "../../reducers";
 import GroupInputsBitcoin from "../../components/GroupInputsBitcoin";
 import {styles} from './styles';
 
 
 const SingleTransactionBitcoin = ({className, ...props}) => {
   const {classes} = props;
-  const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initBitcoinState);
+  const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
   
   const generateFile = async () => {
     let fileGenerator = new FileTransactionGenerator(stateBitcoin.from_address);
-    let bttx = new BitcoinTransaction(stateBitcoin.from_address); // TODO: Change network to the main network
+    let bttx = new BitcoinTransaction(stateBitcoin.from_address, process.env.REACT_APP_BITCOIN_NETWORK);
     let transaction = await bttx.createTx(stateBitcoin.amount, stateBitcoin.to_address);
     
     fileGenerator.addTx(null, transaction);

@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import DropDownWCS from "../../components/DropDownWCS";
 import ParamsAreaWCS from "../../components/ParamsAreaWCS";
-import {GAS_LIMIT, validationInput} from "./actionsSingleTransaction";
+import {validationInput} from "./actionsSingleTransaction";
 import {styles} from "./styles"
 
 const DetailInformation = props => {
