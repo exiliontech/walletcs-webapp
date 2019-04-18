@@ -1,5 +1,5 @@
 import {bitcoinReducer, initStateBitcoin} from "./bitcoinReducer";
-import {broadcatReducer, initStateBroadcst} from "./broadcastReducer";
+import {broadcastReducer, initStateBroadcast} from "./broadcastReducer";
 import {contractReducer, initStateContractReducer} from "./contrancReducer";
 import {globalReducer, initStateGlobal} from "./globalReducer";
 import {methodReducer, initStateMethodReducer} from "./methodReducer";
@@ -7,8 +7,8 @@ import {methodReducer, initStateMethodReducer} from "./methodReducer";
 export {
   bitcoinReducer,
   initStateBitcoin,
-  broadcatReducer,
-  initStateBroadcst,
+  broadcastReducer,
+  initStateBroadcast,
   contractReducer,
   initStateContractReducer,
   globalReducer,

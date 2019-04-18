@@ -17,8 +17,8 @@ const styles = theme => ({
 
 const BroadcastWCS = ({className, ...props}) => {
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
-  const {classes, state} = props;
-  
+  const {classes, parentState} = props;
+
   const clearError = () => {
     dispatchGlobal({type: 'set_global_error', payload: undefined})
   };
@@ -38,8 +38,8 @@ const BroadcastWCS = ({className, ...props}) => {
             <InputWCS
                 key="loadFiles"
                 className={classes.input}
-                label={state.filename? '': 'Load Transactions File'}
-                value={state.filename}
+                label={parentState.filename? '': 'Load Transactions File'}
+                value={parentState.filename}
                 disabled={true}
                 InputProps={{endAdornment: (
                       <InputAdornment position="end">
@@ -58,10 +58,10 @@ const BroadcastWCS = ({className, ...props}) => {
                 isDelete={true}
                 onDelete={props.onDelete}
                 onClick={props.onOpenModal}
-                rows={state.rows || []}/>
+                rows={parentState.rows || []}/>
             <ButtonWCS
                 className={classes.button}
-                disabled={!state.table.length}
+                disabled={!parentState.table.length}
                 onClick={props.onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>
@@ -70,7 +70,7 @@ const BroadcastWCS = ({className, ...props}) => {
         {stateGlobal.error ?
             <SnackbarWCS
                 key="LoadTransactionError"
-                message={state.error}
+                message={stateGlobal.error}
                 variant='error'
                 isOpen={true}
                 onExited={clearError}
@@ -79,17 +79,17 @@ const BroadcastWCS = ({className, ...props}) => {
         {stateGlobal.success ?
             <SnackbarWCS
                 key="LoadTransactionSuccess"
-                message={state.success}
+                message={stateGlobal.success}
                 variant='success'
                 isOpen={true}
                 onExited={clearSuccess}
                 onClose={clearSuccess}/> : ''}
       
-        {state.modalIsOpen ?
+        {parentState.modalIsOpen ?
             <ModalWrappedWCS
-                isOpen={state.modalIsOpen}
+                isOpen={parentState.modalIsOpen}
                 onClose={props.onCloseModal}
-                data={{header: 'Transaction information', details: state.modalData}}/>: '' }
+                data={{header: 'Transaction information', details: parentState.modalData}}/>: '' }
       </React.Fragment>
   )
 };
@@ -103,7 +103,7 @@ BroadcastWCS.propTypes = {
   clearError: PropTypes.func.isRequired,
   clearSuccess: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
-  state: PropTypes.object.isRequired,
+  parentState: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(BroadcastWCS);

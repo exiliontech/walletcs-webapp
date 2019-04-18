@@ -2,7 +2,7 @@ import React, {useContext, useReducer} from 'react';
 import PropTypes from 'prop-types';
 import {checkAddress, FileTransactionReader} from "walletcs";
 import { withStyles } from "@material-ui/core/styles";
-import {broadcatReducer, initStateBroadcst} from "../../reducers";
+import {bitcoinReducer, broadcastReducer, initStateBroadcast} from "../../reducers";
 import Web3Context from "../../contexts/Web3Context";
 import BroadcastWCS from "../../components/BroadcastWCS";
 
@@ -11,7 +11,8 @@ import {styles} from './styles.js';
 
 const BroadcastTransactionEther = ({className, ...props}) => {
   const {classes} = props;
-  const [state, dispatch] = useReducer(broadcatReducer, initStateBroadcst);
+  const [state, dispatch] = useReducer(broadcastReducer, initStateBroadcast);
+
   const {provider} = useContext(Web3Context);
 
   const onDelete = (index) => {
@@ -108,7 +109,7 @@ const BroadcastTransactionEther = ({className, ...props}) => {
       onCloseModel={onCloseModal}
       onDelete={onDelete}
       onOpenModal={onOpenModal}
-      state={state}/>)
+      parentState={state}/>)
 };
 
 BroadcastTransactionEther.propTypes = {

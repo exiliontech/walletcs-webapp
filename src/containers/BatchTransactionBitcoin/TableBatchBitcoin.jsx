@@ -24,14 +24,14 @@ const TableBatchBitcoin = ({className, ...props}) => {
   
    const downloadBatchTransaction = async () => {
      let fileGenerator = new FileTransactionGenerator(stateParent.from_address);
-     let bttx = new BitcoinTransaction(stateParent.from_address); // TODO: Change network to the main network
+     let bttx = new BitcoinTransaction(stateParent.from_address, process.env.REACT_APP_BITCOIN_NETWORK || 'test3');
      
      for(let key in stateParent.table){
        let transaction = await bttx.createTx(stateParent.amount, stateParent.to_address);
        fileGenerator.addTx(null, transaction);
      }
      
-     downloadFile('bt-', fileGenerator.generateJson())
+     downloadFile('tr-', fileGenerator.generateJson())
    };
   
   const onOpenModal = (index) => {

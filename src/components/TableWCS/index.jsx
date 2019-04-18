@@ -69,6 +69,7 @@ const TableWCS = ({className, ...props}) => {
             <TableBody>
               {rows.map((row, index)=> (
                   <TableRow key={index}>
+                    {console.log(row)}
                     <TableCell
                         className={classes.tableCell}
                         onClick={e => onClick(index)}

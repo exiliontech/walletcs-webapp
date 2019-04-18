@@ -19,11 +19,11 @@ const SingleTransactionBitcoin = ({className, ...props}) => {
   
   const generateFile = async () => {
     let fileGenerator = new FileTransactionGenerator(stateBitcoin.from_address);
-    let bttx = new BitcoinTransaction(stateBitcoin.from_address, process.env.REACT_APP_BITCOIN_NETWORK);
+    let bttx = new BitcoinTransaction(stateBitcoin.from_address, process.env.REACT_APP_BITCOIN_NETWORK || 'test3');
     let transaction = await bttx.createTx(stateBitcoin.amount, stateBitcoin.to_address);
     
     fileGenerator.addTx(null, transaction);
-    downloadFile('bt-', fileGenerator.generateJson());
+    downloadFile('tr-', fileGenerator.generateJson());
   };
   
   return (

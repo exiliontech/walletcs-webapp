@@ -1,4 +1,4 @@
-export const initStateBroadcst = {
+export const initStateBroadcast = {
   table: [],
   modalIsOpen: false,
   modalData: [],
@@ -6,7 +6,7 @@ export const initStateBroadcst = {
   error: undefined,
 };
 
-export const broadcatReducer = (state, action) => {
+export const broadcastReducer = (state, action) => {
   switch (action.type) {
     case 'set_table':
       return {...state, table: action.payload};
