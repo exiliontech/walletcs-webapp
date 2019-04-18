@@ -1,6 +1,6 @@
 import React, {useContext, useReducer} from 'react';
 import PropTypes from 'prop-types';
-import {checkAddress, FileTransactionReader, BitcoinTransaction} from "walletcs";
+import {FileTransactionReader, BitcoinTransaction} from "walletcs";
 import { withStyles } from "@material-ui/core/styles";
 import {broadcastReducer, initStateBroadcast} from "../../reducers";
 
@@ -61,7 +61,8 @@ const BroadcastTransactionBitcoin = ({className, ...props}) => {
   const onBroadcast = async(e) => {
     try{
       for(let key in state.originTransactions){
-        await BitcoinTransaction.broadcastTx(state.originTransactions[key], process.env.REACT_APP_BITCOIN_NETWORK);
+        console.log(state.originTransactions[key].transaction, process.env.REACT_APP_BITCOIN_NETWORK)
+        await BitcoinTransaction.broadcastTx(state.originTransactions[key].transaction, process.env.REACT_APP_BITCOIN_NETWORK);
       }
       dispatchGlobal({type: 'set_global_success', payload: 'Success send all transactions.'})
     }catch (e) {
