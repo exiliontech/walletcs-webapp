@@ -13,25 +13,25 @@ export const useContractInfo = () => {
   const [state, dispatch] = useReducer(contractReducer, initStateContractReducer);
   const {provider} = useContext(Web3Context);
   const {dispatchGlobal} = useContext(GlobalReducerContext);
-  
+
   const getContractInformation = async() => {
-    
+
     if(checkAddress(state.contractAddress)){
       try {
         dispatchGlobal({type: 'set_is_loading_contract'});
         const url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${state.contractAddress}`;
         const urlToken = `https://api-rinkeby.etherscan.io/api?module=account&action=tokentx&contractaddress=${state.contractAddress}&page=1&offset=1`;
-  
+
         let response = await axios(url);
         if (response.data.status === '0') {
           dispatchGlobal({type: 'set_global_error', payload: response.data.result})
         } else {
           let abi = JSON.parse(response.data.result);
           dispatch({type: 'set_abi', payload: abi});
-  
+
           let contract = new ethers.Contract(state.contractAddress, abi, provider);
           dispatch({type: 'set_contract', payload: contract});
-    
+
           response = await axios(urlToken);
           console.log(response);
           if (response.data.status === '1') {
@@ -56,11 +56,11 @@ export const useContractInfo = () => {
     }
     console.log(state)
   };
-  
+
   useEffect(() => {
     getContractInformation();
   }, [state.contractAddress]);
-  
+
   return [state, dispatch]
 };
 
@@ -69,7 +69,7 @@ export const useMethodInfo = (stateContract) => {
   const {provider} = useContext(Web3Context);
   const [state, dispatch] = useReducer(methodReducer, initStateMethodReducer);
   const {dispatchGlobal} = useContext(GlobalReducerContext);
-  
+
   const getMethodInformation = async() => {
     try{
       dispatchGlobal({type: 'set_is_loading_method'});
@@ -77,47 +77,47 @@ export const useMethodInfo = (stateContract) => {
       let method = stateContract.abi.filter((val) => state.methodName === val.name)[0];
       let params = !!method? method.inputs : [];
       let _inter = new ethers.utils.Interface(stateContract.abi);
-      
+
       // If method with Gas limit
       dispatch({type: 'set_method_type', payload: _inter.functions[method.name].type});
 
       if(_inter.functions[method.name].type === 'transaction'){
-        
+
         let nonce = 0;
         let gasPrice =  await provider.getGasPrice();
         dispatch({type: 'set_gas_price', payload: gasPrice.toNumber()});
-        
+
         if(checkAddress(state.publicKey)){
           nonce = await provider.getTransactionCount(state.publicKey);
           dispatch({type: 'set_nonce', payload: nonce});
-          
+
         }
-        
+
         const defaultData = [
           {name: "gasPrice", value: gasPrice.toNumber() || 100000000, type: "uint256"},
           {name: "gasLimit", value: null, type: "uint256"},
           {name: "nonce", value: nonce, type: "uint256"}];
-        
+
         if(!!params.length) params = params.concat(defaultData);
-        
+
         if(!!params.length && method.payable)  params = params.concat({name: "value", value: 0, type: "uint256"});
-        
+
         dispatch({type: 'set_params', payload: params});
         // If method without params
       }else{
         dispatch({type: 'set_params', payload: params});
       }
-      
+
     }catch (e) {
       dispatchGlobal({type: 'set_global_error', payload: typeof e === 'object'? e.message: e})
     }
     dispatchGlobal({type: 'set_is_loading_method'});
   };
-  
+
   useEffect(() => {
     if(state.methodName) getMethodInformation();
   }, [state.methodName, state.publicKey]);
-  
+
   return [state, dispatch]
 };
 
@@ -127,7 +127,7 @@ const  _normalizeContractTransaction = (publicKey, addressCon, methodParams, abi
   let newTx = {};
   let newParams = [];
   let inter = new ethers.utils.Interface(abi);
-  
+
   for(let i=0; i < methodParams.length; i++){
     let l = methodParams[i];
     if(defaultValues.includes(l.name)) {
@@ -138,7 +138,7 @@ const  _normalizeContractTransaction = (publicKey, addressCon, methodParams, abi
       newParams.push(l.value)
     }
   }
-  
+
   let txData;
 
   try{
@@ -149,29 +149,29 @@ const  _normalizeContractTransaction = (publicKey, addressCon, methodParams, abi
 
   newTx["data"] = txData;
   newTx["to"] = addressCon;
-  
+
   return newTx;
-  
+
 };
 
 
 const _normalizeTransferTransaction = (methodParams) => {
   let newTx = {};
-  
+
   for(let i=0; i < methodParams.length; i++){
     let l = methodParams[i];
     newTx[l.name] = l.name === 'gasPrice'? ethers.utils.bigNumberify(l.value) : l.value
   }
   newTx["data"] = '0x';
   return newTx;
-  
+
 };
 
 export const downloadFile = (name, data) => {
-  
+
   let contentType = "text/json;charset=utf-8;";
   let filename = name + new Date().getTime().toString() + ".json";
-  
+
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     let blob = new Blob([decodeURIComponent(encodeURI(data))], { type: contentType });
     navigator.msSaveOrOpenBlob(blob, filename);
@@ -188,15 +188,15 @@ export const downloadFile = (name, data) => {
 export const downloadOneTransaction = (stateContract, stateMethod) => {
   let {contractAddress, abi} = stateContract;
   let {methodParams, methodName, publicKey} = stateMethod;
-  
+
   let transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
   let fileGenerator = new FileTransactionGenerator(publicKey);
-  
+
   if(EtherTransaction.checkCorrectTx(transaction)){
-    fileGenerator.addTx(contractAddress, transaction);
+    fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
     fileGenerator.addContract(contractAddress, abi);
   }
-  
+
   downloadFile('tr-', fileGenerator.generateJson())
 };
 
@@ -206,13 +206,13 @@ const calculateGasLimit = async (transaction, params, publicKey, provider) => {
     let tx = shallowCopy(transaction);
     tx.from = publicKey;
     const estimateGas = await provider.estimateGas(tx);
-    
+
     for(let key in params){
       if(params[key].name === 'gasLimit'){
         params[key].value = estimateGas.toNumber();
       }
     }
-    
+
   }catch (e) {
     for(let key in params){
       if(params[key].name === 'gasLimit'){
@@ -235,11 +235,11 @@ export const normalize = (publicKey, contractAddress, methodParams, abi, methodN
 export const recalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
   // Recalculate gasLimit
   let {contractAddress, abi} = stateContract || {contractAddress: null, abi: null};
-  
+
   let {methodParams, methodName, publicKey } = stateMethod;
-  
+
   let transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
-  
+
   let params = await calculateGasLimit(transaction, stateMethod.methodParams, publicKey, provider);
   dispatchMethod({type: 'set_params', payload: params})
 };
@@ -271,6 +271,6 @@ export const validationInput = (params, val, name) => {
       params[key].value = null
     }
   }
-  
+
   return params
 };

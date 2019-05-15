@@ -17,12 +17,12 @@ import DetailsWCS from "../../components/DetailsWCS";
 
 const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
-  
+
   const [state, dispatch] = useContractInfo();
   const {provider} = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
-  
+
   const onCallMethod = async () => {
     dispatchGlobal({type: 'set_is_loading_method'});
     try{
@@ -40,9 +40,9 @@ const SingleTransactionEtherC = ({className, ...props}) => {
     }
     dispatchGlobal({type: 'set_is_loading_method'});
   };
-  
+
   return (
-      <>
+      <React.Fragment>
         <ContentCardWCS className={cx(
                 classes.content,
                 className
@@ -68,7 +68,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                   dispatchMethod({type: 'set_public_key', payload: e.target.value})}
                 }
                 textTip={'Create on account using WalletCS Offline App and store private keys on eht USB flash drive'}/>
-                
+
             {!!state.contractAddress ?
                 <DetailInformation
                   dispatchMethod={dispatchMethod}
@@ -76,7 +76,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                   stateMethod={stateMethod}
                   recalculateButton={e =>
                       recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/>: ''}
-                    
+
             {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length ?
                 <ButtonWCS
                   className={classes.button}
@@ -95,9 +95,9 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                   onClick={onCallMethod}>
                   Call Method
                 </ButtonWCS>: ''}
-            
+
           </div>
-          
+
           <div className={classes.informationContainer}>
             {/*Result contract address*/}
             {!!state.contractAddress && !!state.contractName ?
@@ -120,7 +120,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                   isOpen={true}
                   onClose={e => dispatchGlobal({type: 'set_global_error', payload: undefined})}/> : ''}
         </ContentCardWCS>
-      </>
+      </React.Fragment>
   )
 };
 

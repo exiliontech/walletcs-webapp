@@ -19,50 +19,50 @@ const TableBatchEther = ({className, ...props}) => {
   const {stateContract, dispatchContract, stateMethod, dispatchMethod, classes} = props;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
-  
+
   const onCloseModal = () => {
     setModalIsOpen(false)
   };
-  
+
   const downloadBatchTransaction = () => {
     let {table} = stateContract;
     let {publicKey} = stateMethod;
-    
+
     let fileGenerator = new FileTransactionGenerator(publicKey);
-    
+
     for(let key in table){
       const {contractAddress, params, abi, methodName} = table[key];
-      
+
       let transaction = normalize(publicKey, contractAddress, params, abi, methodName);
       if(EtherTransaction.checkCorrectTx(transaction)){
-        fileGenerator.addTx(contractAddress, transaction);
+        fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
         fileGenerator.addContract(contractAddress, abi);
       }
     }
     downloadFile('tr-', fileGenerator.generateJson())
   };
-  
+
   const onOpenModal = (index) => {
-    
+
     let data = stateContract.table[index];
     let formatedData = {details: []};
     formatedData.contractAddress = data.contractAddress;
-    
+
     for(let key in data.params){
       let obj = {};
       obj['key'] = data.params[key].name;
       obj['value'] = data.params[key].value;
       formatedData.details.push(obj)
     }
-    
+
     setModalData(formatedData);
     setModalIsOpen(true)
   };
-  
+
   const onDelete = (index) => {
     dispatchContract({type: 'delete_from_table', payload: index});
   };
-  
+
   return (
       <ContentCardWCS
           className={cx(
@@ -70,7 +70,7 @@ const TableBatchEther = ({className, ...props}) => {
               className
           )}>
         <div className={classes.inputContainer}>
-          
+
           <InputWCS
               key="publicKeyInput-Batch"
               className={classes.input}
@@ -82,14 +82,14 @@ const TableBatchEther = ({className, ...props}) => {
               onChange={e => {
                 dispatchMethod({type: 'set_public_key', payload: e.target.value})}
               }/>
-              
+
           <TableWCS
               headers={['CONTRACT', 'METHOD']}
               rows={stateContract.table}
               isDelete={true}
               onDelete={onDelete}
               onClick={onOpenModal}/>
-              
+
           <div className={classes.containerAddTransaction}>
             <Button
                 color="secondary"
@@ -102,7 +102,7 @@ const TableBatchEther = ({className, ...props}) => {
               Add Transfer
             </Button>
           </div>
-          
+
           <ButtonWCS
               className={classes.button}
               disabled={!(!!stateMethod.publicKey && !!stateContract.table.length)}
