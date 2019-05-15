@@ -8,6 +8,13 @@ pipelines:
             - apt-get update && apt-get install -y python-dev
             - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
+            - cd pipeline
+            - apt-get update && apt-get install -y npm libcairo2-dev libjpeg62-turbo-dev libpango1.0-dev libgif-dev build-essential g++
+            - npm install --global node-pre-gyp
+            - npm install --global @angular/cli
+            - npm install && npm cache clean
+            - export BRANCH="$BITBUCKET_COMMIT"
+            - npm run build-prod
             - pip install awscli
             - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' npm run build && aws s3 sync build/ s3://stg.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
     master:
@@ -16,6 +23,13 @@ pipelines:
             - apt-get update && apt-get install -y python-dev
             - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
+            - cd pipeline
+            - apt-get update && apt-get install -y npm libcairo2-dev libjpeg62-turbo-dev libpango1.0-dev libgif-dev build-essential g++
+            - npm install --global node-pre-gyp
+            - npm install --global @angular/cli
+            - npm install && npm cache clean
+            - export BRANCH="$BITBUCKET_COMMIT"
+            - npm run build-prod
             - pip install awscli
             - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_MAINNET' REACT_APP_ETH_NETWORK='ETH' npm run build && aws s3 sync build/ s3://walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
             - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' npm run build && aws s3 sync build/ s3://testnet.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
