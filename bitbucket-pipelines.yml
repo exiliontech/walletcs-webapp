@@ -8,8 +8,6 @@ pipelines:
             - apt-get update && apt-get install -y python-dev
             - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
-            - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-            - sudo apt-get install -y nodejs
             - apt-get update && apt-get install -y libcairo2-dev libjpeg62-turbo-dev libpango1.0-dev libgif-dev build-essential g++
             - npm install --global node-pre-gyp
             - npm install --global @angular/cli
@@ -24,8 +22,6 @@ pipelines:
             - apt-get update && apt-get install -y python-dev
             - curl -O https://bootstrap.pypa.io/get-pip.py
             - python get-pip.py
-            - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-            - sudo apt-get install -y nodejs
             - apt-get update && apt-get install -y libcairo2-dev libjpeg62-turbo-dev libpango1.0-dev libgif-dev build-essential g++
             - npm install --global node-pre-gyp
             - npm install --global @angular/cli
