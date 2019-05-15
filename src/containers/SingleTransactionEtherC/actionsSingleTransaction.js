@@ -30,17 +30,22 @@ export const useContractInfo = () => {
           dispatch({type: 'set_abi', payload: abi});
   
           let contract = new ethers.Contract(state.contractAddress, abi, provider);
-    
           dispatch({type: 'set_contract', payload: contract});
     
           response = await axios(urlToken);
+          console.log(response);
           if (response.data.status === '1') {
             dispatch({
               type: 'set_contract_name',
               payload: response.data.result[0] ? response.data.result[0].tokenName : undefined
             })
           } else {
-            let name = await contract.name();
+            let name;
+            try{
+              name = await contract.name();
+            } catch (e) {
+              name = ''
+            }
             dispatch({type: 'set_contract_name', payload: typeof name === 'object' ? '' : name})
           }
         }
@@ -49,6 +54,7 @@ export const useContractInfo = () => {
       }
       dispatchGlobal({type: 'set_is_loading_contract'});
     }
+    console.log(state)
   };
   
   useEffect(() => {
@@ -242,10 +248,9 @@ export const shallowCopy = (object) => {
   let result = {};
   for (let key in object) { result[key] = object[key]; }
   return result;
-}
+};
 
 export const validationInput = (params, val, name) => {
-  console.log(params, val, name);
   for(let key in params){
     if(params[key].name === name){
       if(params[key].type.indexOf('[]') > -1){

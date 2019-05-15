@@ -61,8 +61,8 @@ const BroadcastTransactionBitcoin = ({className, ...props}) => {
   const onBroadcast = async(e) => {
     try{
       for(let key in state.originTransactions){
-        console.log(state.originTransactions[key].transaction, process.env.REACT_APP_BITCOIN_NETWORK)
-        await BitcoinTransaction.broadcastTx(state.originTransactions[key].transaction, process.env.REACT_APP_BITCOIN_NETWORK);
+        let result = await BitcoinTransaction.broadcastTx(state.originTransactions[key].transaction, process.env.REACT_APP_BITCOIN_NETWORK);
+        console.log(result)
       }
       dispatchGlobal({type: 'set_global_success', payload: 'Success send all transactions.'})
     }catch (e) {

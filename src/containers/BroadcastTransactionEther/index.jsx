@@ -2,7 +2,7 @@ import React, {useContext, useReducer} from 'react';
 import PropTypes from 'prop-types';
 import {checkAddress, FileTransactionReader} from "walletcs";
 import { withStyles } from "@material-ui/core/styles";
-import {bitcoinReducer, broadcastReducer, initStateBroadcast} from "../../reducers";
+import {broadcastReducer, initStateBroadcast} from "../../reducers";
 import Web3Context from "../../contexts/Web3Context";
 import BroadcastWCS from "../../components/BroadcastWCS";
 
@@ -102,14 +102,16 @@ const BroadcastTransactionEther = ({className, ...props}) => {
     dispatch({type: 'set_modal_open'});
   };
   
-  return (<BroadcastWCS
-      classes={classes}
-      onAttachFile={onAttachFile}
-      onBroadcast={onBroadcast}
-      onCloseModel={onCloseModal}
-      onDelete={onDelete}
-      onOpenModal={onOpenModal}
-      parentState={state}/>)
+  return (
+      <BroadcastWCS
+        classes={classes}
+        onAttachFile={onAttachFile}
+        onBroadcast={onBroadcast}
+        onCloseModel={onCloseModal}
+        onDelete={onDelete}
+        onOpenModal={onOpenModal}
+        parentState={state}/>
+        )
 };
 
 BroadcastTransactionEther.propTypes = {

@@ -11,17 +11,17 @@ const DEFAULT_SETTING = {
 
 const styles = theme => ({
   defaultButton: {
-    backgroundColor: '#04AA42 !important',
+    backgroundColor: '#26CD58 !important',
     color: '#FFFFFF !important',
     borderRadius: '4px !important',
     fontSize: 16,
     width: 256,
     height: 54,
     '&:hover': {
-      backgroundColor: '#05C44C',
+      backgroundColor: '#05C44C !important',
     },
     '&:active': {
-      backgroundColor: '#039138'
+      backgroundColor: '#039138 !important'
     }
   },
   disabledButton: {

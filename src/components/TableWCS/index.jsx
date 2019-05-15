@@ -14,20 +14,24 @@ const styles = theme => ({
   root:{
     width: 624,
     display: 'flex',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    boxShadow: 'none',
+    borderRadius: 0,
+    backgroundColor: '#F2F2F2 !important'
     },
   table:{
     width: 624,
     },
   tableRow:{
-    padding: 5
+    padding: 5,
   },
   tableCell:{
     padding: 10,
     paddingRight: 5,
+    fontWeight: 'normal !important',
     '&:last-child': {
       paddingRight: 10,
-      textAlign: 'right'
+      textAlign: 'left'
     }
   },
   close:{
@@ -49,27 +53,26 @@ const styles = theme => ({
 
 const TableWCS = ({className, ...props}) => {
   const {classes, rows, headers, isDelete, onDelete, onClick} = props;
-  
+
   return (
       <>
         <Paper
             className={classes.root}>
           <Table
               className={classes.table}>
-            <TableHead >
-              <TableRow
-                  className={classes.tableRow}>
-                {headers.map((val) => {
-                  return  <TableCell
-                      className={classes.tableCell}
-                      style={{fontWeight: 'bold'}}>{val}</TableCell>
-                })}
-              </TableRow>
-            </TableHead>
+              {rows.length ?
+                <TableHead>
+                  <TableRow className={classes.tableRow}>
+                  {headers.map((val) => {
+                    return  <TableCell
+                        className={classes.tableCell}
+                        style={{fontWeight: 'bold'}}>{val}</TableCell>
+                    })}
+                  </TableRow>
+              </TableHead> : ''}
             <TableBody>
               {rows.map((row, index)=> (
                   <TableRow key={index}>
-                    {console.log(row)}
                     <TableCell
                         className={classes.tableCell}
                         onClick={e => onClick(index)}

@@ -58,7 +58,7 @@ function arrowGenerator(color) {
 
 const styles = theme => ({
   default: {
-  
+
   },
   arrow: {
     position: 'absolute',
@@ -96,9 +96,10 @@ const styles = theme => ({
   iconButton: {
     width: 16,
     height: 16,
-    marginBottom: 16,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 0,
     '&:hover': {
-      backgroundColor: '#FFFFFF'
+      backgroundColor: '#F2F2F2'
     }
   }
 });
@@ -106,11 +107,11 @@ const styles = theme => ({
 const QuestionToolTipWCS = ({className, ...props}) => {
   const {classes} = props;
   const [arrowRef, setArrowRef] = useState(undefined);
-  
+
   const handleArrowRef = node => {
     setArrowRef(node);
   };
-  
+
   return (
       <Tooltip
           title={

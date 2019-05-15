@@ -14,10 +14,11 @@
     "react-dom": "^16.8.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "^3.0.1",
     "react-select": "^2.4.2",
     "react-web3": "^1.2.0",
     "semantic-ui-react": "^0.86.0",
+    "tar": "^4.4.8",
     "walletcs": "^0.6.8",
     "web3": "^1.0.0-beta.48"
   },
@@ -39,6 +40,11 @@
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.3.4",
     "babel-preset-env": "^1.7.0",
-    "dotenv": "^7.0.0"
+    "dotenv": "^7.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0"
   }
 }

@@ -69,7 +69,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                 }
                 textTip={'Create on account using WalletCS Offline App and store private keys on eht USB flash drive'}/>
                 
-            {!!state.contractAddress && !!state.contractName ?
+            {!!state.contractAddress ?
                 <DetailInformation
                   dispatchMethod={dispatchMethod}
                   stateContract={state}

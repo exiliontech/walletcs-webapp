@@ -13,6 +13,7 @@ const styles = theme => ({
   default:{
     width: 16,
     height: 16,
+    transform: 'translate(0, -8px)',
     '& path': {
       '&:hover':{
         fill: 'black !important'
@@ -23,7 +24,7 @@ const styles = theme => ({
 
 const QuestionIcon =({className, ...props}) => {
   const { classes } = props;
-  
+
   return (
       <SvgIcon
           className={cx(

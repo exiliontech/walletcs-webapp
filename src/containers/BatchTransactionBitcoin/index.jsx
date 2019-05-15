@@ -2,7 +2,6 @@ import React, {useContext, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 
-import {checkAddress} from "walletcs";
 import SnackbarWCS from "../../components/SnackbarWCS";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import TableBatchBitcon from "./TableBatchBitcoin"
@@ -15,9 +14,9 @@ const BatchTransactionBitcoin = ({className, ...props}) => {
   const {classes} = props;
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
   const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
-  
+
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
-  
+
   return (
       <React.Fragment>
         {isAddingTransaction ?
