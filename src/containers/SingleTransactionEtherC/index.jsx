@@ -67,7 +67,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                 onChange={e => {
                   dispatchMethod({type: 'set_public_key', payload: e.target.value})}
                 }
-                textTip={'Create on account using WalletCS Offline App and store private keys on eht USB flash drive'}/>
+                textTip={'Account associated with the private key that will be used to sign this transaction'}/>
 
             {!!state.contractAddress ?
                 <DetailInformation

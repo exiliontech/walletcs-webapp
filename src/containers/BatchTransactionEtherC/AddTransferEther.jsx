@@ -24,15 +24,15 @@ const AddTransferEther = ({className, ...props}) => {
   const {classes, dispatchContract} = props;
   const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
   const {provider} = useContext(Web3Context);
-  
+
   const [stateMethod, dispatchMethod] = useTransfer();
-  
+
   const onInput = (val, name) => {
     val = val.replace(/ /g,'');
     let params = validationInput(stateMethod.methodParams, val, name);
     dispatchMethod({type: 'set_params', payload: params});
   };
-  
+
   return (
       <ContentCardWCS
           className={cx(

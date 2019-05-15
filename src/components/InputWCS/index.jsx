@@ -40,7 +40,7 @@ const styles = theme => ({
 
 const InputWCS = ({className, ...props}) => {
   const {classes} = props;
-  
+
   return (
       <TextField
         className={cx(

@@ -27,16 +27,21 @@ const styles = theme => ({
 
 const ParamsAreaWCS = ({className, ...props}) => {
   const {classes, mainInputs, additionalInputs, onChange, isLoading, button} = props;
-  
+  const textTips = {
+    'gasLimit': 'Maximum amount of gas you\'re willing to spend on this transaction',
+    'gasPrice': 'Amount of Ether you\'re willing to pay for every unit of gas, in GWEI',
+    'nonce': 'Number of transactions sent from a given address. Keep default if you are not sure.'
+  }
+
   const validation = (value, type) => {
     const isInt = (n) => {
       return Number(n) === n && n % 1 === 0;
     };
-    
+
     const isFloat = (n) => {
       return Number(n) === n && n % 1 !== 0;
     };
-    
+
     if(!type){
       return true
     }
@@ -49,9 +54,9 @@ const ParamsAreaWCS = ({className, ...props}) => {
     }
     return true
   };
-  
+
   return (
-      <>
+      <React.Fragment>
         <div className={classes.mainArea}>
           {mainInputs.map((val, index) => {
             return <InputWCS
@@ -80,10 +85,11 @@ const ParamsAreaWCS = ({className, ...props}) => {
                     isEndButton={val.name === 'gasLimit' && !val.value}
                     onClickEndButton={props.recalculateButton}
                     textEndButton="Calculate"
+                    textTip={textTips[val.name]}
                 />
               })}
           </div> : ''}
-      </>
+      </React.Fragment>
   )
 };
 

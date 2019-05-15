@@ -25,7 +25,7 @@ const TransferEther = ({className, ...props}) => {
     let params = validationInput(stateMethod.methodParams, val, name);
     dispatchMethod({type: 'set_params', payload: params});
   };
-  
+
   return (
       <ContentCardWCS
           className={cx(
@@ -50,6 +50,7 @@ const TransferEther = ({className, ...props}) => {
                           if (val.payable && val.name === 'value') {
                             return true
                           }
+                          console.log(val);
                           return ['nonce', 'gasLimit', 'gasPrice'].includes(val.name)
                         })}
                         recalculateButton={e => recalculateGasLimit(
