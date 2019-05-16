@@ -61,18 +61,6 @@ const TableBatchBitcoin = ({className, ...props}) => {
               className
           )}>
         <div className={classes.inputContainer}>
-          {/*<InputWCS*/}
-              {/*key="from-batch"*/}
-              {/*className={classes.input}*/}
-              {/*isQuestion={true}*/}
-              {/*label='from'*/}
-              {/*value={stateParent.from_address}*/}
-              {/*error={stateParent.from_address ? !checkBitcoinAddress(stateParent.from_address): false}*/}
-              {/*helperText={stateParent.from_address && !checkBitcoinAddress(stateParent.from_address) ? 'Not correct address format': ''}*/}
-              {/*onChange={e => {*/}
-                {/*dispatchParent({type: 'set_from', payload: e.target.value})}*/}
-              {/*}/>*/}
-
           <TableWCS
               headers={['CONTRACT', 'METHOD']}
               rows={stateParent.table}

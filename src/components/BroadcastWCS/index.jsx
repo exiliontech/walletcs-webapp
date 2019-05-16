@@ -22,11 +22,11 @@ const BroadcastWCS = ({className, ...props}) => {
   const clearError = () => {
     dispatchGlobal({type: 'set_global_error', payload: undefined})
   };
-  
+
   const clearSuccess = () => {
     dispatchGlobal({type: 'set_global_success', payload: undefined})
   };
-  
+
   return (
       <React.Fragment>
         <ContentCardWCS
@@ -75,7 +75,7 @@ const BroadcastWCS = ({className, ...props}) => {
                 isOpen={true}
                 onExited={clearError}
                 onClose={clearError}/> : ''}
-                
+
         {stateGlobal.success ?
             <SnackbarWCS
                 key="LoadTransactionSuccess"
@@ -84,7 +84,7 @@ const BroadcastWCS = ({className, ...props}) => {
                 isOpen={true}
                 onExited={clearSuccess}
                 onClose={clearSuccess}/> : ''}
-      
+
         {parentState.modalIsOpen ?
             <ModalWrappedWCS
                 isOpen={parentState.modalIsOpen}

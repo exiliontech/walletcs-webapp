@@ -33,7 +33,7 @@ export const useContractInfo = () => {
           dispatch({type: 'set_contract', payload: contract});
 
           response = await axios(urlToken);
-          console.log(response);
+
           if (response.data.status === '1') {
             dispatch({
               type: 'set_contract_name',
