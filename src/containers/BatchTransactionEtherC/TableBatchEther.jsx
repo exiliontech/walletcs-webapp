@@ -81,7 +81,7 @@ const TableBatchEther = ({className, ...props}) => {
               helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
               onChange={e => {
                 dispatchMethod({type: 'set_public_key', payload: e.target.value})}
-              }/>
+              } textTip='Аccount associated with the private key that will be used to sign this transaction' />
 
           <TableWCS
               headers={['CONTRACT', 'METHOD']}

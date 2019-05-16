@@ -31,7 +31,7 @@ const App = props => {
   const initMetaMask = () => {
     try{
       let web3 = new Web3(Web3.givenProvider);
-      let provider =  ethers.getDefaultProvider(process.env.EHT_NETWORK);
+      let provider =  ethers.getDefaultProvider(process.env.REACT_APP_ETH_NETWORK_SEND || 'rinkeby');
       return {web3: web3, provider: provider}
     }catch (e) {
       return {web3: null, provider: null}

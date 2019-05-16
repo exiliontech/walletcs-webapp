@@ -18,7 +18,7 @@ const TabContainer = (props) => {
 
 const EtherHeader = ({className, ...props}) => {
   const {classes, links} = props;
-  
+
   return (
       <React.Fragment>
         <Link to={links.eth_single}
@@ -46,7 +46,7 @@ const EtherHeader = ({className, ...props}) => {
               style={{ textDecoration: 'none' }}
               className={cx(classes.link, window.location.pathname === links.transfer_ether ? classes.linkSelected: false)}>
           <TabContainer>
-            Transfer Ethereum
+            Transfer Ether
           </TabContainer>
         </Link>
       </React.Fragment>

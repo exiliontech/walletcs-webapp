@@ -22,12 +22,16 @@ const styles = theme => ({
       backgroundColor: '#FFFFFF',
     },
     '& input': {
-      paddingTop: 30,
+      paddingTop: 30
     },
     '& label': {
       fontSize:  '16px !important',
       color: '#6E7782 !important',
-      paddingTop: 7
+      transform: 'translate(12px, 25px) scale(1)',
+      // paddingTop: 7,
+      '&:hover' : {
+        backgroundColor: '#FFFFFF'
+      }
     },
     '& legend':{
       width:  '0 !important',
@@ -52,7 +56,7 @@ const InputWCS = ({className, ...props}) => {
         type={INPUT_FIELD.type}
         margin={INPUT_FIELD.margin}
         label={props.label ? props.label: ''}
-        InputLabelProps={{variant: 'filled', margin: 'dense', classes: props.classes, }}
+        InputLabelProps={{variant: 'filled', classes: props.classes, }}
         FormHelperTextProps={{error: classes.error, ...props}}
         error={!!props.validator ? !!props.validator(props.value): null}
         helperText={!!props.validator ? props.validator(props.value): null}
