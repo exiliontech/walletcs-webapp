@@ -2,8 +2,8 @@ export const initStateBroadcast = {
   table: [],
   modalIsOpen: false,
   modalData: [],
-  filename: undefined,
-  error: undefined,
+  filename: '',
+  error: '',
 };
 
 export const broadcastReducer = (state, action) => {

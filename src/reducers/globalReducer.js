@@ -1,5 +1,5 @@
 export const initStateGlobal = {
-  error: undefined,
+  error: '',
   isLoadingContract: false,
   isLoadingMethod: false,
 };

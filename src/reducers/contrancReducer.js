@@ -1,8 +1,7 @@
 export const initStateContractReducer = {
-  publicKey: undefined,
-  contractAddress: undefined,
-  contract: undefined,
-  contractName: undefined,
+  contractAddress: '',
+  contract: '',
+  contractName: '',
   nonce: 0,
   abi: [],
   table: [],

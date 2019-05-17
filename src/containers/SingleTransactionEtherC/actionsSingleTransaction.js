@@ -189,6 +189,15 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
   let {contractAddress, abi} = stateContract;
   let {methodParams, methodName, publicKey} = stateMethod;
 
+  // TODO: Need more reasonable solution for a undefined publicKey
+  if (!publicKey) {
+    for (let i = 0; i < methodParams.length; i += 1) {
+      if (methodParams[i].name === 'from') {
+        publicKey = methodParams[i].value;
+      }
+    }
+  }
+
   let transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
   let fileGenerator = new FileTransactionGenerator(publicKey);
 
@@ -196,7 +205,7 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
     fileGenerator.addContract(contractAddress, abi);
   }
-
+  console.log(fileGenerator, stateMethod, stateContract);
   downloadFile('tr-', fileGenerator.generateJson())
 };
 

@@ -1,13 +1,14 @@
 export const initStateMethodReducer = {
-  methodName: undefined,
-  methodType: undefined,
-  gasPrice: undefined,
-  gasLimit: undefined,
-  nonce: undefined,
+  methodName: '',
+  methodType: '',
+  gasPrice: 0,
+  gasLimit: 0,
+  nonce: 0,
   methodParams: [],
-  methodCallResult: undefined,
+  methodCallResult: '',
   isViewMethod: false,
-  isLoding: false
+  isLoding: false,
+  publicKey: ''
 };
 
 export const methodReducer = (state, action) => {
@@ -30,5 +31,7 @@ export const methodReducer = (state, action) => {
       return {...state, methodCallResult: action.payload};
     case 'set_mode':
       return {...state, mode: action.payload}
+    default:
+      throw new Error(`Unexpected param: ${action.type}`)
   };
 }

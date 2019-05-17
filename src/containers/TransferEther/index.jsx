@@ -50,7 +50,6 @@ const TransferEther = ({className, ...props}) => {
                           if (val.payable && val.name === 'value') {
                             return true
                           }
-                          console.log(val);
                           return ['nonce', 'gasLimit', 'gasPrice'].includes(val.name)
                         })}
                         recalculateButton={e => recalculateGasLimit(

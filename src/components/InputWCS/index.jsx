@@ -27,7 +27,9 @@ const styles = theme => ({
     '& label': {
       fontSize:  '16px !important',
       color: '#6E7782 !important',
-      transform: 'translate(12px, 25px) scale(1)',
+      // '&:first-of-type': {
+      //   transform: 'translate(12px, 25px) scale(1)',
+      // },
       // paddingTop: 7,
       '&:hover' : {
         backgroundColor: '#FFFFFF'

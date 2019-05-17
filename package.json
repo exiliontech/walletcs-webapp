@@ -24,7 +24,7 @@
     "web3": "^1.0.0-beta.48"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='rinkeby' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
