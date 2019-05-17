@@ -30,5 +30,7 @@ export const contractReducer = (state, action) => {
       return {...state, ...initStateContractReducer};
     case 'set_contract':
       return{...state, contract: action.payload};
+    default:
+      throw new Error(`Unexpected param: ${action.type}`)
   }
 };

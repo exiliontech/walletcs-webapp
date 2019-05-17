@@ -53,11 +53,12 @@ const App = props => {
                         </Web3Provider> :
                         BITCOIN_LINKS}
                   </Switch>
-                  {stateCurrency === 'ether' && state.isLoadingContract ? 
-                    process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 
+                  {console.log(state)}
+                  {stateCurrency === 'ether' ? 
+                    process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' && !state.isLoadingMethod ? 
                       <Message link='https://app.walletcs.com' networkName='Rinkeby' /> : 
                       '' : 
-                      process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 
+                      process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' && !state.isLoadingMethod ? 
                         <Message link='https://app.walletcs.com' networkName='TEST'/> 
                       : ''}
                 </MuiThemeProvider>

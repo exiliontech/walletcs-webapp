@@ -2,7 +2,8 @@ export const initStateGlobal = {
   error: '',
   isLoadingContract: false,
   isLoadingMethod: false,
-  success: ''
+  success: '',
+  appIsLoaded: false
 };
 
 export const  globalReducer = (state, action) => {
@@ -15,5 +16,9 @@ export const  globalReducer = (state, action) => {
       return {...state, isLoadingContract: !state.isLoadingContract};
     case 'set_is_loading_method':
       return {...state, isLoadingMethod: !state.isLoadingMethod};
+    case 'set_app_is_loaded':
+      return {...state, appIsLoaded: !state.appIsLoaded}
+    default:
+      throw new Error(`Unexpected param: ${action.type}`)
   }
 };

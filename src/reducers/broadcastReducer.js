@@ -30,5 +30,7 @@ export const broadcastReducer = (state, action) => {
       _t.splice(action.payload, 1);
       _rows.splice(action.payload, 1);
       return {...state, ...{rows: _rows, originTransactions: _ot, table: _t}}
+    default:
+      throw new Error(`Unexpected param: ${action.type}`)
   }
 };

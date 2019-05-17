@@ -23,5 +23,7 @@ export const bitcoinReducer = (state, action) => {
       table = state.table;
       table.splice(action.payload, 1);
       return {...state, table: table};
+    default:
+      throw new Error(`Unexpected param: ${action.type}`)
   }
 };
