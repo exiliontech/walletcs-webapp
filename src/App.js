@@ -6,7 +6,7 @@ import { Web3Provider, ErrorTemplate } from 'react-web3';
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import WalletCSTheme from './themes';
-import Header from "./containers/Header";
+import Header from "./components/Header";
 import Web3Context from './contexts/Web3Context'
 import GlobalReducerContext from './contexts/GlobalReducerContext';
 import { BrowserRouter as Router, Switch } from "react-router-dom";

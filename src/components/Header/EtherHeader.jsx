@@ -21,6 +21,13 @@ const EtherHeader = ({className, ...props}) => {
 
   return (
       <React.Fragment>
+        <Link to={links.eth_transfer}
+              style={{ textDecoration: 'none' }}
+              className={cx(classes.link, window.location.pathname === links.eth_transfer ? classes.linkSelected: false)}>
+          <TabContainer>
+            Transfer Ether
+          </TabContainer>
+        </Link>
         <Link to={links.eth_single}
               style={{ textDecoration: 'none'}}
               className={cx(classes.link, window.location.pathname === links.eth_single ? classes.linkSelected: false)}>
@@ -32,7 +39,7 @@ const EtherHeader = ({className, ...props}) => {
               style={{ textDecoration: 'none' }}
               className={cx(classes.link, window.location.pathname === links.eth_batch ? classes.linkSelected: false)}>
           <TabContainer>
-            Smart Contract Batch
+            Batch Transactions
           </TabContainer>
         </Link>
         <Link to={links.eth_broadcast}
@@ -40,13 +47,6 @@ const EtherHeader = ({className, ...props}) => {
               className={cx(classes.link, window.location.pathname === links.eth_broadcast ? classes.linkSelected: false)}>
           <TabContainer>
             Broadcast Transaction
-          </TabContainer>
-        </Link>
-        <Link to={links.transfer_ether}
-              style={{ textDecoration: 'none' }}
-              className={cx(classes.link, window.location.pathname === links.transfer_ether ? classes.linkSelected: false)}>
-          <TabContainer>
-            Transfer Ether
           </TabContainer>
         </Link>
       </React.Fragment>

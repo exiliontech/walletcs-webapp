@@ -13,7 +13,7 @@ export const LINKS = {
   eth_single: "/ether/contract/single",
   eth_batch: "/ether/contract/batch",
   eth_broadcast: "/ether/broadcast",
-  transfer_ether: "/ether/transfer",
+  eth_transfer: "/ether/transfer",
   bitcoin_single: "/bitcoin/single",
   bitcoin_batch: "/bitcoin/batch",
   bitcoin_broadcast: "/bitcoin/broadcast"
@@ -21,16 +21,16 @@ export const LINKS = {
 
 
 export const ETHER_LINKS = [
-  <Route path="/ether/contract/single" component={SingleTransactionEtherC}/>,
-  <Route path="/ether/contract/batch" component={BatchTransactionEtherC}/>,
-  <Route path="/ether/broadcast" component={BroadcastTransactionEther}/>,
-  <Route path="/ether/transfer" component={TransferEther}/>,
-  <Redirect from="/" to="/ether/contract/single" />
+  <Route path={LINKS.eth_single} component={SingleTransactionEtherC}/>,
+  <Route path={LINKS.eth_batch} component={BatchTransactionEtherC}/>,
+  <Route path={LINKS.eth_broadcast} component={BroadcastTransactionEther}/>,
+  <Route path={LINKS.eth_transfer} component={TransferEther}/>,
+  <Redirect from="/" to={LINKS.eth_transfer} />
 ];
 
 export const BITCOIN_LINKS = [
-  <Route path="/bitcoin/single" component={SingleTransactionBitcoin}/>,
-  <Route path="/bitcoin/batch" component={BatchTransactionBitcon}/>,
-  <Route path="/bitcoin/broadcast" component={BroadcastTransactionBitcoin}/>,
-  <Redirect from="/" to="/bitcoin/single" />
+  <Route path={LINKS.bitcoin_single} component={SingleTransactionBitcoin}/>,
+  <Route path={LINKS.bitcoin_batch} component={BatchTransactionBitcon}/>,
+  <Route path={LINKS.bitcoin_broadcast} component={BroadcastTransactionBitcoin}/>,
+  <Redirect from="/" to={LINKS.bitcoin_single} />
 ];

@@ -244,7 +244,6 @@ export const normalize = (publicKey, contractAddress, methodParams, abi, methodN
 export const recalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
   // Recalculate gasLimit
   let {contractAddress, abi} = stateContract || {contractAddress: null, abi: null};
-
   let {methodParams, methodName, publicKey } = stateMethod;
 
   let transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
@@ -275,10 +274,11 @@ export const validationInput = (params, val, name) => {
       params[key].value = val;
     }
     // If gasLimit was set default after calculate, that reset gasLimit
-    if(params[key].name === 'gasLimit' && name !== 'gasLimit' &&
-        (params[key].value === GAS_LIMIT || !!params[key].value) ){
-      params[key].value = null
-    }
+    // 
+    // if(params[key].name === 'gasLimit' && name !== 'gasLimit' &&
+    //     (params[key].value === GAS_LIMIT || !!params[key].value) ){
+    //   params[key].value = null
+    // }
   }
 
   return params

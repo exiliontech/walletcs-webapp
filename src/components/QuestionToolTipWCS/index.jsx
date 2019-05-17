@@ -96,10 +96,10 @@ const styles = theme => ({
   iconButton: {
     width: 16,
     height: 16,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: 'none',
     borderRadius: 0,
     '&:hover': {
-      backgroundColor: '#F2F2F2'
+      backgroundColor: '#FFFFFF'
     }
   }
 });
