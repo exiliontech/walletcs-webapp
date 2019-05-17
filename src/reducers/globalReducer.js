@@ -2,6 +2,7 @@ export const initStateGlobal = {
   error: '',
   isLoadingContract: false,
   isLoadingMethod: false,
+  success: ''
 };
 
 export const  globalReducer = (state, action) => {

@@ -12,6 +12,7 @@ import GlobalReducerContext from './contexts/GlobalReducerContext';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import {globalReducer, initStateGlobal} from "./reducers";
 import {BITCOIN_LINKS, LINKS, ETHER_LINKS} from "./links";
+import Message from './components/Message';
 
 const Web3Unavailable = ErrorTemplate.bind(null, {
   title: 'MetaMask not found',
@@ -52,6 +53,13 @@ const App = props => {
                         </Web3Provider> :
                         BITCOIN_LINKS}
                   </Switch>
+                  {stateCurrency === 'ether' && state.isLoadingContract ? 
+                    process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 
+                      <Message link='https://app.walletcs.com' networkName='Rinkeby' /> : 
+                      '' : 
+                      process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 
+                        <Message link='https://app.walletcs.com' networkName='TEST'/> 
+                      : ''}
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>

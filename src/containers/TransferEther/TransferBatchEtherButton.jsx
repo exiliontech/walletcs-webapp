@@ -7,7 +7,6 @@ import {styles} from './styles';
 
 const TransferSigleEtherButtons = ({className, ...props}) => {
   const { classes, stateMethod, dispatchContract, onCancel } = props;
-
   return (
     <div className={classes.containerButtons}>
       <ButtonWCS
