@@ -53,7 +53,6 @@ const App = props => {
                         </Web3Provider> :
                         BITCOIN_LINKS}
                   </Switch>
-                  {console.log(state)}
                   {stateCurrency === 'ether' ? 
                     process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' && !state.isLoadingMethod ? 
                       <Message link='https://app.walletcs.com' networkName='Rinkeby' /> : 
