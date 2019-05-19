@@ -10,6 +10,7 @@ import {checkAddress, isAddingTransaction} from 'walletcs';
 import Web3Context from "../../contexts/Web3Context";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import {recalculateGasLimit} from "../SingleTransactionEtherC/actionsSingleTransaction";
+import RedirectMainNet from "../../components/RedirectMainNet";
 
 
 const DEFAULT_SETTING = {
@@ -73,6 +74,7 @@ const AddTransactionEther = ({className, ...props}) => {
               Cancel
             </ButtonWCS>
           </div>
+          <RedirectMainNet />
         </div>
       </ContentCardWCS>
   )

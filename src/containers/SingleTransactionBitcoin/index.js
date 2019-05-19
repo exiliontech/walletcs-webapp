@@ -9,6 +9,7 @@ import {downloadFile} from "../SingleTransactionEtherC/actionsSingleTransaction"
 
 import {bitcoinReducer, initStateBitcoin} from "../../reducers";
 import GroupInputsBitcoin from "../../components/GroupInputsBitcoin";
+import RedirectMainNet from '../../components/RedirectMainNet';
 import {styles} from './styles';
 
 const mapNetworks = {'BTC_MAINNET': 'main', 'BTC_TESTNET': 'test3'}
@@ -44,6 +45,7 @@ const SingleTransactionBitcoin = ({className, ...props}) => {
                 onClick={generateFile}>
               Download Transaction
             </ButtonWCS>
+            <RedirectMainNet />
           </div>
         </ContentCardWCS>
   )

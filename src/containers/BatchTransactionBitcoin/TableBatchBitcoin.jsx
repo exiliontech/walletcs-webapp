@@ -9,6 +9,7 @@ import ContentCardWCS from "../../components/ContentCardWCS";
 import TableWCS from "../../components/TableWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import ModalWrappedWCS from "../../components/ModalWCS"
+import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({});
 
@@ -75,13 +76,13 @@ const TableBatchBitcoin = ({className, ...props}) => {
               Add Transaction
             </Button>
           </div>
-
           <ButtonWCS
               className={classes.button}
               disabled={!(!!stateParent.from_address && !!stateParent.table.length)}
               onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
+          <RedirectMainNet />
         </div>
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}

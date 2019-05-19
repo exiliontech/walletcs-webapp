@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ContentCardWCS from "../../components/ContentCardWCS";
 import ButtonWCS from "../../components/ButtonWCS"
 import GroupInputsSingleTxBitcoin from "../../components/GroupInputsBitcoin";
+import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({
 });
@@ -49,6 +50,7 @@ const AddBitcoinTransaction = ({className, ...props}) => {
                    Cancel
                  </ButtonWCS>
                </div>
+               <RedirectMainNet />
           </div>
       </ContentCardWCS>
   )

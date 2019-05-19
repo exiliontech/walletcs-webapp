@@ -1,4 +1,8 @@
 import React, {useContext} from "react";
+import { withStyles } from "@material-ui/core/styles";
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+
 import ContentCardWCS from "../../components/ContentCardWCS";
 import InputWCS from "../../components/InputWCS";
 import ModalWrappedWCS from "../../components/ModalWCS";
@@ -8,16 +12,16 @@ import SnackbarWCS from "../../components/SnackbarWCS";
 import UploadCloudIcon from '@material-ui/icons/CloudUpload';
 import {IconButton, InputAdornment} from "@material-ui/core";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext"
-import cx from 'classnames';
-import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import RedirectMainNet from '../../components/RedirectMainNet';
+
 
 const styles = theme => ({
 });
 
 const BroadcastWCS = ({className, ...props}) => {
-  const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
-  const {classes, parentState} = props;
+  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
+  const { classes, parentState, onOpenModal, onAttachFile, onDelete } = props;
+  const { onCloseModal, onBroadcast } = props;
 
   const clearError = () => {
     dispatchGlobal({type: 'set_global_error', payload: undefined})
@@ -49,22 +53,23 @@ const BroadcastWCS = ({className, ...props}) => {
                               id="input-file-download"
                               type="file"
                               style={{display: 'none'}}
-                              onChange={props.onAttachFile} />
+                              onChange={onAttachFile} />
                         </IconButton>
                       </InputAdornment>
                   )}}/>
             <TableWCS
                 headers={['CONTRACT', 'METHOD']}
                 isDelete={true}
-                onDelete={props.onDelete}
-                onClick={props.onOpenModal}
+                onDelete={onDelete}
+                onClick={onOpenModal}
                 rows={parentState.rows || []}/>
             <ButtonWCS
                 className={classes.button}
                 disabled={!parentState.table.length}
-                onClick={props.onBroadcast}>
+                onClick={onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>
+            <RedirectMainNet />
           </div>
         </ContentCardWCS>
         {stateGlobal.error ?
@@ -88,7 +93,7 @@ const BroadcastWCS = ({className, ...props}) => {
         {parentState.modalIsOpen ?
             <ModalWrappedWCS
                 isOpen={parentState.modalIsOpen}
-                onClose={props.onCloseModal}
+                onClose={onCloseModal}
                 data={{header: 'Transaction information', details: parentState.modalData}}/>: '' }
       </React.Fragment>
   )
@@ -100,8 +105,6 @@ BroadcastWCS.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onOpenModal: PropTypes.func.isRequired,
   onBroadcast: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
-  clearSuccess: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   parentState: PropTypes.object.isRequired,
 };

@@ -5,7 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
     textMessage: {
         fontWeight: 'bold',
-        fontSize: '12px'
+        fontSize: '16px',
+        textAlign: 'left'
     },
     linkMessage: {
         color: '#000000'
@@ -17,7 +18,7 @@ const Message = props => {
 
     return (
         <div>
-            <p className={classes.textMessage}>IMPORTANT: This operation is performed on the {networkName} (test) network. 
+            <p className={classes.textMessage}>IMPORTANT: This operation is performed on the {networkName} network. 
                 <a className={classes.linkMessage} href={link}>Click here for the main network</a>
             </p>
         </div>

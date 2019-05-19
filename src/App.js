@@ -12,7 +12,6 @@ import GlobalReducerContext from './contexts/GlobalReducerContext';
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import {globalReducer, initStateGlobal} from "./reducers";
 import {BITCOIN_LINKS, LINKS, ETHER_LINKS} from "./links";
-import Message from './components/Message';
 
 const Web3Unavailable = ErrorTemplate.bind(null, {
   title: 'MetaMask not found',
@@ -20,9 +19,20 @@ const Web3Unavailable = ErrorTemplate.bind(null, {
   Please download it from metamask.io .`
 });
 
+const listCurrencies = [ 'ether', 'bitcoin' ];
+
+const getCurrentCurrency = () => {
+  for (let i = 0; i < listCurrencies.length; i += 1){
+    if (window.location.pathname.indexOf(listCurrencies[i]) > -1){
+      return listCurrencies[i];
+    }
+  }
+  return 'ether';
+}
+
 const App = props => {
   const [state, dispatch] = useReducer(globalReducer, initStateGlobal);
-  const [stateCurrency, setCurrency] = useState('ether');
+  const [stateCurrency, setCurrency] = useState(getCurrentCurrency());
   document.title = 'WalletCS';
 
   const handleCurrency = (val) => {
@@ -42,7 +52,7 @@ const App = props => {
   return (
         <Router>
           <div className="App">
-            <GlobalReducerContext.Provider value={{stateGlobal: state, dispatchGlobal: dispatch}}>
+            <GlobalReducerContext.Provider value={{stateGlobal: state, dispatchGlobal: dispatch, currentCurrency: stateCurrency}}>
               <Web3Context.Provider value={initMetaMask()}>
                 <MuiThemeProvider theme={WalletCSTheme}>
                   <Header handleCurrency={handleCurrency} currentCurrency={stateCurrency} links={LINKS}/>
@@ -53,13 +63,6 @@ const App = props => {
                         </Web3Provider> :
                         BITCOIN_LINKS}
                   </Switch>
-                  {stateCurrency === 'ether' ? 
-                    process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' && !state.isLoadingMethod ? 
-                      <Message link='https://app.walletcs.com' networkName='Rinkeby' /> : 
-                      '' : 
-                      process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' && !state.isLoadingMethod ? 
-                        <Message link='https://app.walletcs.com' networkName='TEST'/> 
-                      : ''}
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>

@@ -10,6 +10,7 @@ import SnackbarWCS from "../../components/SnackbarWCS";
 import {useContractInfo, useMethodInfo, downloadOneTransaction, recalculateGasLimit} from './actionsSingleTransaction'
 import Web3Context from '../../contexts/Web3Context'
 import GlobalReducerContext from "../../contexts/GlobalReducerContext"
+import RedirectMainNet from '../../components/RedirectMainNet';
 
 import {styles} from './styles'
 import DetailInformation from "./DetailInformation";
@@ -95,7 +96,7 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                   onClick={onCallMethod}>
                   Call Method
                 </ButtonWCS>: ''}
-
+            <RedirectMainNet currency='ether'/>
           </div>
 
           <div className={classes.informationContainer}>

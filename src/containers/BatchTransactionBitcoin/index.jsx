@@ -1,12 +1,13 @@
 import React, {useContext, useReducer, useState} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import SnackbarWCS from "../../components/SnackbarWCS";
-import GlobalReducerContext from "../../contexts/GlobalReducerContext";
-import TableBatchBitcon from "./TableBatchBitcoin"
-import AddBitcoinTransaction from "./AddBitcoinTransaction";
-import {bitcoinReducer, initStateBitcoin} from "../../reducers";
+import SnackbarWCS from '../../components/SnackbarWCS';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
+import TableBatchBitcon from './TableBatchBitcoin';
+import AddBitcoinTransaction from './AddBitcoinTransaction';
+import {bitcoinReducer, initStateBitcoin} from '../../reducers';
+import RedirectMainNet from '../../components/RedirectMainNet';
 
 import {styles} from "./styles";
 

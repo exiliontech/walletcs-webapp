@@ -25,12 +25,12 @@ export const ETHER_LINKS = [
   <Route path={LINKS.eth_batch} component={BatchTransactionEtherC}/>,
   <Route path={LINKS.eth_broadcast} component={BroadcastTransactionEther}/>,
   <Route path={LINKS.eth_transfer} component={TransferEther}/>,
-  <Redirect from="/" to={LINKS.eth_transfer} />
+  // <Redirect from="/" to={LINKS.eth_transfer} />
 ];
 
 export const BITCOIN_LINKS = [
   <Route path={LINKS.bitcoin_single} component={SingleTransactionBitcoin}/>,
   <Route path={LINKS.bitcoin_batch} component={BatchTransactionBitcon}/>,
   <Route path={LINKS.bitcoin_broadcast} component={BroadcastTransactionBitcoin}/>,
-  <Redirect from="/" to={LINKS.bitcoin_single} />
+  // <Redirect from="/" to={LINKS.bitcoin_single} />
 ];

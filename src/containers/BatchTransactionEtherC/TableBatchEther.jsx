@@ -11,6 +11,7 @@ import ContentCardWCS from "../../components/ContentCardWCS";
 import TableWCS from "../../components/TableWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import ModalWrappedWCS from "../../components/ModalWCS"
+import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({
 });
@@ -109,6 +110,7 @@ const TableBatchEther = ({className, ...props}) => {
               onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
+          < RedirectMainNet />
         </div>
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}
