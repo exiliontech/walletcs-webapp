@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {FileTransactionGenerator, BitcoinTransaction} from 'walletcs';
 import InputWCS from "../../components/InputWCS";
 
 import { checkBitcoinAddress } from "walletcs"
@@ -15,10 +14,10 @@ const styles = theme => ({
 
 const GroupInputsBitcoin = ({className, ...props}) => {
   const {classes, state, dispatch} = props;
-  
+
   const validateAmount = (amount) => {
-    if(!!amount && amount<540){
-      return 'amount should be more than 540 satoshi'
+    if(!!amount && amount<0.00000540){
+      return 'amount should be more than 0.00000540 bitcoin (540 satoshi)'
     }
     return null
   };

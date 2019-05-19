@@ -1,7 +1,7 @@
 export const initStateBitcoin = {
   from_address: '',
   to_address: '',
-  amount: 0,
+  amount: null,
   table: []
 };
 
