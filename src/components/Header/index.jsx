@@ -24,14 +24,16 @@ const Index = ({className, ...props}) => {
                     <TextIconWCS className={classes.textWallet}/>
                   </div>
                   <Tabs
-                      value={props.currentCurrency === 'ether' ? 0 : 1}
+                      value={props.currentCurrency}
                       classes={{ root: classes.tabRoot, indicator: classes.tabsIndicator }}>
                     <Tab
+                        value='ether'
                         disableRipple
                         classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel}}
                         label="ETH - Ethereum"
                         onClick={e => props.handleCurrency('ether')}/>
                     <Tab
+                        value='bitcoin'
                         disableRipple
                         classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel }}
                         label="BTC - Bitcoin"

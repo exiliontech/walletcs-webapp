@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
+import InputAdornment from '@material-ui/core/InputAdornment';
 import InputWCS from "../../components/InputWCS";
+import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
 import { checkBitcoinAddress } from "walletcs"
 
@@ -13,7 +15,7 @@ const styles = theme => ({
 });
 
 const GroupInputsBitcoin = ({className, ...props}) => {
-  const {classes, state, dispatch} = props;
+  const {classes, state, dispatch } = props;
 
   const validateAmount = (amount) => {
     if(!!amount && amount<0.00000540){
@@ -28,6 +30,11 @@ const GroupInputsBitcoin = ({className, ...props}) => {
    }
    return null
   };
+
+  const onRedirectToBlockexplorer = () => {
+    const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'btc-testnet/' : '';
+    window.open(`https://live.blockcypher.com/${network}address/${state.address}/`, '_blank')
+  }
   
   return (
       <React.Fragment>
@@ -38,8 +45,13 @@ const GroupInputsBitcoin = ({className, ...props}) => {
               validator={validateAddress}
               onChange={e =>{
                 dispatch({type: 'set_from', payload: e.target.value})
-              }
-              }/>
+              }} InputProps={{
+                endAdornment: 
+                  <InputAdornment position="end">
+                    <RedirectButtonWCS onClick={onRedirectToBlockexplorer} text="View on blockexplorer"/>
+                  </InputAdornment>
+
+              }}/>
           <InputWCS
               className={classes.input}
               label="to"

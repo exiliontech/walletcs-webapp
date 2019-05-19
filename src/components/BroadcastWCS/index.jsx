@@ -16,6 +16,10 @@ import RedirectMainNet from '../../components/RedirectMainNet';
 
 
 const styles = theme => ({
+  uploadIcon:{
+    color: 'rgb(145, 152, 160) !important'
+
+  }
 });
 
 const BroadcastWCS = ({className, ...props}) => {

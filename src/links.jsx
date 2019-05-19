@@ -1,4 +1,4 @@
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import SingleTransactionEtherC from "./containers/SingleTransactionEtherC";
 import BatchTransactionEtherC from "./containers/BatchTransactionEtherC";
 import BroadcastTransactionEther from "./containers/BroadcastTransactionEther";
@@ -21,16 +21,17 @@ export const LINKS = {
 
 
 export const ETHER_LINKS = [
-  <Route path={LINKS.eth_single} component={SingleTransactionEtherC}/>,
-  <Route path={LINKS.eth_batch} component={BatchTransactionEtherC}/>,
-  <Route path={LINKS.eth_broadcast} component={BroadcastTransactionEther}/>,
-  <Route path={LINKS.eth_transfer} component={TransferEther}/>,
-  // <Redirect from="/" to={LINKS.eth_transfer} />
+  <Route path={LINKS.eth_single} exact component={SingleTransactionEtherC}/>,
+  <Route path={LINKS.eth_batch} exact component={BatchTransactionEtherC}/>,
+  <Route path={LINKS.eth_broadcast} exact component={BroadcastTransactionEther}/>,
+  <Route path={LINKS.eth_transfer} exact component={TransferEther}/>,
+  <Route path='*' render={() => <Redirect to={{pathname: LINKS.eth_transfer}} />} />
 ];
 
 export const BITCOIN_LINKS = [
-  <Route path={LINKS.bitcoin_single} component={SingleTransactionBitcoin}/>,
-  <Route path={LINKS.bitcoin_batch} component={BatchTransactionBitcon}/>,
-  <Route path={LINKS.bitcoin_broadcast} component={BroadcastTransactionBitcoin}/>,
-  // <Redirect from="/" to={LINKS.bitcoin_single} />
+  <Route path={LINKS.bitcoin_single} exact component={SingleTransactionBitcoin}/>,
+  <Route path={LINKS.bitcoin_batch} exact component={BatchTransactionBitcon}/>,
+  <Route path={LINKS.bitcoin_broadcast} exact component={BroadcastTransactionBitcoin}/>,
+  <Route path='*' render={() => <Redirect to={{pathname: LINKS.bitcoin_single}} />} />
+
 ];

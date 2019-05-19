@@ -9,7 +9,7 @@ import WalletCSTheme from './themes';
 import Header from "./components/Header";
 import Web3Context from './contexts/Web3Context'
 import GlobalReducerContext from './contexts/GlobalReducerContext';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import {globalReducer, initStateGlobal} from "./reducers";
 import {BITCOIN_LINKS, LINKS, ETHER_LINKS} from "./links";
 
@@ -56,13 +56,12 @@ const App = props => {
               <Web3Context.Provider value={initMetaMask()}>
                 <MuiThemeProvider theme={WalletCSTheme}>
                   <Header handleCurrency={handleCurrency} currentCurrency={stateCurrency} links={LINKS}/>
-                  <Switch>
                     {stateCurrency === 'ether' ?
-                        <Web3Provider web3UnavailableScreen={Web3Unavailable}>
-                          {ETHER_LINKS}
-                        </Web3Provider> :
-                        BITCOIN_LINKS}
-                  </Switch>
+                      <Web3Provider web3UnavailableScreen={Web3Unavailable}>
+                        <Switch>{ETHER_LINKS}</Switch>
+                      </Web3Provider>
+                      : 
+                      <Switch>{BITCOIN_LINKS}</Switch>}
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>

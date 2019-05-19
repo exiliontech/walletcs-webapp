@@ -57,8 +57,5 @@ export const styles = theme => ({
   },
   hiddenInput:{
     transform: 'translate(100, 0)'
-  },
-  uploadIcon:{
-    color: theme.palette.primary.main
   }
 });

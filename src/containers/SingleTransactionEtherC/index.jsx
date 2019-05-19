@@ -3,6 +3,7 @@ import cx from 'classnames';
 import ContentCardWCS from "../../components/ContentCardWCS";
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
+import InputAdornment from '@material-ui/core/InputAdornment';
 import {checkAddress} from "walletcs";
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
@@ -11,10 +12,12 @@ import {useContractInfo, useMethodInfo, downloadOneTransaction, recalculateGasLi
 import Web3Context from '../../contexts/Web3Context'
 import GlobalReducerContext from "../../contexts/GlobalReducerContext"
 import RedirectMainNet from '../../components/RedirectMainNet';
+import EnterButtonIcon from '../../components/RedirectButtonWCS';
 
 import {styles} from './styles'
 import DetailInformation from "./DetailInformation";
 import DetailsWCS from "../../components/DetailsWCS";
+import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
 const SingleTransactionEtherC = ({className, ...props}) => {
   const {classes} = props;
@@ -42,6 +45,11 @@ const SingleTransactionEtherC = ({className, ...props}) => {
     dispatchGlobal({type: 'set_is_loading_method'});
   };
 
+  const onRedirectToEtherscan = () => {
+    const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 'rinkeby.' : '';
+    window.open(`https://${network}etherscan.io/address/${state.contractAddress}`, '_blank');
+  }
+
   return (
       <React.Fragment>
         <ContentCardWCS className={cx(
@@ -57,7 +65,13 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                 helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format': ''}
                 onChange={e =>
                     dispatch({type: 'set_contract_address', payload: e.target.value})
-                }/>
+                } InputProps={{
+                  endAdornment: 
+                    <InputAdornment position="end">
+                      <RedirectButtonWCS onClick={onRedirectToEtherscan} text="View on etherscan"/>
+                    </InputAdornment>
+
+                }}/>
             <InputWCS
                 className={classes.input}
                 isQuestion={true}

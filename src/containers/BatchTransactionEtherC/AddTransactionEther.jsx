@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
+import InputAdornment from '@material-ui/core/InputAdornment';
 import InputWCS from "../../components/InputWCS";
 import ButtonWCS from "../../components/ButtonWCS";
 import ContentCardWCS from "../../components/ContentCardWCS";
@@ -11,6 +12,7 @@ import Web3Context from "../../contexts/Web3Context";
 import GlobalReducerContext from "../../contexts/GlobalReducerContext";
 import {recalculateGasLimit} from "../SingleTransactionEtherC/actionsSingleTransaction";
 import RedirectMainNet from "../../components/RedirectMainNet";
+import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
 
 const DEFAULT_SETTING = {
@@ -27,6 +29,11 @@ const AddTransactionEther = ({className, ...props}) => {
   const {classes, stateContract, dispatchContract, stateMethod, dispatchMethod} = props;
   const {provider} = useContext(Web3Context);
   const {dispatchGlobal} = useContext(GlobalReducerContext);
+
+  const onRedirectToEtherscan = () => {
+    const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 'rinkeby.' : '';
+    window.open(`https://${network}etherscan.io/address/${stateContract.contractAddress}`, '_blank');
+  }
   
   return (
       <ContentCardWCS
@@ -44,7 +51,14 @@ const AddTransactionEther = ({className, ...props}) => {
               helperText={stateContract.contractAddress && !checkAddress(stateContract.contractAddress) ? 'Not correct address format': ''}
               onChange={e =>
                   dispatchContract({type: 'set_contract_address', payload: e.target.value})
-              }/>
+              }
+              InputProps={{
+                endAdornment: 
+                  <InputAdornment position="end">
+                    <RedirectButtonWCS onClick={onRedirectToEtherscan} text="View on etherscan"/>
+                  </InputAdornment>
+
+              }}/>
           <DetailInformation
               stateMethod={stateMethod}
               stateContract={stateContract}
