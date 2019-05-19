@@ -1,75 +1,75 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import cx from 'classnames';
-import ContentCardWCS from "../../components/ContentCardWCS";
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {checkAddress} from "walletcs";
-import InputWCS from "../../components/InputWCS";
-import ButtonWCS from "../../components/ButtonWCS";
-import SnackbarWCS from "../../components/SnackbarWCS";
-import {useContractInfo, useMethodInfo, downloadOneTransaction, recalculateGasLimit} from './actionsSingleTransaction'
-import Web3Context from '../../contexts/Web3Context'
-import GlobalReducerContext from "../../contexts/GlobalReducerContext"
+import { checkAddress } from 'walletcs';
+import ContentCardWCS from '../../components/ContentCardWCS';
+import InputWCS from '../../components/InputWCS';
+import ButtonWCS from '../../components/ButtonWCS';
+import SnackbarWCS from '../../components/SnackbarWCS';
+import {
+  useContractInfo, useMethodInfo, downloadOneTransaction, recalculateGasLimit,
+} from './actionsSingleTransaction';
+import Web3Context from '../../contexts/Web3Context';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import RedirectMainNet from '../../components/RedirectMainNet';
 import EnterButtonIcon from '../../components/RedirectButtonWCS';
 
-import {styles} from './styles'
-import DetailInformation from "./DetailInformation";
-import DetailsWCS from "../../components/DetailsWCS";
+import { styles } from './styles';
+import DetailInformation from './DetailInformation';
+import DetailsWCS from '../../components/DetailsWCS';
 import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
-const SingleTransactionEtherC = ({className, ...props}) => {
-  const {classes} = props;
+const SingleTransactionEtherC = ({ className, ...props }) => {
+  const { classes } = props;
 
   const [state, dispatch] = useContractInfo();
-  const {provider} = useContext(Web3Context);
+  const { provider } = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
-  const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
+  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
 
   const onCallMethod = async () => {
-    dispatchGlobal({type: 'set_is_loading_method'});
-    try{
-      let _params = stateMethod.methodParams.map(val => val.value);
+    dispatchGlobal({ type: 'set_is_loading_method' });
+    try {
+      const params = stateMethod.methodParams.map(val => val.value);
       let result;
-      if(!!_params.length){
-        result = await state.contract[stateMethod.methodName](..._params);
-      }else {
+      if (params.length) {
+        result = await state.contract[stateMethod.methodName](...params);
+      } else {
         result = await state.contract[stateMethod.methodName]();
       }
-      console.log('CALL METHOD RESULT:', result);
-      dispatchMethod({type: 'set_method_call_result', payload: result.toString()})
-    }catch (e) {
-      dispatchGlobal({type: 'set_global_error', payload: e.message})
+      dispatchMethod({ type: 'set_method_call_result', payload: result.toString() });
+    } catch (e) {
+      dispatchGlobal({ type: 'set_global_error', payload: e.message });
     }
-    dispatchGlobal({type: 'set_is_loading_method'});
+    dispatchGlobal({ type: 'set_is_loading_method' });
   };
 
   const onRedirectToEtherscan = () => {
     const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 'rinkeby.' : '';
     window.open(`https://${network}etherscan.io/address/${state.contractAddress}`, '_blank');
-  }
+  };
 
   return (
       <React.Fragment>
         <ContentCardWCS className={cx(
-                classes.content,
-                className
-            )}>
+          classes.content,
+          className,
+        )}>
           <div className={classes.inputContainer}>
             <InputWCS
                 className={classes.input}
                 label="Contract"
                 value={state.contractAddress}
-                error={state.contractAddress ? !checkAddress(state.contractAddress): false}
-                helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format': ''}
-                onChange={e =>
-                    dispatch({type: 'set_contract_address', payload: e.target.value})
+                error={state.contractAddress ? !checkAddress(state.contractAddress) : false}
+                helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format' : ''}
+                onChange={e => dispatch({ type: 'set_contract_address', payload: e.target.value })
                 } InputProps={{
-                  endAdornment: 
+                  endAdornment:
                     <InputAdornment position="end">
                       <RedirectButtonWCS onClick={onRedirectToEtherscan} text="View on etherscan"/>
-                    </InputAdornment>
+                    </InputAdornment>,
 
                 }}/>
             <InputWCS
@@ -77,66 +77,65 @@ const SingleTransactionEtherC = ({className, ...props}) => {
                 isQuestion={true}
                 label='Public key of a signatory'
                 value={stateMethod.publicKey}
-                error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey): false}
-                helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
-                onChange={e => {
-                  dispatchMethod({type: 'set_public_key', payload: e.target.value})}
-                }
+                error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey) : false}
+                helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format' : ''}
+                onChange={(e) => {
+                  dispatchMethod({ type: 'set_public_key', payload: e.target.value });
+                }}
                 textTip={'Account associated with the private key that will be used to sign this transaction'}/>
 
-            {!!state.contractAddress ?
-                <DetailInformation
+            {state.contractAddress
+              ? <DetailInformation
                   dispatchMethod={dispatchMethod}
                   stateContract={state}
                   stateMethod={stateMethod}
-                  recalculateButton={e =>
-                      recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/>: ''}
+                  recalculateButton={e => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
 
-            {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length ?
-                <ButtonWCS
+            {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length
+              ? <ButtonWCS
                   className={classes.button}
-                  disabled={!(!!stateMethod.publicKey &&
-                      !!state.contractAddress &&
-                      stateMethod.methodType === 'transaction')}
+                  disabled={!(!!stateMethod.publicKey
+                      && !!state.contractAddress
+                      && stateMethod.methodType === 'transaction')}
                   onClick={e => downloadOneTransaction(state, stateMethod)}>
                   Download Transaction
-                </ButtonWCS>: ''}
+                </ButtonWCS> : ''}
 
-            {stateMethod.methodType === 'call' ?
-                <ButtonWCS
+            {stateMethod.methodType === 'call'
+              ? <ButtonWCS
                   className={classes.button}
-                  disabled={!(!!state.contractAddress &&
-                      stateMethod.methodType === 'call')}
+                  disabled={!(!!state.contractAddress
+                      && stateMethod.methodType === 'call')}
                   onClick={onCallMethod}>
                   Call Method
-                </ButtonWCS>: ''}
+                </ButtonWCS> : ''}
             <RedirectMainNet currency='ether'/>
           </div>
 
           <div className={classes.informationContainer}>
-            {/*Result contract address*/}
-            {!!state.contractAddress && !!state.contractName ?
-              <DetailsWCS
+            {/* Result contract address */}
+            {!!state.contractAddress && !!state.contractName
+              ? <DetailsWCS
                   className={classes.result}
                   isLoading={stateGlobal.isLoadingMethod}
-                  details={[{'key': 'Contract name' || '', 'value': state.contractName || ''}]}/> : ''}
-            {/*Result call method*/}
-            {!!stateMethod.methodName && !!stateMethod.methodCallResult ?
-                <DetailsWCS
+                  details={[{ key: 'Contract name' || '', value: state.contractName || '' }]}/> : ''}
+            {/* Result call method */}
+            {!!stateMethod.methodName && !!stateMethod.methodCallResult
+              ? <DetailsWCS
                     className={classes.result}
                     isLoading={stateGlobal.isLoadingMethod}
-                    details={[{'key': stateMethod.methodName , 'value': stateMethod.methodCallResult || ''}]}/> : ''}
+                    details={[{ key: stateMethod.methodName, value: stateMethod.methodCallResult || '' }]}/> : ''}
           </div>
-          {/*Error snackbar*/}
-          {stateGlobal.error ?
-              <SnackbarWCS
+          {/* Error snackbar */}
+          {stateGlobal.error
+            ? <SnackbarWCS
                   message={stateGlobal.error}
                   variant='error'
                   isOpen={true}
-                  onClose={e => dispatchGlobal({type: 'set_global_error', payload: undefined})}/> : ''}
+                  onClose={e => dispatchGlobal({ type: 'set_global_error', payload: undefined })}/> : ''}
         </ContentCardWCS>
       </React.Fragment>
-  )
+  );
 };
 
 SingleTransactionEtherC.propTypes = {
