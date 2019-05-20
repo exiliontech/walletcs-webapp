@@ -21,7 +21,7 @@
     "react-web3": "^1.2.0",
     "semantic-ui-react": "^0.86.0",
     "tar": "^4.4.8",
-    "walletcs": "^0.6.12",
+    "walletcs": "^0.6.21",
     "web3": "^1.0.0-beta.48"
   },
   "scripts": {

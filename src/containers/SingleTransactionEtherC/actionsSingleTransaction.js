@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useReducer } from 'react';
-import { ethers } from 'ethers';
+import { ethers, utils } from 'ethers';
 import { checkAddress, EtherTransaction, FileTransactionGenerator } from 'walletcs';
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
@@ -158,7 +158,15 @@ const _normalizeTransferTransaction = (methodParams) => {
   for (let i = 0; i < methodParams.length; i++) {
     const l = methodParams[i];
     if (l.name === 'from') continue;
-    newTx[l.name] = l.name === 'gasPrice' ? ethers.utils.bigNumberify(l.value) : l.value;
+    if (l.name === 'value') {
+      newTx[l.name] = parseFloat(l.value);
+    } else if (l.name === 'gasPrice') {
+      newTx[l.name] = ethers.utils.bigNumberify(l.value);
+    } else if (l.name === 'nonce') {
+      newTx[l.name] = parseInt(l.value);
+    } else {
+      newTx[l.name] = l.value;
+    }
   }
   newTx.data = '0x';
   return newTx;
@@ -195,14 +203,12 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
   }
 
   const transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
-  console.log(transaction);
   const fileGenerator = new FileTransactionGenerator(publicKey);
 
   if (EtherTransaction.checkCorrectTx(transaction)) {
     fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
     fileGenerator.addContract(contractAddress, abi);
   }
-  console.log(fileGenerator, stateMethod, stateContract);
   downloadFile('tr-', fileGenerator.generateJson());
 };
 

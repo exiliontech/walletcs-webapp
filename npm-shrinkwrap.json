@@ -15986,9 +15986,9 @@
       }
     },
     "walletcs": {
-      "version": "0.6.12",
-      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-0.6.12.tgz",
-      "integrity": "sha512-As54ruY8SEeklQuyYBc6HErLSPFZ3LQYpDegTODBqg07k+UkuN0j6fDk4euBAfD8BmWa1GAF7saaplDv6fMNHA==",
+      "version": "0.6.21",
+      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-0.6.21.tgz",
+      "integrity": "sha512-L1qn8863YeNUnWa3ZZbyns6tw3nilEAcfW/W3+fO4MqXDvziSkwC19m3if1n0tLYcOiBqjZjdOIcWcTpfHeRUg==",
       "requires": {
         "@babel/plugin-proposal-class-properties": "^7.3.0",
         "@babel/register": "^7.0.0",
