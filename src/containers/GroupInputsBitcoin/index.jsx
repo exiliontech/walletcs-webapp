@@ -25,13 +25,13 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
   };
 
   const validateAddress = (address) => {
-    if (!!address && !checkBitcoinAddress(address)) {
+    if (address && !checkBitcoinAddress(address)) {
       return 'Not correct address format';
     }
-    if (process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_MAINNET' && !addressIsMainNet(address)) {
+    if (address && process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_MAINNET' && !addressIsMainNet(address)) {
       return 'Provided address is TEST network address';
     }
-    if (process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' && addressIsMainNet(address)) {
+    if (address && process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' && addressIsMainNet(address)) {
       return 'Provided address is MAIN network address';
     }
     return null;
