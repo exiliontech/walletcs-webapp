@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { checkBitcoinAddress } from 'walletcs';
+import { checkBitcoinAddress, addressIsMainNet } from 'walletcs';
 import InputWCS from '../../components/InputWCS';
 import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
@@ -28,12 +28,18 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
     if (!!address && !checkBitcoinAddress(address)) {
       return 'Not correct address format';
     }
+    if (process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_MAINNET' && !addressIsMainNet(address)) {
+      return 'Provided address is TEST network address';
+    }
+    if (process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' && addressIsMainNet(address)) {
+      return 'Provided address is MAIN network address';
+    }
     return null;
   };
 
   const onRedirectToBlockexplorer = () => {
-    const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'btc-testnet/' : '';
-    window.open(`https://live.blockcypher.com/${network}address/${state.address}/`, '_blank');
+    const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'btc-testnet' : 'btc';
+    window.open(`https://live.blockcypher.com/${network}/address/${state.from_address}/`, '_blank');
   };
 
   return (
