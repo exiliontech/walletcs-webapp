@@ -2,6 +2,7 @@ import React, { useContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { checkAddress, FileTransactionReader } from 'walletcs';
 import { withStyles } from '@material-ui/core/styles';
+import { utils } from 'ethers';
 import { broadcastReducer, initStateBroadcast } from '../../reducers';
 import Web3Context from '../../contexts/Web3Context';
 import BroadcastWCS from '../../components/BroadcastWCS';
@@ -59,13 +60,10 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     dispatch({ type: 'set_modal_open' });
   };
 
-  const onBroadcast = async (e) => {
+  const onBroadcast = async (event) => {
     try {
       for (const key in state.originTransactions) {
-        provider.sendTransaction(state.originTransactions[key].transaction).then((tx) => {
-          console.log(tx);
-        });
-        // await web3.eth.sendSignedTransaction(state.originTransactions[key].transaction)
+        await provider.sendTransaction(state.originTransactions[key].transaction);
       }
       dispatchGlobal({ type: 'set_global_success', payload: 'Success send transactions.' });
     } catch (e) {
@@ -96,6 +94,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     params.push({ key: 'gasLimit', value: transaction.gasLimit });
     params.push({ key: 'gasPrice', value: transaction.gasPrice });
     params.push({ key: 'nonce', value: transaction.nonce });
+    if (transaction.value) params.push({ key: 'value', value: utils.formatEther(transaction.value) });
     formatedData.details = params;
 
     dispatch({ type: 'set_modal_data', payload: formatedData });
@@ -107,7 +106,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
         classes={classes}
         onAttachFile={onAttachFile}
         onBroadcast={onBroadcast}
-        onCloseModel={onCloseModal}
+        onCloseModal={onCloseModal}
         onDelete={onDelete}
         onOpenModal={onOpenModal}
         parentState={state}/>

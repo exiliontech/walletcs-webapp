@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
@@ -25,7 +25,7 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 20
+    marginLeft: 20,
   },
   closeButton: {
     position: 'absolute',
@@ -35,20 +35,22 @@ const styles = theme => ({
   },
   contractAddressTitle: {
     color: '#828282',
-    marginLeft: 20
+    marginLeft: 20,
   },
   contractAddress: {
-    marginLeft: 20
-  }
+    marginLeft: 20,
+  },
 });
 
-const ModalWCS = ({className, ...props}) => {
-  const {classes, data, isOpen, onClose} = props;
-  
+const ModalWCS = ({ className, ...props }) => {
+  const {
+    classes, data, isOpen, onClose,
+  } = props;
+
   const getModalStyle = () => {
     const top = 50;
     const left = 50;
-    
+
     return {
       top: `${top}%`,
       left: `${left}%`,
@@ -70,8 +72,8 @@ const ModalWCS = ({className, ...props}) => {
                 <CloseIcon />
               </IconButton>
             </Typography>
-            {data.details.contractAddress ?
-                <>
+            {data.details.contractAddress
+              ? <>
                   <Typography className={classes.contractAddressTitle}>
                     Contract Address
                   </Typography>
@@ -80,22 +82,19 @@ const ModalWCS = ({className, ...props}) => {
                     {data.details.contractAddress}</Typography>
                 </>
               : ''}
-            {console.log( data.details.details)}
-            {!!data.details ? data.details.details.map((val) => {
-             return (
+            {data.details ? data.details.details.map(val => (
                  <React.Fragment>
                    <Typography className={classes.contractAddressTitle}>
                      {val.key}
                    </Typography>
                    <Typography variant="subtitle1" className={classes.contractAddress}>
                      {val.value}</Typography>
-                 </React.Fragment>)
-            }) : '' }
+                 </React.Fragment>)) : '' }
             <ModalWrappedWCS />
-          </div>: '' }
+          </div> : '' }
         </Modal>
       </div>
-  )
+  );
 };
 
 ModalWCS.propTypes = {
@@ -104,4 +103,4 @@ ModalWCS.propTypes = {
 
 const ModalWrappedWCS = withStyles(styles)(ModalWCS);
 
-export default ModalWrappedWCS
+export default ModalWrappedWCS;
