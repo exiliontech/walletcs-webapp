@@ -1,37 +1,41 @@
 import React from 'react';
 import cx from 'classnames';
-import {withStyles} from "@material-ui/core/es/styles";
+import { withStyles } from '@material-ui/core/es/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const MENU_ICON = {
   fontSize: 'inherit',
-  viewBox: '0 0 24 24'
+  viewBox: '0 0 16 16',
 };
 
 const styles = theme => ({
-  default:{
-    width: 24,
-    height: 24
-  }
+  default: {
+    width: 16,
+    height: 16,
+    '& path': {
+      '&:hover': {
+        fill: 'black !important',
+      },
+    },
+  },
 });
 
 
-
-const EnterIcon =({className, ...props}) => {
+const EnterIcon = ({ className, ...props }) => {
   const { classes } = props;
 
   return (
         <SvgIcon
           className={cx(
-              classes.default,
-              className
+            classes.default,
+            className,
           )}
           viewBox={MENU_ICON.viewBox}
           {...props}>
-            <path d="M18.29 15.71L13.71 20.29C13.32 20.68 12.68 20.68 12.29 20.29C11.9 19.9 11.9 19.26 12.29 18.87L15.17 16H5C4.45 16 4 15.55 4 15V5C4 4.45 4.45 4 5 4C5.55 4 6 4.45 6 5V14H15.17L12.29 11.13C11.9 10.74 11.9 10.1 12.29 9.71C12.68 9.32 13.32 9.32 13.71 9.71L18.29 14.29C18.68 14.68 18.68 15.32 18.29 15.71Z" fill="#9198A0"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM11.7071 7.29289L8.70711 4.29289C8.31658 3.90237 7.68342 3.90237 7.29289 4.29289C6.90237 4.68342 6.90237 5.31658 7.29289 5.70711L8.58579 7H4C3.44772 7 3 7.44772 3 8C3 8.55228 3.44772 9 4 9H8.58579L7.29289 10.2929C6.90237 10.6834 6.90237 11.3166 7.29289 11.7071C7.68342 12.0976 8.31658 12.0976 8.70711 11.7071L11.7071 8.70711C12.0976 8.31658 12.0976 7.68342 11.7071 7.29289Z" fill="#9198A0"/>
         </SvgIcon>
-  )
+  );
 };
 
 EnterIcon.porpTypes = {

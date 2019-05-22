@@ -1,6 +1,10 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import axios from 'axios';
 import { useContext, useEffect, useReducer } from 'react';
-import { ethers, utils } from 'ethers';
+import { ethers } from 'ethers';
 import { checkAddress, EtherTransaction, FileTransactionGenerator } from 'walletcs';
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
@@ -60,7 +64,7 @@ export const useContractInfo = () => {
 
   useEffect(() => {
     getContractInformation();
-  }, [getContractInformation, state.contractAddress]);
+  }, [state.contractAddress]);
 
   return [state, dispatch];
 };
@@ -114,62 +118,9 @@ export const useMethodInfo = (stateContract) => {
 
   useEffect(() => {
     if (state.methodName) getMethodInformation();
-  }, [getMethodInformation, state.methodName, state.publicKey]);
+  }, [state.methodName, state.publicKey]);
 
   return [state, dispatch];
-};
-
-const _normalizeContractTransaction = (publicKey, addressCon, methodParams, abi, methodName) => {
-  const defaultValues = ['gasPrice', 'gasLimit', 'nonce'];
-
-  const newTx = {};
-  const newParams = [];
-  const inter = new ethers.utils.Interface(abi);
-
-  for (let i = 0; i < methodParams.length; i++) {
-    const l = methodParams[i];
-    if (defaultValues.includes(l.name)) {
-      newTx[l.name] = l.name === 'gasPrice' ? ethers.utils.bigNumberify(l.value) : l.value;
-    } else if (inter.functions[methodName].payable && l.name === 'value') {
-      newTx[l.name] = l.value;
-    } else {
-      newParams.push(l.value);
-    }
-  }
-
-  let txData;
-
-  try {
-    txData = inter.functions[methodName].encode(newParams);
-  } catch (e) {
-    console.log(e, methodName);
-  }
-
-  newTx.data = txData;
-  newTx.to = addressCon;
-
-  return newTx;
-};
-
-
-const _normalizeTransferTransaction = (methodParams) => {
-  const newTx = {};
-
-  for (let i = 0; i < methodParams.length; i++) {
-    const l = methodParams[i];
-    if (l.name === 'from') continue;
-    if (l.name === 'value') {
-      newTx[l.name] = parseFloat(l.value);
-    } else if (l.name === 'gasPrice') {
-      newTx[l.name] = ethers.utils.bigNumberify(l.value);
-    } else if (l.name === 'nonce') {
-      newTx[l.name] = parseInt(l.value);
-    } else {
-      newTx[l.name] = l.value;
-    }
-  }
-  newTx.data = '0x';
-  return newTx;
 };
 
 export const downloadFile = (name, data) => {
@@ -202,7 +153,7 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     }
   }
 
-  const transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
+  const transaction = EtherTransaction.createTx(publicKey, contractAddress, methodParams, abi, methodName);
   const fileGenerator = new FileTransactionGenerator(publicKey);
 
   if (EtherTransaction.checkCorrectTx(transaction)) {
@@ -234,20 +185,12 @@ const calculateGasLimit = async (transaction, params, publicKey, provider) => {
   return params;
 };
 
-export const normalize = (publicKey, contractAddress, methodParams, abi, methodName) => {
-  // Normalization for transaction params
-  if (methodParams.find(val => val.name === 'from')) {
-    return _normalizeTransferTransaction(methodParams);
-  }
-  return _normalizeContractTransaction(publicKey, contractAddress, methodParams, abi, methodName);
-};
-
 export const recalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
   // Recalculate gasLimit
   const { contractAddress, abi } = stateContract || { contractAddress: null, abi: null };
   const { methodParams, methodName, publicKey } = stateMethod;
 
-  const transaction = normalize(publicKey, contractAddress, methodParams, abi, methodName);
+  const transaction = EtherTransaction.createTx(publicKey, contractAddress, methodParams, abi, methodName);
 
   const params = await calculateGasLimit(transaction, stateMethod.methodParams, publicKey, provider);
   dispatchMethod({ type: 'set_params', payload: params });

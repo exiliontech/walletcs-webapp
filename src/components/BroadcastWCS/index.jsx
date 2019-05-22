@@ -1,66 +1,74 @@
-import React, {useContext} from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, { useContext } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
-import ContentCardWCS from "../../components/ContentCardWCS";
-import InputWCS from "../../components/InputWCS";
-import ModalWrappedWCS from "../../components/ModalWCS";
-import TableWCS from "../../components/TableWCS";
-import ButtonWCS from "../../components/ButtonWCS";
-import SnackbarWCS from "../../components/SnackbarWCS";
 import UploadCloudIcon from '@material-ui/icons/CloudUpload';
-import {IconButton, InputAdornment} from "@material-ui/core";
-import GlobalReducerContext from "../../contexts/GlobalReducerContext"
+import { IconButton, InputAdornment } from '@material-ui/core';
+import ContentCardWCS from '../../components/ContentCardWCS';
+import InputWCS from '../../components/InputWCS';
+import ModalWrappedWCS from '../../components/ModalWCS';
+import TableWCS from '../../components/TableWCS';
+import ButtonWCS from '../../components/ButtonWCS';
+import SnackbarWCS from '../../components/SnackbarWCS';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import RedirectMainNet from '../../components/RedirectMainNet';
 
 
 const styles = theme => ({
-  uploadIcon:{
-    color: 'rgb(145, 152, 160) !important'
-
-  }
+  uploadIcon: {
+    color: 'rgb(145, 152, 160) !important',
+    '& path': {
+      '&:hover': {
+        fill: 'black !important',
+      },
+    },
+  },
 });
 
-const BroadcastWCS = ({className, ...props}) => {
+const BroadcastWCS = ({ className, ...props }) => {
   const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
-  const { classes, parentState, onOpenModal, onAttachFile, onDelete } = props;
+  const {
+    classes, parentState, onOpenModal, onAttachFile, onDelete,
+  } = props;
   const { onCloseModal, onBroadcast } = props;
 
   const clearError = () => {
-    dispatchGlobal({type: 'set_global_error', payload: undefined})
+    dispatchGlobal({ type: 'set_global_error', payload: null });
   };
 
   const clearSuccess = () => {
-    dispatchGlobal({type: 'set_global_success', payload: undefined})
+    dispatchGlobal({ type: 'set_global_success', payload: null });
   };
 
   return (
       <React.Fragment>
         <ContentCardWCS
             className={cx(
-                classes.content,
-                className
+              classes.content,
+              className,
             )} key="broadcastTransaction">
           <div className={classes.inputContainer}>
             <InputWCS
                 key="loadFiles"
                 className={classes.input}
-                label={parentState.filename? '': 'Load Transactions File'}
+                label={parentState.filename ? '' : 'Load Transactions File'}
                 value={parentState.filename}
                 disabled={true}
-                InputProps={{endAdornment: (
+                InputProps={{
+                  endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton  htmlFor="input-file-download" component="label">
+                        <IconButton htmlFor="input-file-download" component="label">
                           <UploadCloudIcon className={classes.uploadIcon}/>
                           <input
                               id="input-file-download"
                               type="file"
-                              style={{display: 'none'}}
+                              style={{ display: 'none' }}
                               onChange={onAttachFile} />
                         </IconButton>
                       </InputAdornment>
-                  )}}/>
+                  ),
+                }}/>
             <TableWCS
                 headers={['CONTRACT', 'METHOD']}
                 isDelete={true}
@@ -69,15 +77,15 @@ const BroadcastWCS = ({className, ...props}) => {
                 rows={parentState.rows || []}/>
             <ButtonWCS
                 className={classes.button}
-                disabled={!parentState.table.length}
+                disabled={!parentState.table.length || parentState.success}
                 onClick={onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>
             <RedirectMainNet />
           </div>
         </ContentCardWCS>
-        {stateGlobal.error ?
-            <SnackbarWCS
+        {stateGlobal.error
+          ? <SnackbarWCS
                 key="LoadTransactionError"
                 message={stateGlobal.error}
                 variant='error'
@@ -85,8 +93,8 @@ const BroadcastWCS = ({className, ...props}) => {
                 onExited={clearError}
                 onClose={clearError}/> : ''}
 
-        {stateGlobal.success ?
-            <SnackbarWCS
+        {stateGlobal.success
+          ? <SnackbarWCS
                 key="LoadTransactionSuccess"
                 message={stateGlobal.success}
                 variant='success'
@@ -94,13 +102,13 @@ const BroadcastWCS = ({className, ...props}) => {
                 onExited={clearSuccess}
                 onClose={clearSuccess}/> : ''}
 
-        {parentState.modalIsOpen ?
-            <ModalWrappedWCS
+        {parentState.modalIsOpen
+          ? <ModalWrappedWCS
                 isOpen={parentState.modalIsOpen}
                 onClose={onCloseModal}
-                data={{header: 'Transaction information', details: parentState.modalData}}/>: '' }
+                data={{ header: 'Transaction information', details: parentState.modalData }}/> : '' }
       </React.Fragment>
-  )
+  );
 };
 
 BroadcastWCS.propTypes = {

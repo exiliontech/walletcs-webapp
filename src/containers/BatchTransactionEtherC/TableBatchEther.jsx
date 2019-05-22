@@ -1,74 +1,80 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
-import {checkAddress, FileTransactionGenerator, EtherTransaction} from "walletcs"
+import { withStyles } from '@material-ui/core/styles';
+import { checkAddress, FileTransactionGenerator, EtherTransaction } from 'walletcs';
 
-import InputWCS from "../../components/InputWCS";
-import {Button} from "@material-ui/core";
-import {downloadFile, normalize} from "../SingleTransactionEtherC/actionsSingleTransaction";
-import ContentCardWCS from "../../components/ContentCardWCS";
-import TableWCS from "../../components/TableWCS";
-import ButtonWCS from "../../components/ButtonWCS";
-import ModalWrappedWCS from "../../components/ModalWCS"
+import InputWCS from '../../components/InputWCS';
+import { Button } from '@material-ui/core';
+import { downloadFile } from '../SingleTransactionEtherC/actionsSingleTransaction';
+import ContentCardWCS from '../../components/ContentCardWCS';
+import TableWCS from '../../components/TableWCS';
+import ButtonWCS from '../../components/ButtonWCS';
+import ModalWrappedWCS from '../../components/ModalWCS';
 import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({
 });
 
-const TableBatchEther = ({className, ...props}) => {
-  const {stateContract, dispatchContract, stateMethod, dispatchMethod, classes} = props;
+const TableBatchEther = ({ className, ...props }) => {
+  const {
+    stateContract, dispatchContract, stateMethod, dispatchMethod, classes,
+  } = props;
+  const { onAddTransation, onAddTransfer } = props;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState([]);
 
   const onCloseModal = () => {
-    setModalIsOpen(false)
+    setModalIsOpen(false);
   };
 
   const downloadBatchTransaction = () => {
-    let {table} = stateContract;
-    let {publicKey} = stateMethod;
+    const { table } = stateContract;
+    const { publicKey } = stateMethod;
 
-    let fileGenerator = new FileTransactionGenerator(publicKey);
+    const fileGenerator = new FileTransactionGenerator(publicKey);
 
-    for(let key in table){
-      const {contractAddress, params, abi, methodName} = table[key];
+    for (const key in table) {
+      const {
+        contractAddress, params, abi, methodName,
+      } = table[key];
 
-      let transaction = normalize(publicKey, contractAddress, params, abi, methodName);
-      if(EtherTransaction.checkCorrectTx(transaction)){
+      const transaction = EtherTransaction.createTx(publicKey, contractAddress, params, abi, methodName);
+      if (EtherTransaction.checkCorrectTx(transaction)) {
         fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
         fileGenerator.addContract(contractAddress, abi);
       }
     }
-    downloadFile('tr-', fileGenerator.generateJson())
+    downloadFile('tr-', fileGenerator.generateJson());
   };
 
   const onOpenModal = (index) => {
-
-    let data = stateContract.table[index];
-    let formatedData = {details: []};
+    const data = stateContract.table[index];
+    const formatedData = { details: [] };
     formatedData.contractAddress = data.contractAddress;
 
-    for(let key in data.params){
-      let obj = {};
-      obj['key'] = data.params[key].name;
-      obj['value'] = data.params[key].value;
-      formatedData.details.push(obj)
+    for (const key in data.params) {
+      const obj = {};
+      obj.key = data.params[key].name;
+      obj.value = data.params[key].value;
+      formatedData.details.push(obj);
     }
 
     setModalData(formatedData);
-    setModalIsOpen(true)
+    setModalIsOpen(true);
   };
 
   const onDelete = (index) => {
-    dispatchContract({type: 'delete_from_table', payload: index});
+    dispatchContract({ type: 'delete_from_table', payload: index });
   };
 
   return (
       <ContentCardWCS
           className={cx(
-              classes.content,
-              className
+            classes.content,
+            className,
           )}>
         <div className={classes.inputContainer}>
 
@@ -78,10 +84,11 @@ const TableBatchEther = ({className, ...props}) => {
               isQuestion={true}
               label='Public key of a signatory'
               value={stateMethod.publicKey}
-              error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey): false}
-              helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format': ''}
-              onChange={e => {
-                dispatchMethod({type: 'set_public_key', payload: e.target.value})}
+              error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey) : false}
+              helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format' : ''}
+              onChange={(e) => {
+                dispatchMethod({ type: 'set_public_key', payload: e.target.value });
+              }
               } textTip='Аccount associated with the private key that will be used to sign this transaction' />
 
           <TableWCS
@@ -94,12 +101,12 @@ const TableBatchEther = ({className, ...props}) => {
           <div className={classes.containerAddTransaction}>
             <Button
                 color="secondary"
-                onClick={props.onAddTransation}>
+                onClick={onAddTransation}>
               Add Transaction
             </Button>
             <Button
                 color="secondary"
-                onClick={props.onAddTransfer}>
+                onClick={onAddTransfer}>
               Add Transfer
             </Button>
           </div>
@@ -115,9 +122,9 @@ const TableBatchEther = ({className, ...props}) => {
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}
             onClose={onCloseModal}
-            data={{header: 'Transaction information', details: modalData}}/>: '' }
+            data={{ header: 'Transaction information', details: modalData }}/> : '' }
       </ContentCardWCS>
-  )
+  );
 };
 
 TableBatchEther.propTypes = {

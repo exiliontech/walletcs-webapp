@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
-import {InputAdornment} from '@material-ui/core'
-import TextField from "@material-ui/core/es/TextField/TextField";
+import { withStyles } from '@material-ui/core/styles';
+import { InputAdornment } from '@material-ui/core';
+import TextField from '@material-ui/core/es/TextField/TextField';
 import QuestionToolTipWCS from '../QuestionToolTipWCS';
 
 const INPUT_FIELD = {
   root: 'root',
   variant: 'outlined',
   type: 'text',
-  margin: 'normal'
+  margin: 'normal',
 };
 
 const styles = theme => ({
@@ -22,53 +22,54 @@ const styles = theme => ({
       backgroundColor: '#FFFFFF',
     },
     '& input': {
-      paddingTop: 30
+      paddingTop: 30,
     },
     '& label': {
-      fontSize:  '16px !important',
+      fontSize: '16px !important',
       color: '#6E7782 !important',
       paddingTop: '5px',
-      // '&:first-of-type': {
-      //   transform: 'translate(12px, 25px) scale(1)',
-      // },
-      // paddingTop: 7,
-      '&:hover' : {
-        backgroundColor: '#FFFFFF'
-      }
+      '&:hover': {
+        backgroundColor: '#FFFFFF',
+      },
+      '& svg': {
+        paddingTop: '5px',
+      },
     },
-    '& legend':{
-      width:  '0 !important',
-    }
+    '& legend': {
+      width: '0 !important',
+    },
   },
   error: {
-    margin: 1
-  }
+    margin: 1,
+  },
 });
 
-const InputWCS = ({className, ...props}) => {
-  const {classes} = props;
+const InputWCS = ({ className, ...props }) => {
+  const { classes } = props;
 
   return (
       <TextField
         className={cx(
-            INPUT_FIELD.root,
-            classes.default,
-            className
+          INPUT_FIELD.root,
+          classes.default,
+          className,
         )}
         variant={INPUT_FIELD.variant}
         type={INPUT_FIELD.type}
         margin={INPUT_FIELD.margin}
-        label={props.label ? props.label: ''}
-        InputLabelProps={{variant: 'filled', classes: props.classes, }}
-        FormHelperTextProps={{error: classes.error, ...props}}
-        error={!!props.validator ? !!props.validator(props.value): null}
-        helperText={!!props.validator ? props.validator(props.value): null}
-        InputProps={{endAdornment: props.isQuestion ? (
+        label={props.label ? props.label : ''}
+        InputLabelProps={{ variant: 'filled', classes: props.classes }}
+        FormHelperTextProps={{ error: classes.error, ...props }}
+        error={props.validator ? !!props.validator(props.value) : null}
+        helperText={props.validator ? props.validator(props.value) : null}
+        InputProps={{
+          endAdornment: props.isQuestion ? (
               <InputAdornment position="start">
                 <QuestionToolTipWCS text={props.textTip}/>
               </InputAdornment>
-          ): ''}} {...props}/>
-  )
+          ) : '',
+        }} {...props}/>
+  );
 };
 
 InputWCS.propTypes = {

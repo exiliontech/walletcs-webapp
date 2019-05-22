@@ -14,7 +14,6 @@ import {
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import RedirectMainNet from '../../components/RedirectMainNet';
-import EnterButtonIcon from '../../components/RedirectButtonWCS';
 
 import { styles } from './styles';
 import DetailInformation from './DetailInformation';
@@ -90,7 +89,7 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   stateContract={state}
                   stateMethod={stateMethod}
                   recalculateButton={e => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
-
+            {console.log(stateMethod)}
             {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length
               ? <ButtonWCS
                   className={classes.button}

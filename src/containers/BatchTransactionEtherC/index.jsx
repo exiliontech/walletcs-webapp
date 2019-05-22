@@ -1,22 +1,22 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import {checkAddress} from "walletcs";
-import SnackbarWCS from "../../components/SnackbarWCS";
-import {useContractInfo, useMethodInfo} from '../SingleTransactionEtherC/actionsSingleTransaction'
-import GlobalReducerContext from "../../contexts/GlobalReducerContext";
-import AddTransactionEther from "./AddTransactionEther";
-import TableBatchEther from "./TableBatchEther";
-import AddTransferEther from "./AddTransferEther";
+import { checkAddress } from 'walletcs';
+import SnackbarWCS from '../../components/SnackbarWCS';
+import { useContractInfo, useMethodInfo } from '../SingleTransactionEtherC/actionsSingleTransaction'
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
+import AddTransactionEther from './AddTransactionEther';
+import TableBatchEther from './TableBatchEther';
+import AddTransferEther from './AddTransferEther';
 
-import {styles} from './styles';
+import { styles } from './styles';
 
-const BatchTransactionEtherC = ({className, ...props}) => {
-  const {classes} = props;
+const BatchTransactionEtherC = ({ className, ...props }) => {
+  const { classes } = props;
   const [state, dispatch] = useContractInfo();
   const [stateMethod, dispatchMethod] = useMethodInfo(state, dispatch);
-  const {stateGlobal, dispatchGlobal} = useContext(GlobalReducerContext);
+  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
   
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [isAddTransfer, setIsAddTransfer] = useState(false);
@@ -59,9 +59,9 @@ const BatchTransactionEtherC = ({className, ...props}) => {
               message={state.error}
               variant='error'
               isOpen={true}
-              onClose={e => dispatchGlobal({type: 'set_global_error', payload: undefined})}/> : ''}
+              onClose={() => dispatchGlobal({ type: 'set_global_error', payload: null })}/> : ''}
           </React.Fragment>
-  )
+  );
 };
 
 BatchTransactionEtherC.propTypes = {
