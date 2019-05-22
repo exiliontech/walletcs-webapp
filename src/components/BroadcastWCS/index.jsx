@@ -81,7 +81,6 @@ const BroadcastWCS = ({ className, ...props }) => {
                 onClick={onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>
-            <RedirectMainNet />
           </div>
         </ContentCardWCS>
         {stateGlobal.error

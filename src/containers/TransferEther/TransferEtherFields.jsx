@@ -54,7 +54,7 @@ const EtherTransferFields = ({ className, ...props }) => {
                           if (!val.payable && val.name === 'value') {
                             return true;
                           }
-                          return !['nonce', 'gasLimit', 'gasPrice'].includes(val.name)
+                          return !['nonce', 'gasLimit', 'gasPrice'].includes(val.name);
                         })}
                         additionalInputs={stateMethod.methodParams.filter((val) => {
                           if (val.payable && val.name === 'value') {

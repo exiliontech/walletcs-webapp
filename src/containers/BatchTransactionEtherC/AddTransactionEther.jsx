@@ -91,7 +91,6 @@ classes, stateContract, dispatchContract, stateMethod, dispatchMethod
               Cancel
             </ButtonWCS>
           </div>
-          <RedirectMainNet />
         </div>
       </ContentCardWCS>
   );

@@ -1,9 +1,10 @@
+// eslint-disable-next-line import/prefer-default-export
 export const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.primary.main,
     color: '#9198A0',
-    minHeight: 72
+    minHeight: 72,
   },
   tabsSecondary: {
     borderBottom: '1px solid #e8e8e8',
@@ -13,7 +14,7 @@ export const styles = theme => ({
   },
   rowHeader: {
     display: 'flex',
-    maxHeight: 72
+    maxHeight: 72,
   },
   tabRoot: {
     display: 'flex',
@@ -52,12 +53,12 @@ export const styles = theme => ({
         color: '#FFFFFF',
         opacity: 1,
       },
-    }
+    },
   },
   tabSelected: {
     fontWeight: 'bold',
     color: '#FFFFFF',
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   typography: {
     padding: theme.spacing.unit * 3,
@@ -65,70 +66,85 @@ export const styles = theme => ({
   appBar: {
     flexGrow: 1,
     height: 138,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
   },
   container: {
     height: 138,
-    '& header':{
+    '& header': {
       display: 'flex',
-      flexDirection: 'row'
-    }
+      flexDirection: 'row',
+    },
   },
   logo: {
     width: 292,
     height: 72,
     '& svg:first-child': {
-      fontSize: 24
+      fontSize: 24,
     },
-    display: 'flex'
+    display: 'flex',
   },
   menu: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   secondary: {
     marginLeft: 292,
     minHeight: 64,
     display: 'flex',
-    '& a + a':{
-      marginLeft: 22
-    }
+    '& a + a': {
+      marginLeft: 22,
+    },
   },
-  
+
   link: {
     cursor: 'pointer',
     height: 60,
-    '&:hover':{
+    '&:hover': {
       '& div': {
         color: theme.palette.primary.main,
-      }
+      },
     },
-    '& div':{
+    '& div': {
       color: '#9198A0',
       fontSize: 16,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     },
-    paddingBottom: '0 !important'
+    paddingBottom: '0 !important',
   },
-  
+
   linkSelected: {
     borderBottom: '4px solid #26CD58',
     color: '#FFFFFF',
-    
-    '& div':{
+
+    '& div': {
       color: theme.palette.primary.main,
       fontSize: 16,
-      fontWeight: 'bold'
-    }
+      fontWeight: 'bold',
+    },
   },
-  
+
   textWallet: {
     fontSize: '220px !important',
-    alignSelf: 'start'
+    alignSelf: 'start',
   },
   primaryLabel: {
     alignSelf: 'start',
-    padding: 0
-  }
+    padding: 0,
+  },
+  rightPartHeader: {
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'rows',
+    '& span': {
+      paddingBottom: 10,
+    },
+    '& button': {
+      '&:hover': {
+        color: '#FFFFFF',
+        opacity: 1,
+      },
+    },
+    paddingLeft: 400,
+  },
 });

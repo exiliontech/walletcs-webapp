@@ -4,14 +4,15 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {styles} from './styles'
+import { styles } from './styles';
 import TextIconWCS from './TextIconWCS';
 import BitcoinHeader from './BitcoinHeader';
 import EtherHeader from './EtherHeader';
+import ToggleButtonWCS from '../ToggleButtonWCS';
 
-const Index = ({className, ...props}) => {
-  const {classes, links} = props;
-  
+const Index = ({ className, ...props }) => {
+  const { classes, links } = props;
+
   return (
       <>
         <div className={classes.container}>
@@ -29,16 +30,25 @@ const Index = ({className, ...props}) => {
                     <Tab
                         value='ether'
                         disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel}}
+                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel }}
                         label="ETH - Ethereum"
-                        onClick={e => props.handleCurrency('ether')}/>
+                        onClick={() => props.handleCurrency('ether')}/>
                     <Tab
                         value='bitcoin'
                         disableRipple
                         classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel }}
                         label="BTC - Bitcoin"
-                        onClick={e => {props.handleCurrency('bitcoin')}}/>
+                        onClick={() => props.handleCurrency('bitcoin')}/>
                   </Tabs>
+                  <div className={classes.rightPartHeader}>
+                  <Tab
+                        value='support'
+                        disableRipple
+                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.primaryLabel }}
+                        label="Support"
+                        onClick={() => window.open('https://github.com/ExilionTechnologies/walletcs-app/blob/master/README.md#getting-support', '_blank')}/>
+                      <ToggleButtonWCS />
+                  </div>
                 </div>
               </div>
               <div className={classes.secondary}>
@@ -48,7 +58,7 @@ const Index = ({className, ...props}) => {
           </AppBar>
         </div>
       </>
-  )
+  );
 };
 
 Index.propTypes = {

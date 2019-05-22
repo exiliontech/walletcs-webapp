@@ -37,11 +37,6 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
     return null;
   };
 
-  const onRedirectToBlockexplorer = () => {
-    const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'btc-testnet' : 'btc';
-    window.open(`https://live.blockcypher.com/${network}/address/${state.from_address}/`, '_blank');
-  };
-
   return (
       <React.Fragment>
           <InputWCS
@@ -51,20 +46,17 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
               validator={validateAddress}
               onChange={(e) => {
                 dispatch({ type: 'set_from', payload: e.target.value });
-              }} InputProps={{
-                endAdornment:
-                  <InputAdornment position="end">
-                    <RedirectButtonWCS onClick={onRedirectToBlockexplorer} text="View on blockexplorer"/>
-                  </InputAdornment>,
-
-              }}/>
+              }}
+              isRedirect />
           <InputWCS
               className={classes.input}
               label="to"
               value={state.to_address}
               validator={validateAddress}
               onChange={e => dispatch({ type: 'set_to', payload: e.target.value })
-              }/>
+              }
+              isRedirect
+              />
           <InputWCS
               className={classes.input}
               label="amount"

@@ -88,8 +88,10 @@ const TableBatchEther = ({ className, ...props }) => {
               helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format' : ''}
               onChange={(e) => {
                 dispatchMethod({ type: 'set_public_key', payload: e.target.value });
-              }
-              } textTip='Аccount associated with the private key that will be used to sign this transaction' />
+              }}
+              isQuestion
+              isRedirect
+              textQuestionTip='Аccount associated with the private key that will be used to sign this transaction' />
 
           <TableWCS
               headers={['CONTRACT', 'METHOD']}
@@ -117,7 +119,6 @@ const TableBatchEther = ({ className, ...props }) => {
               onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
-          < RedirectMainNet />
         </div>
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}

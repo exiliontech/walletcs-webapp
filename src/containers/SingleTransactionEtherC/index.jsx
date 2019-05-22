@@ -45,11 +45,6 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
     dispatchGlobal({ type: 'set_is_loading_method' });
   };
 
-  const onRedirectToEtherscan = () => {
-    const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 'rinkeby.' : '';
-    window.open(`https://${network}etherscan.io/address/${state.contractAddress}`, '_blank');
-  };
-
   return (
       <React.Fragment>
         <ContentCardWCS className={cx(
@@ -64,13 +59,10 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                 error={state.contractAddress ? !checkAddress(state.contractAddress) : false}
                 helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format' : ''}
                 onChange={e => dispatch({ type: 'set_contract_address', payload: e.target.value })
-                } InputProps={{
-                  endAdornment:
-                    <InputAdornment position="end">
-                      <RedirectButtonWCS onClick={onRedirectToEtherscan} text="View on etherscan"/>
-                    </InputAdornment>,
-
-                }}/>
+                }
+                isRedirect
+                isQuestion
+                textQuestionTip='Address associated with the contract on a blockchain'/>
             <InputWCS
                 className={classes.input}
                 isQuestion={true}
@@ -81,7 +73,9 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                 onChange={(e) => {
                   dispatchMethod({ type: 'set_public_key', payload: e.target.value });
                 }}
-                textTip={'Account associated with the private key that will be used to sign this transaction'}/>
+                isRedirect
+                isQuestion
+                textQuestionTip={'Account associated with the private key that will be used to sign this transaction'}/>
 
             {state.contractAddress
               ? <DetailInformation
@@ -89,7 +83,6 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   stateContract={state}
                   stateMethod={stateMethod}
                   recalculateButton={e => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
-            {console.log(stateMethod)}
             {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length
               ? <ButtonWCS
                   className={classes.button}
@@ -108,7 +101,6 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   onClick={onCallMethod}>
                   Call Method
                 </ButtonWCS> : ''}
-            <RedirectMainNet currency='ether'/>
           </div>
 
           <div className={classes.informationContainer}>

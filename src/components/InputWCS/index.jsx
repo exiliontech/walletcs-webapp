@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { InputAdornment } from '@material-ui/core';
 import TextField from '@material-ui/core/es/TextField/TextField';
 import QuestionToolTipWCS from '../QuestionToolTipWCS';
+import RedirectButtonWCS from '../RedirectButtonWCS';
+import CurrencyViewiers from './actions';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 
 const INPUT_FIELD = {
   root: 'root',
@@ -45,7 +48,13 @@ const styles = theme => ({
 });
 
 const InputWCS = ({ className, ...props }) => {
-  const { classes } = props;
+  const { currentCurrency } = useContext(GlobalReducerContext);
+  const {
+    classes, isQuestion, label, validator, value,
+  } = props;
+  const {
+    isRedirect, onRedirectClick, textQuestionTip,
+  } = props;
 
   return (
       <TextField
@@ -57,15 +66,19 @@ const InputWCS = ({ className, ...props }) => {
         variant={INPUT_FIELD.variant}
         type={INPUT_FIELD.type}
         margin={INPUT_FIELD.margin}
-        label={props.label ? props.label : ''}
-        InputLabelProps={{ variant: 'filled', classes: props.classes }}
+        label={label || ''}
+        InputLabelProps={{ variant: 'filled', classes }}
         FormHelperTextProps={{ error: classes.error, ...props }}
-        error={props.validator ? !!props.validator(props.value) : null}
-        helperText={props.validator ? props.validator(props.value) : null}
+        error={validator ? !!validator(value) : null}
+        helperText={validator ? validator(value) : null}
+        onRedirectClicc={onRedirectClick}
         InputProps={{
-          endAdornment: props.isQuestion ? (
+          endAdornment: isQuestion || isRedirect ? (
               <InputAdornment position="start">
-                <QuestionToolTipWCS text={props.textTip}/>
+                {isRedirect ? <RedirectButtonWCS
+                text={CurrencyViewiers[currentCurrency].text}
+                onClick={() => CurrencyViewiers[currentCurrency].redirect(value)}/> : ''}
+                {isQuestion ? <QuestionToolTipWCS text={textQuestionTip}/> : ''}
               </InputAdornment>
           ) : '',
         }} {...props}/>
@@ -75,8 +88,12 @@ const InputWCS = ({ className, ...props }) => {
 InputWCS.propTypes = {
   classes: PropTypes.object.isRequired,
   isQuestion: PropTypes.bool,
+  isRedirect: PropTypes.bool,
   label: PropTypes.string,
   validator: PropTypes.func,
+  textRedirectTip: PropTypes.string,
+  textQuestionTip: PropTypes.string,
+  onRedirectClick: PropTypes.func,
 };
 
 export default withStyles(styles)(InputWCS);

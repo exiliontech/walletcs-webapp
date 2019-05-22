@@ -13,6 +13,7 @@ const styles = theme => ({
   default: {
     width: 16,
     height: 16,
+    padding: 8,
     '& path': {
       '&:hover': {
         fill: 'black !important',

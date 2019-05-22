@@ -45,7 +45,6 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
                 onClick={generateFile}>
               Download Transaction
             </ButtonWCS>
-            <RedirectMainNet />
           </div>
         </ContentCardWCS>
   );

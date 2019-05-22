@@ -10,6 +10,7 @@ import WalletCSTheme from './themes';
 import Header from './components/Header';
 import Web3Context from './contexts/Web3Context';
 import GlobalReducerContext from './contexts/GlobalReducerContext';
+import RedirectMainNet from './components/RedirectMainNet';
 import { globalReducer, initStateGlobal } from './reducers';
 import { BITCOIN_LINKS, LINKS, ETHER_LINKS } from './links';
 
@@ -64,6 +65,7 @@ const App = () => {
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>
+            <RedirectMainNet />
           </div>
         </Router>
   );

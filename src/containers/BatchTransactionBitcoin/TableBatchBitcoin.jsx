@@ -82,7 +82,6 @@ const TableBatchBitcoin = ({className, ...props}) => {
               onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
-          <RedirectMainNet />
         </div>
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}

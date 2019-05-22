@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { checkAddress } from 'walletcs';
 import { withStyles } from "@material-ui/core/styles";
 import InputWCS from '../InputWCS'
 import SecondaryInputWCS from '../SecondaryInputWCS';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 
 const styles = theme => ({
   mainArea: {
@@ -26,7 +26,11 @@ const styles = theme => ({
 });
 
 const ParamsAreaWCS = ({ className, ...props }) => {
-  const { classes, mainInputs, additionalInputs, onChange, isLoading, button} = props;
+  const {
+    classes, mainInputs, additionalInputs, onChange 
+  } = props;
+  const { currentCurrency } = useContext(GlobalReducerContext);
+  const { onRedirectClick } = props;
   const textTips = {
     gasLimit: 'Maximum amount of gas you\'re willing to spend on this transaction',
     gasPrice: 'Amount of Ether you\'re willing to pay for every unit of gas, in GWEI',
@@ -61,12 +65,12 @@ const ParamsAreaWCS = ({ className, ...props }) => {
           {mainInputs.map((val, index) => <InputWCS
                 key={val.name + index.toString()}
                 className={classes.mainInput}
-                label={val.name}
+                label={`${val.name} (${val.type})`}
                 error={val.value ? !validation(val.value, val.type) : false}
                 onChange={e => onChange(e.target.value, val.name)}
                 value={val.value}
-                InputProps={{ endAdornment: <InputAdornment position="end">{val.type}</InputAdornment> }
-                }/>)}
+                isRedirect={val.type === 'address'}
+                />)}
         </div>
         {additionalInputs
           ? <div className={classes.additionalArea}>
@@ -96,6 +100,7 @@ ParamsAreaWCS.propTypes = {
   onChange: PropTypes.func,
   mainInputs: PropTypes.array,
   isLoading: PropTypes.bool,
+  onRedirectClick: PropTypes.func,
 };
 
 export default withStyles(styles)(ParamsAreaWCS);

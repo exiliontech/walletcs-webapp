@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
-import { IconButton } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import { IconButton } from '@material-ui/core';
 import QuestionIcon from './QuestionIcon';
 import ToolTipsWCS from '../ToolTipsWCS';
 
 const styles = theme => ({
   iconButton: {
-    width: 16,
-    height: 16,
-    paddingBottom: 14,
-    backgroundColor: 'none',
-    borderRadius: 0,
+    padding: '8px !important',
     '&:hover': {
       backgroundColor: '#FFFFFF',
+    },
+    '& span': {
+      width: 16,
     },
   },
 });
@@ -23,8 +22,8 @@ const QuestionToolTipWCS = ({ className, ...props }) => {
   return (
     <ToolTipsWCS {...props}>
       <IconButton aria-label="Toggle tip" className={classes.iconButton}>
-          <QuestionIcon/>
-        </IconButton>
+        <QuestionIcon/>
+      </IconButton>
     </ToolTipsWCS>
   );
 };

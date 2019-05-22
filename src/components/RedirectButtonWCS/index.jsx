@@ -7,13 +7,13 @@ import ToolTipsWCS from '../ToolTipsWCS';
 
 const styles = theme => ({
   iconButton: {
+    padding: '8px !important',
     '&:hover': {
       backgroundColor: '#FFFFFF',
     },
-  },
-  bootstrapPlacementBottom: {
-    margin: '0 0',
-
+    '& span' : {
+      width: 16,
+    },
   },
 });
 

@@ -51,7 +51,6 @@ const AddBitcoinTransaction = ({ className, ...props }) => {
                    Cancel
                  </ButtonWCS>
                </div>
-               <RedirectMainNet />
           </div>
       </ContentCardWCS>
   );

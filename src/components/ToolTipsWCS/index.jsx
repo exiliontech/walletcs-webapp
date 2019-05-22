@@ -89,15 +89,15 @@ const styles = theme => ({
     margin: '8px 0',
   },
   bootstrapPlacementBottom: {
-    margin: '8px 0',
-  }
+    margin: '0 0',
+  },
 });
 
-const ToolTipWCS = ({className, ...props}) => {
-  const {classes, children} = props;
+const ToolTipWCS = ({ className, ...props }) => {
+  const { classes, children } = props;
   const [arrowRef, setArrowRef] = useState(undefined);
 
-  const handleArrowRef = node => {
+  const handleArrowRef = (node) => {
     setArrowRef(node);
   };
 
@@ -129,7 +129,7 @@ const ToolTipWCS = ({className, ...props}) => {
           }}>
         {children}
       </Tooltip>
-  )
+  );
 };
 
 ToolTipWCS.propTypes = {
