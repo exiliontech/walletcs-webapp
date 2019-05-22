@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -21,7 +21,7 @@ const Index = ({ className, ...props }) => {
               <div className={classes.root}>
                 <div className={classes.rowHeader}>
                   <div className={classes.logo}>
-                    {/*<IconWCS className={classes.wallet}/>*/}
+                    {/*<IconWCS className={classes.wallet}/> */}
                     <TextIconWCS className={classes.textWallet}/>
                   </div>
                   <Tabs

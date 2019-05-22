@@ -48,7 +48,7 @@ const ToggleButtonWCS = ({ className, ...props }) => {
         <ToggleButtonGroup value={process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby' ? 'test' : 'main'} className={classes.ToggleButtonGroup}>
           <ToggleButton
             value="main"
-            className={cx(classes.toggleButton, process.env.REACT_APP_ETH_NETWORK_SEND === 'main' ? classes.toggleButtonActive : classes.toggleButtonNotActive) }
+            className={cx(classes.toggleButton, process.env.REACT_APP_ETH_NETWORK_SEND === 'homestead' ? classes.toggleButtonActive : classes.toggleButtonNotActive) }
             onClick={() => window.open(`https://app.walletcs.com${window.location.pathname}`, '_self')}
             >
             Mainnet
