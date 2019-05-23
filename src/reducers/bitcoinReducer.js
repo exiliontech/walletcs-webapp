@@ -15,6 +15,8 @@ export const bitcoinReducer = (state, action) => {
       return ({ ...state, amount: action.payload });
     case 'set_table':
       return ({ ...state, table: action.payload });
+    case 'reset_data':
+      return ({ ...initStateBitcoin, from_address: state.from_address });
     case 'add_to_table':
       let {table} = state;
       table.push(action.payload);

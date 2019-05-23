@@ -12,7 +12,6 @@ import TableWCS from '../../components/TableWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import SnackbarWCS from '../../components/SnackbarWCS';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
-import RedirectMainNet from '../../components/RedirectMainNet';
 
 
 const styles = theme => ({
@@ -77,7 +76,7 @@ const BroadcastWCS = ({ className, ...props }) => {
                 rows={parentState.rows || []}/>
             <ButtonWCS
                 className={classes.button}
-                disabled={!parentState.table.length || parentState.success}
+                disabled={!parentState.table.length || stateGlobal.success}
                 onClick={onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>

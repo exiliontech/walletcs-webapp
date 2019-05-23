@@ -48,7 +48,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = e => handleLoadFile(e);
-    if (!file.name.endsWith('.json')) {
+    if (!file || !file.name.endsWith('.json')) {
       dispatchGlobal({ type: 'set_global_error', payload: 'File type is not correct' });
     } else {
       dispatch({ type: 'set_filename', payload: file.name });

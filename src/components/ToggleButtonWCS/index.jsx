@@ -5,9 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
-import GlobalReducerContext from '../../contexts/GlobalReducerContext';
-import Message from '../Message';
-
 const styles = theme => ({
   toggleContainer: {
     display: 'flex',

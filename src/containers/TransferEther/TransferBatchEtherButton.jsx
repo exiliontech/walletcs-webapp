@@ -11,6 +11,9 @@ const TransferSigleEtherButtons = ({ className, ...props }) => {
   const {
     classes, stateMethod, dispatchContract, onCancel, stateContract,
   } = props;
+  const {
+    dispatchMethod,
+  } = props;
 
   return (
     <div className={classes.containerButtons}>
@@ -22,7 +25,7 @@ const TransferSigleEtherButtons = ({ className, ...props }) => {
             if (stateContract.table.length) {
               params = params.map((val) => {
                 if (val.name === 'nonce') {
-                  val.value = (parseInt(val.value) + stateContract.table.length).toString();
+                  val.value = (parseInt(val.value) + stateContract.table.length);
                 }
                 return val;
               });
@@ -33,13 +36,19 @@ const TransferSigleEtherButtons = ({ className, ...props }) => {
                 payload: { params },
               },
             );
+            dispatchContract({ type: 'reset_data' });
+            dispatchMethod({ type: 'reset_data' });
             props.onCancel(e);
           }}>
         Save
       </ButtonWCS>
       <ButtonWCS
           className={classes.button}
-          onClick={onCancel}>
+          onClick={(e) => {
+            dispatchContract({ type: 'reset_data' });
+            dispatchMethod({ type: 'reset_data' });
+            props.onCancel(e);
+          }}>
         Cancel
       </ButtonWCS>
     </div>
@@ -50,6 +59,7 @@ TransferSigleEtherButtons.propTypes = {
   classes: PropTypes.object.isRequired,
   stateMethod: PropTypes.object.isRequired,
   dispatchContract: PropTypes.object.isRequired,
+  dispatchMethod: PropTypes.func.isRequired,
   onCancel: PropTypes.object.isRequired,
 };
 

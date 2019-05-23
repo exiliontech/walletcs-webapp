@@ -8,30 +8,32 @@ export const initStateMethodReducer = {
   methodCallResult: '',
   isViewMethod: false,
   isLoding: false,
-  publicKey: ''
+  publicKey: '',
 };
 
 export const methodReducer = (state, action) => {
   switch (action.type) {
     case 'set_public_key':
-      return {...state, publicKey: action.payload};
+      return { ...state, publicKey: action.payload };
     case 'set_method_type':
-      return {...state, methodType: action.payload};
+      return { ...state, methodType: action.payload };
     case 'set_method_name':
-      return {...state, methodName: action.payload};
+      return { ...state, methodName: action.payload };
     case 'set_params':
-      return {...state, methodParams: action.payload};
+      return { ...state, methodParams: action.payload };
     case 'set_gas_price':
-      return {...state, gasPrice: action.payload};
+      return { ...state, gasPrice: action.payload };
     case 'set_gas_limit':
-      return {...state, gasLimit: action.payload};
+      return { ...state, gasLimit: action.payload };
     case 'set_nonce':
-      return {...state, nonce: action.payload};
+      return { ...state, nonce: action.payload };
     case 'set_method_call_result':
-      return {...state, methodCallResult: action.payload};
+      return { ...state, methodCallResult: action.payload };
     case 'set_mode':
-      return {...state, mode: action.payload}
+      return { ...state, mode: action.payload };
+    case 'reset_data':
+      return { ...initStateMethodReducer, publicKey: state.publicKey };
     default:
-      throw new Error(`Unexpected param: ${action.type}`)
-  };
-}
+      throw new Error(`Unexpected param: ${action.type}`);
+  }
+};

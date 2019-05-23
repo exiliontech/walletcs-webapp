@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import GroupInputsSingleTxBitcoin from '../GroupInputsBitcoin';
-import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({
 });
@@ -39,15 +38,19 @@ const AddBitcoinTransaction = ({ className, ...props }) => {
                                { value: stateParent.to_address, name: 'to_address' },
                              ],
                            },
-                         }
-);
+                         },
+                       );
+                       dispatchParent({ type: 'reset_data' });
                        props.onCancel(e);
                      }}>
                    Save
                  </ButtonWCS>
                  <ButtonWCS
                      className={classes.button}
-                     onClick={props.onCancel}>
+                     onClick={(e) => {
+                       dispatchParent({ type: 'reset_data' });
+                       props.onCancel(e);
+                     }}>
                    Cancel
                  </ButtonWCS>
                </div>

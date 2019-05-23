@@ -13,7 +13,6 @@ import ContentCardWCS from '../../components/ContentCardWCS';
 import TableWCS from '../../components/TableWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import ModalWrappedWCS from '../../components/ModalWCS';
-import RedirectMainNet from '../../components/RedirectMainNet';
 
 const styles = theme => ({
 });
@@ -103,12 +102,14 @@ const TableBatchEther = ({ className, ...props }) => {
           <div className={classes.containerAddTransaction}>
             <Button
                 color="secondary"
-                onClick={onAddTransation}>
+                onClick={onAddTransation}
+                disabled={!stateMethod.publicKey}>
               Add Transaction
             </Button>
             <Button
                 color="secondary"
-                onClick={onAddTransfer}>
+                onClick={onAddTransfer}
+                disabled={!stateMethod.publicKey}>
               Add Transfer
             </Button>
           </div>

@@ -1,45 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import IconButton from '@material-ui/core/IconButton';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import CancelIcon from './CancelIcon';
 import Paper from '@material-ui/core/Paper';
+import CancelIcon from './CancelIcon';
 
 const styles = theme => ({
-  root:{
+  root: {
     width: 624,
     display: 'flex',
     alignSelf: 'center',
     boxShadow: 'none',
     borderRadius: 0,
-    backgroundColor: '#F2F2F2 !important'
-    },
-  table:{
+    backgroundColor: '#F2F2F2 !important',
+  },
+  table: {
     width: 624,
-    },
-  tableRow:{
+  },
+  tableRow: {
     padding: 5,
   },
-  tableCell:{
+  tableCell: {
     padding: 10,
     paddingRight: 5,
     fontWeight: 'normal !important',
     '&:last-child': {
       paddingRight: 10,
-      textAlign: 'left'
-    }
+      textAlign: 'right',
+    },
   },
-  close:{
-    padding: 5
-      },
+  close: {
+    padding: 5,
+  },
   icon: {
     fontSize: 15,
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
   },
   iconVariant: {
     opacity: 0.9,
@@ -48,11 +48,13 @@ const styles = theme => ({
   message: {
     display: 'flex',
     alignItems: 'center',
-  }
+  },
 });
 
-const TableWCS = ({className, ...props}) => {
-  const {classes, rows, headers, isDelete, onDelete, onClick} = props;
+const TableWCS = ({ className, ...props }) => {
+  const {
+    classes, rows, headers, isDelete, onDelete, onClick,
+  } = props;
 
   return (
       <>
@@ -60,34 +62,32 @@ const TableWCS = ({className, ...props}) => {
             className={classes.root}>
           <Table
               className={classes.table}>
-              {rows.length ?
-                <TableHead>
+              {rows.length
+                ? <TableHead>
                   <TableRow className={classes.tableRow}>
-                  {headers.map((val) => {
-                    return  <TableCell
+                  {headers.map(val => <TableCell
                         className={classes.tableCell}
-                        style={{fontWeight: 'bold'}}>{val}</TableCell>
-                    })}
+                        style={{ fontWeight: 'bold' }}>{val}</TableCell>)}
                   </TableRow>
               </TableHead> : ''}
             <TableBody>
-              {rows.map((row, index)=> (
+              {rows.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell
                         className={classes.tableCell}
                         onClick={e => onClick(index)}
-                        style={{cursor: 'pointer'}}>{!!row ? row.contractAddress || row.params.filter((val) => val.name.startsWith('to'))[0].value : ''}</TableCell>
+                        style={{ cursor: 'pointer' }}>{row ? row.contractAddress || row.params.filter(val => val.name.startsWith('to'))[0].value : ''}</TableCell>
                     <TableCell
                         align="right"
-                        className={classes.tableCell}>{!!row ? row.methodName || 'Transfer' : ''}
-                      {isDelete? <IconButton
+                        className={classes.tableCell}>{row ? row.methodName || 'Transfer' : ''}
+                      {isDelete ? <IconButton
                         key="close"
                         aria-label="Close"
                         color="inherit"
                         className={classes.close}
                         onClick={e => onDelete(index)}>
                         <CancelIcon className={classes.icon} />
-                        </IconButton>: ''}
+                        </IconButton> : ''}
                     </TableCell>
                   </TableRow>
               ))}
@@ -95,7 +95,7 @@ const TableWCS = ({className, ...props}) => {
           </Table>
         </Paper>
       </>
-  )
+  );
 };
 
 TableWCS.propTypes = {
@@ -103,7 +103,7 @@ TableWCS.propTypes = {
   headers: PropTypes.array.isRequired,
   rows: PropTypes.array.isRequired,
   onClick: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
 };
 
 export default withStyles(styles)(TableWCS);

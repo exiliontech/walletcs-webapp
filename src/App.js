@@ -53,6 +53,7 @@ const App = () => {
   return (
         <Router>
           <div className="App">
+            <div className="content">
             <GlobalReducerContext.Provider value={{ stateGlobal: state, dispatchGlobal: dispatch, currentCurrency: stateCurrency }}>
               <Web3Context.Provider value={initMetaMask()}>
                 <MuiThemeProvider theme={WalletCSTheme}>
@@ -65,6 +66,7 @@ const App = () => {
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>
+            </div>
             <RedirectMainNet />
           </div>
         </Router>

@@ -3,15 +3,14 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {checkAddress, isAddingTransaction} from 'walletcs';
-import InputWCS from "../../components/InputWCS";
-import ButtonWCS from "../../components/ButtonWCS";
-import ContentCardWCS from "../../components/ContentCardWCS";
-import DetailInformation from "../SingleTransactionEtherC/DetailInformation"
+import { checkAddress, isAddingTransaction } from 'walletcs';
+import InputWCS from '../../components/InputWCS';
+import ButtonWCS from '../../components/ButtonWCS';
+import ContentCardWCS from '../../components/ContentCardWCS';
+import DetailInformation from '../SingleTransactionEtherC/DetailInformation';
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import { recalculateGasLimit } from '../SingleTransactionEtherC/actionsSingleTransaction';
-import RedirectMainNet from '../../components/RedirectMainNet';
 import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
 
@@ -26,9 +25,9 @@ const styles = theme => ({
 });
 
 const AddTransactionEther = ({ className, ...props }) => {
-  const { 
-classes, stateContract, dispatchContract, stateMethod, dispatchMethod 
-} = props;
+  const {
+    classes, stateContract, dispatchContract, stateMethod, dispatchMethod,
+  } = props;
   const { provider } = useContext(Web3Context);
   const { dispatchGlobal } = useContext(GlobalReducerContext);
 
@@ -70,24 +69,39 @@ classes, stateContract, dispatchContract, stateMethod, dispatchMethod
                 className={classes.button}
                 disabled={!(!!stateContract.contractAddress && !!stateMethod.methodName && !!stateMethod.methodParams.length)}
                 onClick={(e) => {
+                  let params = stateMethod.methodParams;
+                  if (stateContract.table.length) {
+                    params = params.map((val) => {
+                      if (val.name === 'nonce') {
+                        val.value = (parseInt(val.value) + stateContract.table.length);
+                      }
+                      return val;
+                    });
+                  }
                   dispatchContract(
                     {
- type: 'add_to_table',
+                      type: 'add_to_table',
                       payload: {
                         contractAddress: stateContract.contractAddress,
                         methodName: stateMethod.methodName,
                         params: stateMethod.methodParams,
-                        abi: stateContract.abi
- } 
-},
+                        abi: stateContract.abi,
+                      },
+                    },
                   );
+                  dispatchContract({ type: 'reset_data' });
+                  dispatchMethod({ type: 'reset_data' });
                   props.onCancel(e);
                 }}>
               Save
             </ButtonWCS>
             <ButtonWCS
                 className={classes.button}
-                onClick={props.onCancel}>
+                onClick={(e) => {
+                  dispatchContract({ type: 'reset_data' });
+                  dispatchMethod({ type: 'reset_data' });
+                  props.onCancel(e);
+                }}>
               Cancel
             </ButtonWCS>
           </div>

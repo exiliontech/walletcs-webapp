@@ -8,8 +8,7 @@ import Message from '../Message';
 
 const styles = theme => ({
   footer: {
-    position: 'fixed',
-    left: 0,
+    position: 'relative',
     bottom: 0,
     width: '100%',
   },
