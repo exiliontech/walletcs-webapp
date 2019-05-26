@@ -25,7 +25,8 @@ const EtherTransferFields = ({ className, ...props }) => {
     val = val.replace(/ /g, '');
     const params = validationInput(stateMethod.methodParams, val, name);
     dispatchMethod({ type: 'set_params', payload: params });
-    if (name === 'from' && !stateMethod.publicKey) {
+
+    if (name === 'from') {
       dispatchMethod({ type: 'set_public_key', payload: val });
     }
   };
