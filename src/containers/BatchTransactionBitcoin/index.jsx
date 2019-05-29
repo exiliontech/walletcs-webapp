@@ -25,18 +25,18 @@ const BatchTransactionBitcoin = ({ className, ...props }) => {
                 stateParent={stateBitcoin}
                 dispatchParent={dispatchBitcoin}
                 classes={classes}
-                onCancel={e => setIsAddingTransaction(false)}/>
+                onCancel={() => setIsAddingTransaction(false)}/>
           : <TableBatchBitcon
                 stateParent={stateBitcoin}
                 dispatchParent={dispatchBitcoin}
                 classes={classes}
-                onAddTransation={e => setIsAddingTransaction(true)}/>}
+                onAddTransation={() => setIsAddingTransaction(true)}/>}
         {stateGlobal.error
           ? <SnackbarWCS
                 message={stateGlobal.error}
                 variant='error'
                 isOpen={true}
-                onClose={e => dispatchGlobal({ type: 'set_global_error', payload: null })}/> : ''}
+                onClose={() => dispatchGlobal({ type: 'set_global_error', payload: null })}/> : ''}
       </React.Fragment>
   );
 };

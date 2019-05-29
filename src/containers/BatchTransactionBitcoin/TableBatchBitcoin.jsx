@@ -29,17 +29,18 @@ const TableBatchBitcoin = ({ className, ...props }) => {
     const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'test3' : 'main';
     const fromAddress = stateParent.table[0].params.find(item => item.name === 'from_address').value;
     const fileGenerator = new FileTransactionGenerator(fromAddress);
-
+    const bttx = new BitcoinTransaction(fromAddress, network);
+    const addresses = [];
+    const amounts = [];
     for (const key in stateParent.table) {
-      const address = stateParent.table[key].params.find(item => item.name === 'from_address').value;
-      const bttx = new BitcoinTransaction(address, network);
-      const transaction = await bttx.createTx(
-        stateParent.table[key].params.find(item => item.name === 'amount').value,
-        address,
-      );
-      fileGenerator.addTx(null, transaction);
+      console.log(stateParent.table[key].params);
+      addresses.push(stateParent.table[key].params.find(item => item.name === 'to_address').value);
+      amounts.push(stateParent.table[key].params.find(item => item.name === 'amount').value);
     }
-
+    console.log(amounts, addresses);
+    const transaction = await bttx.createTx(amounts, addresses, null, true);
+    console.log(transaction);
+    fileGenerator.addTx(null, transaction);
     downloadFile('tr-', fileGenerator.generateJson());
   };
 
