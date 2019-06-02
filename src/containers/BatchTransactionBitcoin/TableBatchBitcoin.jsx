@@ -33,7 +33,6 @@ const TableBatchBitcoin = ({ className, ...props }) => {
     const addresses = [];
     const amounts = [];
     for (const key in stateParent.table) {
-      console.log(stateParent.table[key].params);
       addresses.push(stateParent.table[key].params.find(item => item.name === 'to_address').value);
       amounts.push(stateParent.table[key].params.find(item => item.name === 'amount').value);
     }
