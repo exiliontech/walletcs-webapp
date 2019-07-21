@@ -1,0 +1,36 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-nested-ternary */
+import React, { useContext } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
+import Message from '../Message';
+
+const styles = theme => ({
+  footer: {
+    width: '100%',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+});
+
+const RedirectMainNet = (props) => {
+  const { classes } = props;
+  const { currentCurrency } = useContext(GlobalReducerContext);
+
+  return (
+       <div className={classes.footer}>
+            {currentCurrency === 'ether'
+              ? process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby'
+                ? <Message link={`https://app.walletcs.com${window.location.pathname}`} networkName='Rinkeby (test)' />
+                : ''
+              : process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET'
+                ? <Message link={`https://app.walletcs.com${window.location.pathname}`} networkName='TEST'/>
+                : ''}
+       </div>
+  );
+};
+
+export default withStyles(styles)(RedirectMainNet);
