@@ -6,7 +6,7 @@ import { InputAdornment } from '@material-ui/core';
 import TextField from '@material-ui/core/es/TextField/TextField';
 import QuestionToolTipWCS from '../QuestionToolTipWCS';
 import RedirectButtonWCS from '../RedirectButtonWCS';
-import CurrencyViewiers from './actions';
+import CurrencyViewiers from '../../utils';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 
 const INPUT_FIELD = {

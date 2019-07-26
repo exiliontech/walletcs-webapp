@@ -21,22 +21,25 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   const handleLoadFile = (e) => {
     try {
       const parser = new FileTransactionReader(e.target.result);
-
       parser.parserFile(true);
       dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result).transactions });
       dispatch({ type: 'set_table', payload: parser.transactions });
 
       const rows = [];
+      console.log(parser.transactions);
       for (const key in parser.transactions) {
         const contractAddress = parser.transactions[key].params[0].to;
         const methodName = 'Transfer';
-        rows.push({ contractAddress: contractAddress, methodName: methodName, params: parser.transactions[key].params });
+        rows.push({
+          contractAddress: contractAddress,
+          methodName: methodName,
+          params: parser.transactions[key].params
+        });
       }
 
       dispatch({ type: 'set_rows', payload: rows });
     } catch (e) {
-      const msg = e.message ? e.message : e;
-      dispatchGlobal({ type: 'set_global_error', payload: msg.split('(')[0] });
+      dispatchGlobal({ type: 'set_global_error', payload: 'File type is not correct or file is for another network.' });
     }
   };
 

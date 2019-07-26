@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { checkAddress } from 'walletcs';
 import SnackbarWCS from '../../components/SnackbarWCS';
-import { useContractInfo, useMethodInfo } from '../SingleTransactionEtherC/actionsSingleTransaction'
+import { useContractInfo, useMethodInfo } from '../SingleTransactionEtherC/actionsSingleTransaction';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import AddTransactionEther from './AddTransactionEther';
 import TableBatchEther from './TableBatchEther';
@@ -17,45 +17,45 @@ const BatchTransactionEtherC = ({ className, ...props }) => {
   const [state, dispatch] = useContractInfo();
   const [stateMethod, dispatchMethod] = useMethodInfo(state, dispatch);
   const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
-  
+
   const [isAddingTransaction, setIsAddingTransaction] = useState(false);
   const [isAddTransfer, setIsAddTransfer] = useState(false);
-  
+
   const onCancel = () => {
     setIsAddingTransaction(false);
     setIsAddTransfer(false);
   };
-  
+
   return (
       <React.Fragment>
-        {isAddTransfer ?
-                <AddTransferEther
+        {isAddTransfer
+          ? <AddTransferEther
                     stateContract={state}
                     dispatchContract={dispatch}
                     classes={classes}
                     stateMethod={stateMethod}
                     dispatchMethod={dispatchMethod}
                     onCancel={onCancel}/> : '' }
-        {isAddingTransaction ?
-                <AddTransactionEther
+        {isAddingTransaction
+          ? <AddTransactionEther
                   stateContract={state}
                   dispatchContract={dispatch}
                   classes={classes}
                   stateMethod={stateMethod}
                   dispatchMethod={dispatchMethod}
                   onCancel={onCancel}/> : ''}
-        {!isAddingTransaction && !isAddTransfer ?
-            <TableBatchEther
+        {!isAddingTransaction && !isAddTransfer
+          ? <TableBatchEther
                 stateContract={state}
                 dispatchContract={dispatch}
                 classes={classes}
                 stateMethod={stateMethod}
                 dispatchMethod={dispatchMethod}
-                onAddTransation={e => setIsAddingTransaction(true)}
-                onAddTransfer={e => setIsAddTransfer(true)}
+                onAddTransaction={() => setIsAddingTransaction(true)}
+                onAddTransfer={() => setIsAddTransfer(true)}
             /> : ''}
-        {stateGlobal.error ?
-            <SnackbarWCS
+        {stateGlobal.error
+          ? <SnackbarWCS
               message={state.error}
               variant='error'
               isOpen={true}

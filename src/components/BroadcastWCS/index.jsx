@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 import UploadCloudIcon from '@material-ui/icons/CloudUpload';
-import { IconButton, InputAdornment } from '@material-ui/core';
+import { IconButton, InputAdornment, Button } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import InputWCS from '../../components/InputWCS';
 import ModalWrappedWCS from '../../components/ModalWCS';
 import TableWCS from '../../components/TableWCS';
 import ButtonWCS from '../../components/ButtonWCS';
-import SnackbarWCS from '../../components/SnackbarWCS';
-import GlobalReducerContext from '../../contexts/GlobalReducerContext';
+import CurrencyViewer from '../../utils';
 
 
 const styles = theme => ({
@@ -26,19 +26,29 @@ const styles = theme => ({
 });
 
 const BroadcastWCS = ({ className, ...props }) => {
-  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
   const {
     classes, parentState, onOpenModal, onAttachFile, onDelete,
   } = props;
-  const { onCloseModal, onBroadcast } = props;
+  const {
+    onCloseModal, onBroadcast, onDownloadReport, isBroadcasted, currency,
+  } = props;
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const clearError = () => {
-    dispatchGlobal({ type: 'set_global_error', payload: null });
-  };
-
-  const clearSuccess = () => {
-    dispatchGlobal({ type: 'set_global_success', payload: null });
-  };
+  const action = (key, val) => (
+      <React.Fragment>
+        {val.success ?
+          <Button
+            color="primary"
+            onClick={() => { CurrencyViewer[currency].redirect(val.transaction_id); }}>
+          {'Click to see'}
+        </Button> : '' }
+        <Button
+          color="primary"
+          onClick={() => closeSnackbar(key)}>
+          {'Dismiss'}
+        </Button>
+      </React.Fragment>
+  );
 
   return (
       <React.Fragment>
@@ -69,42 +79,48 @@ const BroadcastWCS = ({ className, ...props }) => {
                   ),
                 }}/>
             <TableWCS
-                headers={['CONTRACT', 'METHOD']}
+                headers={['ADDRESS', 'METHOD']}
                 isDelete={true}
                 onDelete={onDelete}
                 onClick={onOpenModal}
                 rows={parentState.rows || []}/>
-            <ButtonWCS
-                className={classes.button}
-                disabled={!parentState.table.length || stateGlobal.success}
-                onClick={onBroadcast}>
-              Broadcast Transaction
-            </ButtonWCS>
+                <div className={classes.containerButtons}>
+                  <ButtonWCS
+                      className={classes.button}
+                      disabled={!parentState.table.length || isBroadcasted}
+                      onClick={onBroadcast}>
+                    Broadcast Transaction
+                  </ButtonWCS>
+                  <ButtonWCS
+                      className={classes.button}
+                      disabled={!isBroadcasted}
+                      onClick={onDownloadReport}>
+                    Download Report
+                  </ButtonWCS>
+                </div>
           </div>
         </ContentCardWCS>
-        {stateGlobal.error
-          ? <SnackbarWCS
-                key="LoadTransactionError"
-                message={stateGlobal.error}
-                variant='error'
-                isOpen={true}
-                onExited={clearError}
-                onClose={clearError}/> : ''}
-
-        {stateGlobal.success
-          ? <SnackbarWCS
-                key="LoadTransactionSuccess"
-                message={stateGlobal.success}
-                variant='success'
-                isOpen={true}
-                onExited={clearSuccess}
-                onClose={clearSuccess}/> : ''}
-
         {parentState.modalIsOpen
           ? <ModalWrappedWCS
                 isOpen={parentState.modalIsOpen}
                 onClose={onCloseModal}
                 data={{ header: 'Transaction information', details: parentState.modalData }}/> : '' }
+        {parentState.resultsTable
+          ? parentState.resultsTable.map(
+            (val) => {
+              const message = val.success ?
+                  'Successfully broadcasted. Tx: ' + val.hash.slice(0, 10) + '...'
+                :
+                val.error_details;
+              enqueueSnackbar(message,
+                {
+                  variant: val.success ?
+                    'success'
+                    :
+                    'error',
+                  action: key => action(key, val) });
+            },
+          ) : ''}
       </React.Fragment>
   );
 };
@@ -117,6 +133,9 @@ BroadcastWCS.propTypes = {
   onBroadcast: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   parentState: PropTypes.object.isRequired,
+  onDownloadReport: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
+  isBroadcasted: PropTypes.bool,
 };
 
 export default withStyles(styles)(BroadcastWCS);

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { checkAddress } from 'walletcs';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import InputWCS from '../../components/InputWCS';
@@ -13,12 +12,10 @@ import {
 } from './actionsSingleTransaction';
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
-import RedirectMainNet from '../../components/RedirectMainNet';
 
 import { styles } from './styles';
 import DetailInformation from './DetailInformation';
 import DetailsWCS from '../../components/DetailsWCS';
-import RedirectButtonWCS from '../../components/RedirectButtonWCS';
 
 const SingleTransactionEtherC = ({ className, ...props }) => {
   const { classes } = props;
@@ -65,7 +62,7 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                 textQuestionTip='Address associated with the contract on a blockchain'/>
             <InputWCS
                 className={classes.input}
-                isQuestion={true}
+                isQuestion
                 label='Public key of a signatory'
                 value={stateMethod.publicKey}
                 error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey) : false}
@@ -74,7 +71,6 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   dispatchMethod({ type: 'set_public_key', payload: e.target.value });
                 }}
                 isRedirect
-                isQuestion
                 textQuestionTip={'Account associated with the private key that will be used to sign this transaction'}/>
 
             {state.contractAddress

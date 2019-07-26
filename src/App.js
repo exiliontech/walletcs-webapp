@@ -54,10 +54,18 @@ const App = () => {
         <Router>
           <div className="App">
             <div className="content">
-            <GlobalReducerContext.Provider value={{ stateGlobal: state, dispatchGlobal: dispatch, currentCurrency: stateCurrency }}>
+            <GlobalReducerContext.Provider
+                value={{
+                  stateGlobal: state,
+                  dispatchGlobal: dispatch,
+                  currentCurrency: stateCurrency,
+                }}>
               <Web3Context.Provider value={initMetaMask()}>
                 <MuiThemeProvider theme={WalletCSTheme}>
-                  <Header handleCurrency={handleCurrency} currentCurrency={stateCurrency} links={LINKS}/>
+                  <Header
+                      handleCurrency={handleCurrency}
+                      currentCurrency={stateCurrency}
+                      links={LINKS}/>
                     {stateCurrency === 'ether'
                       ? <Web3Provider web3UnavailableScreen={Web3Unavailable}>
                         <Switch>{ETHER_LINKS}</Switch>

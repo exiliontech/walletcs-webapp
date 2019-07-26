@@ -2,26 +2,26 @@ export const styles = theme => ({
   content: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'start'
+    justifyContent: 'start',
   },
-  inputContainerContractInput:{
+  inputContainerContractInput: {
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'column',
-    paddingTop: 46
+    paddingTop: 46,
   },
-  inputContainer:{
+  inputContainer: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     paddingTop: 46,
     paddingLeft: 292,
-    maxWidth: 624
+    maxWidth: 624,
   },
   inputContainerPublicKeyInput: {
     display: 'flex',
     justifyContent: 'space-around',
-    paddingTop: 46
+    paddingTop: 46,
   },
   header: {
     display: 'flex',
@@ -29,14 +29,14 @@ export const styles = theme => ({
     fontWeight: 'bold',
     color: theme.palette.primary.main,
     marginLeft: 20,
-    marginTop: 20
+    marginTop: 20,
   },
   input: {
     width: 624,
-    height: 64
+    height: 64,
   },
-  details:{
-    height: 108
+  details: {
+    height: 108,
   },
   button: {
     fontWeight: 'bold',
@@ -49,16 +49,16 @@ export const styles = theme => ({
     justifyContent: 'start',
     alignSelf: 'center',
     width: 624,
-    marginTop: 10
+    marginTop: 10,
   },
   containerButtons: {
     display: 'flex',
     justifyContent: 'space-between',
   },
   hiddenInput:{
-    transform: 'translate(100, 0)'
+    transform: 'translate(100, 0)',
   },
   uploadIcon:{
-    color: theme.palette.primary.main
-  }
+    color: theme.palette.primary.main,
+  },
 });

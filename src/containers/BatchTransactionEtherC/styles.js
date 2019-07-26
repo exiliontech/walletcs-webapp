@@ -3,17 +3,17 @@ export const styles = theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'start'
+    justifyContent: 'start',
   },
-  inputContainerContractInput:{
+  inputContainerContractInput: {
     display: 'flex',
     justifyContent: 'space-around',
-    paddingTop: 46
+    paddingTop: 46,
   },
   inputContainerPublicKeyInput: {
     display: 'flex',
     justifyContent: 'space-around',
-    paddingTop: 46
+    paddingTop: 46,
   },
   header: {
     display: 'flex',
@@ -21,7 +21,7 @@ export const styles = theme => ({
     fontWeight: 'bold',
     color: theme.palette.primary.main,
     marginLeft: 20,
-    marginTop: 20
+    marginTop: 20,
   },
   input: {
     width: 624,
@@ -34,13 +34,13 @@ export const styles = theme => ({
     width: 956,
     height: 64,
     marginLeft: 20,
-    marginTop: 80
+    marginTop: 80,
   },
   button: {
     fontWeight: 'bold',
     borderRadius: 8,
     marginTop: 35,
-    marginBottom: 20
+    marginBottom: 20,
   },
   result: {
     marginTop: 5
@@ -48,14 +48,14 @@ export const styles = theme => ({
   addTransaction: {
     '& a': {
       textDecoration: 'none',
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
     }
   },
   containerAddTransaction: {
     display: 'flex',
     justifyContent: 'start',
     width: 624,
-    marginTop: 10
+    marginTop: 10,
   },
   containerButtons: {
     display: 'flex',
@@ -67,13 +67,13 @@ export const styles = theme => ({
     flexDirection: 'column',
     paddingTop: 46,
     paddingLeft: 292,
-    maxWidth: 624
+    maxWidth: 624,
   },
-  informationContainer:{
+  informationContainer: {
     display: 'flex',
     flexDirection: 'column',
     paddingTop: 46,
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
 });

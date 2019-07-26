@@ -36,9 +36,7 @@ const TableBatchBitcoin = ({ className, ...props }) => {
       addresses.push(stateParent.table[key].params.find(item => item.name === 'to_address').value);
       amounts.push(stateParent.table[key].params.find(item => item.name === 'amount').value);
     }
-    console.log(amounts, addresses);
     const transaction = await bttx.createTx(amounts, addresses, null, true);
-    console.log(transaction);
     fileGenerator.addTx(null, transaction);
     downloadFile('tr-', fileGenerator.generateJson());
   };
@@ -71,7 +69,7 @@ const TableBatchBitcoin = ({ className, ...props }) => {
           )}>
         <div className={classes.inputContainer}>
           <TableWCS
-              headers={['CONTRACT', 'METHOD']}
+              headers={['ADDRESS', 'METHOD']}
               rows={stateParent.table}
               isDelete={true}
               onDelete={onDelete}

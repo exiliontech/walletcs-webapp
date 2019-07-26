@@ -1,12 +1,12 @@
-import { Redirect, Route, Switch } from 'react-router-dom';
-import React from "react";
-import SingleTransactionEtherC from "./containers/SingleTransactionEtherC";
-import BatchTransactionEtherC from "./containers/BatchTransactionEtherC";
-import BroadcastTransactionEther from "./containers/BroadcastTransactionEther";
-import TransferEther from "./containers/TransferEther";
-import SingleTransactionBitcoin from "./containers/SingleTransactionBitcoin";
-import BatchTransactionBitcon from "./containers/BatchTransactionBitcoin";
-import BroadcastTransactionBitcoin from "./containers/BroadcastTransactionBitcoin";
+import { Redirect, Route } from 'react-router-dom';
+import React from 'react';
+import SingleTransactionEtherC from './containers/SingleTransactionEtherC';
+import BatchTransactionEtherC from './containers/BatchTransactionEtherC';
+import BroadcastTransactionEther from './containers/BroadcastTransactionEther';
+import TransferEther from './containers/TransferEther';
+import SingleTransactionBitcoin from './containers/SingleTransactionBitcoin';
+import BatchTransactionBitcon from './containers/BatchTransactionBitcoin';
+import BroadcastTransactionBitcoin from './containers/BroadcastTransactionBitcoin';
 
 
 export const LINKS = {
