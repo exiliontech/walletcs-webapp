@@ -36,8 +36,8 @@ const BroadcastWCS = ({ className, ...props }) => {
 
   const action = (key, val) => (
       <React.Fragment>
-        {val.success ?
-          <Button
+        {val.success
+          ? <Button
             color="primary"
             onClick={() => { CurrencyViewer[currency].redirect(val.transaction_id); }}>
           {'Click to see'}
@@ -91,12 +91,13 @@ const BroadcastWCS = ({ className, ...props }) => {
                       onClick={onBroadcast}>
                     Broadcast Transaction
                   </ButtonWCS>
-                  <ButtonWCS
-                      className={classes.button}
-                      disabled={!isBroadcasted}
-                      onClick={onDownloadReport}>
-                    Download Report
-                  </ButtonWCS>
+                  {onDownloadReport
+                    ? <ButtonWCS
+                          className={classes.button}
+                          disabled={!isBroadcasted}
+                          onClick={onDownloadReport}>
+                        Download Report
+                      </ButtonWCS> : ''}
                 </div>
           </div>
         </ContentCardWCS>
@@ -108,17 +109,16 @@ const BroadcastWCS = ({ className, ...props }) => {
         {parentState.resultsTable
           ? parentState.resultsTable.map(
             (val) => {
-              const message = val.success ?
-                  'Successfully broadcasted. Tx: ' + val.hash.slice(0, 10) + '...'
-                :
-                val.error_details;
+              const message = val.success
+                ? `Successfully broadcasted. Tx: ${val.hash.slice(0, 10)}...`
+                : val.error_details;
               enqueueSnackbar(message,
                 {
-                  variant: val.success ?
-                    'success'
-                    :
-                    'error',
-                  action: key => action(key, val) });
+                  variant: val.success
+                    ? 'success'
+                    : 'error',
+                  action: key => action(key, val),
+                });
             },
           ) : ''}
       </React.Fragment>
@@ -133,8 +133,8 @@ BroadcastWCS.propTypes = {
   onBroadcast: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   parentState: PropTypes.object.isRequired,
-  onDownloadReport: PropTypes.func.isRequired,
-  currency: PropTypes.string.isRequired,
+  onDownloadReport: PropTypes.func,
+  currency: PropTypes.string,
   isBroadcasted: PropTypes.bool,
 };
 

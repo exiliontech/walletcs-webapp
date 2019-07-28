@@ -82,22 +82,20 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   // };
 
   const onBroadcast = async (event) => {
-      for (const key in state.originTransactions) {
-        const readableTransaction = state.table[key].transaction;
-        try{
-          console.log(state.originTransactions[key].transaction, provider);
-          const tx = await provider.sendTransaction(state.originTransactions[key].transaction);
-          console.log(tx);
-          readableTransaction.success = true;
-          readableTransaction.transaction_id = tx.hash;
-          dispatch({ type: 'add_result', payload: readableTransaction });
-        } catch (e) {
-          readableTransaction.success = false;
-          readableTransaction.error_details = e.message ? e.message : e;
-          dispatch({ type: 'add_result', payload: readableTransaction });
-        }
+    for (const key in state.originTransactions) {
+      const readableTransaction = state.table[key].transaction;
+      try {
+        const tx = await provider.sendTransaction(state.originTransactions[key].transaction);
+        readableTransaction.success = true;
+        readableTransaction.transaction_id = tx.hash;
+        dispatch({ type: 'add_result', payload: readableTransaction });
+      } catch (e) {
+        readableTransaction.success = false;
+        readableTransaction.error_details = e.message ? e.message : e;
+        dispatch({ type: 'add_result', payload: readableTransaction });
       }
-      stateBroadcasted(true);
+    }
+    stateBroadcasted(true);
   };
 
   const createCSVReport = () => {
