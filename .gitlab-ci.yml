@@ -2,6 +2,7 @@ image: node:11.0.0
 
 stages:
   - production
+  - develop
 
 production:
   type: deploy
@@ -14,6 +15,18 @@ production:
     - pip install awscli
     - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_MAINNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='homestead' npm run build && aws s3 sync build/ s3://app.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
     - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='rinkeby' npm run build && aws s3 sync build/ s3://testnet.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
-
   only:
     - master
+
+develop:
+  type: deploy
+  stage: develop
+  image: node:11.0.0
+  script:
+    - apt-get update && apt-get install -y python-dev build-essential
+    - curl -O https://bootstrap.pypa.io/get-pip.py
+    - python get-pip.py
+    - pip install awscli
+    - npm install && CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='rinkeby' npm run build && aws s3 sync build/ s3://stg.walletcs.com/ --delete --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+  only:
+    - develop
