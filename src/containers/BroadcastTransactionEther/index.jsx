@@ -153,7 +153,8 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     params.push({ key: 'gasLimit', value: transaction.gasLimit });
     params.push({ key: 'gasPrice', value: transaction.gasPrice });
     params.push({ key: 'nonce', value: transaction.nonce });
-    if (transaction.value) params.push({ key: 'value', value: utils.formatEther(transaction.value) });
+    console.log(transaction.value);
+    if (transaction.value) params.push({ key: 'value', value: utils.formatEther(utils.parseEther(transaction.value)) });
     formatedData.details = params;
 
     dispatch({ type: 'set_modal_data', payload: formatedData });
