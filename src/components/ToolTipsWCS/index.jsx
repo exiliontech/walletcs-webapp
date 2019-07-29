@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
-import { Tooltip } from "@material-ui/core";
-
-const DEFAULT_SETTING = {
-  root: 'root'
-};
+import { withStyles } from '@material-ui/core/styles';
+import { Tooltip } from '@material-ui/core';
 
 function arrowGenerator(color) {
   return {

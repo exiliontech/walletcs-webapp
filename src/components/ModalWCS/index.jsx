@@ -79,7 +79,8 @@ const ModalWCS = ({ className, ...props }) => {
                   </Typography>
                   <Typography variant="subtitle1"
                               className={classes.contractAddress}>
-                    {data.details.contractAddress}</Typography>
+                    {data.details.contractAddress}
+                  </Typography>
                 </>
               : ''}
             {data.details ? data.details.details.map(val => (

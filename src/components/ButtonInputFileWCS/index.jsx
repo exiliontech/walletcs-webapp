@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   chooseFileWrapper: {
     marginTop: 7,
-    marginLeft: 215,
+    marginLeft: 185,
   },
 });
 

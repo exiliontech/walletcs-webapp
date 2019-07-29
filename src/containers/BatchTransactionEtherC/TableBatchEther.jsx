@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import {
   FileTransactionReader, ConverterCSVToTxObject,
 } from 'walletcs';
 
-import { Button } from '@material-ui/core';
+import { Button} from '@material-ui/core';
 import InputWCS from '../../components/InputWCS';
 import { downloadFile } from '../SingleTransactionEtherC/actionsSingleTransaction';
 import ContentCardWCS from '../../components/ContentCardWCS';
@@ -17,9 +17,23 @@ import TableWCS from '../../components/TableWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import ModalWrappedWCS from '../../components/ModalWCS';
 import ButtonInputFile from '../../components/ButtonInputFileWCS';
+import QuestionToolTipWCS from '../../components/QuestionToolTipWCS';
+import ToolTipsWCS from '../../components/ToolTipsWCS';
+import QuestionIcon from '../../components/QuestionToolTipWCS/QuestionIcon';
 
 const styles = theme => ({
+  iconButton: {
+  },
 });
+
+const QuestionMarkButton = (props) => {
+  const { onClick } = props;
+
+  return (
+      <ToolTipsWCS {...props}>
+        <QuestionIcon onClick={onClick}/>
+      </ToolTipsWCS>);
+};
 
 const TableBatchEther = ({ className, ...props }) => {
   const {
@@ -63,10 +77,10 @@ const TableBatchEther = ({ className, ...props }) => {
       rows.map((params) => {
         console.log(params);
         const newParams = [];
-        for (const n in params){
+        for (const n in params) {
           newParams.push({ name: n, value: params[n] });
         }
-        dispatchContract({ type: 'add_to_table', payload: {'params': newParams }});
+        dispatchContract({ type: 'add_to_table', payload: { params: newParams } });
       });
     });
   };
@@ -145,6 +159,10 @@ const TableBatchEther = ({ className, ...props }) => {
                              disabled={!stateMethod.publicKey}>
               Upload csv file
             </ButtonInputFile>
+            <QuestionMarkButton
+                onClick={() => window.open('https://github.com/walletcs/walletcs-app#batch-operations', '_blank')}
+                classes={classes.iconButton}
+                text={'File format information.'}/>
           </div>
           <ButtonWCS
               className={classes.button}
