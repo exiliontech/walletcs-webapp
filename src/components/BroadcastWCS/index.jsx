@@ -32,7 +32,38 @@ const BroadcastWCS = ({ className, ...props }) => {
   const {
     onCloseModal, onBroadcast, onDownloadReport, isBroadcasted, currency,
   } = props;
+  const { parentDispatch } = props;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const filterVisibleMessages = (table, message) => {
+    if (table) {
+      table.map((value) => {
+        if (message.hash === value.transaction_id ||
+          message.error_details === value.error_details) {
+          value.isVisible = false;
+        }
+        return value;
+      });
+    }
+    return table;
+  };
+
+  const showVisibleMessage = () => {
+    parentState.resultsBroadcastTable.filter(v => v.isVisible).map((val) => {
+      if (val.isVisible) {
+        const message = val.success
+          ? `Successfully broadcasted. Tx: ${val.hash.slice(0, 10)}...`
+          : val.error_details;
+        enqueueSnackbar(message,
+          {
+            variant: val.success
+              ? 'success'
+              : 'error',
+            action: key => action(key, val),
+          });
+      }
+    });
+  };
 
   const action = (key, val) => (
       <React.Fragment>
@@ -44,7 +75,10 @@ const BroadcastWCS = ({ className, ...props }) => {
         </Button> : '' }
         <Button
           color="primary"
-          onClick={() => closeSnackbar(key)}>
+          onClick={() => {
+            parentDispatch({ type: 'set_show_result', payload: filterVisibleMessages(parentState.resultsBroadcastTable, val) });
+            closeSnackbar(key);
+          }}>
           {'Dismiss'}
         </Button>
       </React.Fragment>
@@ -106,21 +140,8 @@ const BroadcastWCS = ({ className, ...props }) => {
                 isOpen={parentState.modalIsOpen}
                 onClose={onCloseModal}
                 data={{ header: 'Transaction information', details: parentState.modalData }}/> : '' }
-        {parentState.resultsTable
-          ? parentState.resultsTable.map(
-            (val) => {
-              const message = val.success
-                ? `Successfully broadcasted. Tx: ${val.hash.slice(0, 10)}...`
-                : val.error_details;
-              enqueueSnackbar(message,
-                {
-                  variant: val.success
-                    ? 'success'
-                    : 'error',
-                  action: key => action(key, val),
-                });
-            },
-          ) : ''}
+        {parentState.resultsBroadcastTable
+          ? showVisibleMessage() : ''}
       </React.Fragment>
   );
 };
@@ -133,6 +154,7 @@ BroadcastWCS.propTypes = {
   onBroadcast: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   parentState: PropTypes.object.isRequired,
+  parentDispatch: PropTypes.func.isRequired,
   onDownloadReport: PropTypes.func,
   currency: PropTypes.string,
   isBroadcasted: PropTypes.bool,

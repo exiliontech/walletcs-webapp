@@ -4,7 +4,7 @@ export const initStateBroadcast = {
   modalData: [],
   filename: '',
   error: '',
-  resultsTable: [],
+  resultsBroadcastTable: [],
 };
 
 export const broadcastReducer = (state, action) => {
@@ -20,13 +20,11 @@ export const broadcastReducer = (state, action) => {
     case 'set_error':
       return { ...state, error: action.payload };
     case 'add_result':
-      const _resultsTable = state.resultsTable;
+      const _resultsTable = state.resultsBroadcastTable;
       _resultsTable.push(action.payload);
-      return { ...state, resultsTable: _resultsTable };
-    case 'delete_result':
-      const { resultsTable } = state;
-      resultsTable.slice(action.payload, 1);
-      return { ...state, resultsTable };
+      return { ...state, resultsBroadcastTable: _resultsTable };
+    case 'set_show_result':
+      return { ...state, resultsBroadcastTable: action.payload };
     case 'set_rows':
       return { ...state, rows: action.payload };
     case 'set_origin_transactions':

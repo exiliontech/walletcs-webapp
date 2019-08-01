@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { checkAddress } from 'walletcs';
 import SnackbarWCS from '../../components/SnackbarWCS';
 import { useContractInfo, useMethodInfo } from '../SingleTransactionEtherC/actionsSingleTransaction';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';

@@ -60,27 +60,6 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     dispatch({ type: 'set_modal_open' });
   };
 
-  // const onBroadcast = () => {
-  //   for (const key in state.originTransactions) {
-  //     const readableTransaction = state.table[key].transaction;
-  //     provider.sendTransaction(state.originTransactions[key].transaction).then(
-  //       (tx) => {
-  //         console.log(tx);
-  //         readableTransaction.success = true;
-  //         readableTransaction.transaction_id = tx.hash;
-  //         dispatch({ type: 'add_result', payload: readableTransaction });
-  //       },
-  //       (e) => {
-  //         readableTransaction.success = false;
-  //         readableTransaction.error_details = e.message ? e.message : e;
-  //         dispatch({ type: 'add_result', payload: readableTransaction });
-  //       },
-  //     );
-  //
-  //   }
-  //   stateBroadcasted(true);
-  // };
-
   const onBroadcast = async (event) => {
     for (const key in state.originTransactions) {
       const readableTransaction = state.table[key].transaction;
@@ -88,10 +67,12 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
         const tx = await provider.sendTransaction(state.originTransactions[key].transaction);
         readableTransaction.success = true;
         readableTransaction.transaction_id = tx.hash;
+        readableTransaction.isVisible = true;
         dispatch({ type: 'add_result', payload: readableTransaction });
       } catch (e) {
         readableTransaction.success = false;
         readableTransaction.error_details = e.message ? e.message : e;
+        readableTransaction.isVisible = true;
         dispatch({ type: 'add_result', payload: readableTransaction });
       }
     }
@@ -177,6 +158,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
           onOpenModal={onOpenModal}
           onDownloadReport={onDownloadReport}
           parentState={state}
+          parentDispatch={dispatch}
           isBroadcasted={isBroadcasted}
           currency='ether_tx'/>
       </SnackbarProvider>

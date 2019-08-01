@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+
 import { withStyles } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 import QuestionIcon from './QuestionIcon';
@@ -22,7 +22,7 @@ const QuestionToolTipWCS = ({ className, ...props }) => {
   const { classes, onClick } = props;
   return (
     <ToolTipsWCS {...props}>
-      <IconButton aria-label="Toggle tip" className={classes.iconButton} onClick={onClick}>
+      <IconButton aria-label="Toggle tip" disableRipple={true} className={classes.iconButton} onClick={onClick}>
         <QuestionIcon/>
       </IconButton>
     </ToolTipsWCS>
