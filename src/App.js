@@ -41,12 +41,14 @@ const App = () => {
   };
 
   const initMetaMask = () => {
+    const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby'
+      ? 'https://rinkeby.infura.io/v3/15397ed5cc24454d92a27f16c5445692'
+      : 'https://mainnet.infura.io/v3/15397ed5cc24454d92a27f16c5445692';
     try {
-      const web3 = new Web3(Web3.givenProvider);
-      const provider = ethers.getDefaultProvider(process.env.REACT_APP_ETH_NETWORK_SEND || 'rinkeby');
-      return { web3, provider };
+      const provider = new ethers.providers.JsonRpcProvider(network, 'rinkeby');
+      return { provider };
     } catch (e) {
-      return { web3: null, provider: null };
+      return { provider: null };
     }
   };
 
@@ -67,9 +69,7 @@ const App = () => {
                       currentCurrency={stateCurrency}
                       links={LINKS}/>
                     {stateCurrency === 'ether'
-                      ? <Web3Provider web3UnavailableScreen={Web3Unavailable}>
-                        <Switch>{ETHER_LINKS}</Switch>
-                      </Web3Provider>
+                      ? <Switch>{ETHER_LINKS}</Switch>
                       : <Switch>{BITCOIN_LINKS}</Switch>}
                 </MuiThemeProvider>
               </Web3Context.Provider>

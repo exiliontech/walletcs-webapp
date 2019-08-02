@@ -38,31 +38,14 @@ const BroadcastWCS = ({ className, ...props }) => {
   const filterVisibleMessages = (table, message) => {
     if (table) {
       table.map((value) => {
-        if (message.hash === value.transaction_id ||
-          message.error_details === value.error_details) {
+        if (message.hash === value.transaction_id
+          || message.error_details === value.error_details) {
           value.isVisible = false;
         }
         return value;
       });
     }
     return table;
-  };
-
-  const showVisibleMessage = () => {
-    parentState.resultsBroadcastTable.filter(v => v.isVisible).map((val) => {
-      if (val.isVisible) {
-        const message = val.success
-          ? `Successfully broadcasted. Tx: ${val.hash.slice(0, 10)}...`
-          : val.error_details;
-        enqueueSnackbar(message,
-          {
-            variant: val.success
-              ? 'success'
-              : 'error',
-            action: key => action(key, val),
-          });
-      }
-    });
   };
 
   const action = (key, val) => (
@@ -83,6 +66,23 @@ const BroadcastWCS = ({ className, ...props }) => {
         </Button>
       </React.Fragment>
   );
+
+  const showVisibleMessage = () => {
+    parentState.resultsBroadcastTable.filter(v => v.isVisible).map((val) => {
+      if (val.isVisible) {
+        const message = val.success
+          ? `Successfully broadcasted. Tx: ${val.hash.slice(0, 10)}...`
+          : val.error_details;
+        enqueueSnackbar(message,
+          {
+            variant: val.success
+              ? 'success'
+              : 'error',
+            action: key => action(key, val),
+          });
+      }
+    });
+  };
 
   return (
       <React.Fragment>

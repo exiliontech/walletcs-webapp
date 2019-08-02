@@ -7,7 +7,6 @@ import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import TableBatchBitcon from './TableBatchBitcoin';
 import AddBitcoinTransaction from './AddBitcoinTransaction';
 import { bitcoinReducer, initStateBitcoin } from '../../reducers';
-import RedirectMainNet from '../../components/RedirectMainNet';
 
 import { styles } from './styles';
 
