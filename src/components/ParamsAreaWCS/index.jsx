@@ -26,9 +26,7 @@ const styles = theme => ({
 });
 
 const ParamsAreaWCS = ({ className, ...props }) => {
-  const {
-    classes, mainInputs, additionalInputs, onChange 
-  } = props;
+  const { classes, mainInputs, additionalInputs, onChange } = props;
   const { currentCurrency } = useContext(GlobalReducerContext);
   const { onRedirectClick } = props;
   const textTips = {

@@ -9,7 +9,7 @@ import BatchTransactionBitcon from './containers/BatchTransactionBitcoin';
 import BroadcastTransactionBitcoin from './containers/BroadcastTransactionBitcoin';
 
 
-export const LINKS = {
+export const CURRENCIES_LINKS = {
   eth_single: '/ether/contract/single',
   eth_batch: '/ether/contract/batch',
   eth_broadcast: '/ether/broadcast',
@@ -20,18 +20,26 @@ export const LINKS = {
 };
 
 
-export const ETHER_LINKS = [
-  <Route path={LINKS.eth_single} exact component={SingleTransactionEtherC}/>,
-  <Route path={LINKS.eth_batch} exact component={BatchTransactionEtherC}/>,
-  <Route path={LINKS.eth_broadcast} exact component={BroadcastTransactionEther}/>,
-  <Route path={LINKS.eth_transfer} exact component={TransferEther}/>,
-  <Route path='*' render={() => <Redirect to={{ pathname: LINKS.eth_transfer }} />} />,
+export const ETHER_ROUTES = [
+  <Route path={CURRENCIES_LINKS.eth_single} exact component={SingleTransactionEtherC}/>,
+  <Route path={CURRENCIES_LINKS.eth_batch} exact component={BatchTransactionEtherC}/>,
+  <Route path={CURRENCIES_LINKS.eth_broadcast} exact component={BroadcastTransactionEther}/>,
+  <Route path={CURRENCIES_LINKS.eth_transfer} exact component={TransferEther}/>,
+  <Route path='*' render={() => <Redirect to={{ pathname: CURRENCIES_LINKS.eth_transfer }} />} />,
 ];
 
-export const BITCOIN_LINKS = [
-  <Route path={LINKS.bitcoin_single} exact component={SingleTransactionBitcoin}/>,
-  <Route path={LINKS.bitcoin_batch} exact component={BatchTransactionBitcon}/>,
-  <Route path={LINKS.bitcoin_broadcast} exact component={BroadcastTransactionBitcoin}/>,
-  <Route path='*' render={() => <Redirect to={{ pathname: LINKS.bitcoin_single }} />} />,
+export const BITCOIN_ROUTES = [
+  <Route path={CURRENCIES_LINKS.bitcoin_single} exact component={SingleTransactionBitcoin}/>,
+  <Route path={CURRENCIES_LINKS.bitcoin_batch} exact component={BatchTransactionBitcon}/>,
+  <Route path={CURRENCIES_LINKS.bitcoin_broadcast} exact component={BroadcastTransactionBitcoin}/>,
+  <Route path='*' render={() => <Redirect to={{ pathname: CURRENCIES_LINKS.bitcoin_single }} />} />,
 
 ];
+
+const CURRENCIES = {
+  ether: ETHER_ROUTES,
+  bitcoin: BITCOIN_ROUTES,
+};
+
+
+export const getCurrentRoutes = currency => CURRENCIES[currency];

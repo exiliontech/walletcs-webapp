@@ -1,18 +1,51 @@
 export const initStateBitcoin = {
-  from_address: '',
-  to_address: '',
-  amount: null,
+  from_addresses: [{ value: null }],
+  to_addresses: [{ value: null }],
+  amounts: [{ value: null }],
+  change_address: null,
+  fee: null,
   table: [],
 };
 
 export const bitcoinReducer = (state, action) => {
   switch (action.type) {
     case 'set_from':
-      return ({ ...state, from_address: action.payload });
+      if (action.index !== undefined) {
+        state.from_addresses[action.index] = { value: action.payload };
+      }
+      if (action.index === undefined) {
+        state.from_addresses.push({ value: action.payload });
+      }
+      return ({ ...state });
     case 'set_to':
-      return ({ ...state, to_address: action.payload });
+      if (action.index !== undefined) {
+        state.to_addresses[action.index] = { value: action.payload };
+      }
+      if (action.index === undefined) {
+        state.to_addresses.push({ value: action.payload });
+      }
+      return ({ ...state });
     case 'set_amount':
-      return ({ ...state, amount: action.payload });
+      if (action.index !== undefined && action.payload !== undefined) {
+        state.amounts[action.index] = { value: action.payload };
+      }
+      if (action.index === undefined) {
+        state.amounts.push({ value: action.payload });
+      }
+      return ({ ...state });
+    case 'delete_from':
+      state.from_addresses.pop();
+      return ({ ...state });
+    case 'delete_to':
+      state.to_addresses.pop();
+      return ({ ...state });
+    case 'delete_amount':
+      state.amounts.pop();
+      return ({ ...state });
+    case 'set_change_address':
+      return ({ ...state, change_address: action.payload });
+    case 'set_fee':
+      return ({ ...state, fee: action.payload });
     case 'set_table':
       return ({ ...state, table: action.payload });
     case 'reset_data':

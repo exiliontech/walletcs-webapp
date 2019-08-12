@@ -10,7 +10,7 @@ inputContainer:{
     flexDirection: 'column',
     paddingTop: 46,
     paddingLeft: 292,
-    maxWidth: 624
+    maxWidth: 900,
 },
 informationContainer:{
     display: 'flex',
@@ -67,5 +67,29 @@ recalculateButton: {
 result: {
     marginBottom: 40,
     maxWidth: 164,
+},
+additionalArea: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'start',
+    flexWrap: 'wrap',
+    backgroundColor: '#EBEDED',
+    borderRadius: 4,
+    minHeight: 136,
+    marginTop: 50,
+    width: 624,
+    float: 'left',
+  },
+dropdownContainer: {
+    width: 200,
+},
+containerAdditionArea: {
+    display: 'flex',
+    width: 600,
+    height: 64,
+    margin: 12,
+},
+AdditionalInput: {
+    marginLeft: 12,
 }
 });

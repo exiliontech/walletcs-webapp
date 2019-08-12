@@ -22,4 +22,8 @@ const CurrencyViewiers = {
   bitcoin: { text: 'View on blockcypher', redirect: onRedirectToBlockcypher },
 };
 
+const decimal = /^[-+]?[0-9]+\.[0-9]+$/;
+
+export const isDecimal = val => val.match(decimal);
+
 export default CurrencyViewiers;

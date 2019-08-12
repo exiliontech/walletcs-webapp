@@ -52,9 +52,8 @@ const InputWCS = ({ className, ...props }) => {
   const {
     classes, isQuestion, label, validator, value,
   } = props;
-  const {
-    isRedirect, onRedirectClick, textQuestionTip,
-  } = props;
+  const { isRedirect, onRedirectClick, textQuestionTip } = props;
+  const { id } = props;
 
   return (
       <TextField
@@ -81,6 +80,7 @@ const InputWCS = ({ className, ...props }) => {
                 {isQuestion ? <QuestionToolTipWCS text={textQuestionTip}/> : ''}
               </InputAdornment>
           ) : '',
+          id,
         }} {...props}/>
   );
 };
@@ -94,6 +94,7 @@ InputWCS.propTypes = {
   textRedirectTip: PropTypes.string,
   textQuestionTip: PropTypes.string,
   onRedirectClick: PropTypes.func,
+  id: PropTypes.string,
 };
 
 export default withStyles(styles)(InputWCS);

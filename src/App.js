@@ -1,7 +1,5 @@
 import React, { useReducer, useState } from 'react';
-import Web3 from 'web3';
 import { ethers } from 'ethers';
-import { Web3Provider, ErrorTemplate } from 'react-web3';
 
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -12,13 +10,7 @@ import Web3Context from './contexts/Web3Context';
 import GlobalReducerContext from './contexts/GlobalReducerContext';
 import RedirectMainNet from './components/RedirectMainNet';
 import { globalReducer, initStateGlobal } from './reducers';
-import { BITCOIN_LINKS, LINKS, ETHER_LINKS } from './links';
-
-const Web3Unavailable = ErrorTemplate.bind(null, {
-  title: 'MetaMask not found',
-  message: `This website requires MetaMask plugin.
-  Please download it from metamask.io .`,
-});
+import { CURRENCIES_LINKS, getCurrentRoutes } from './links';
 
 const listCurrencies = ['ether', 'bitcoin'];
 
@@ -67,10 +59,8 @@ const App = () => {
                   <Header
                       handleCurrency={handleCurrency}
                       currentCurrency={stateCurrency}
-                      links={LINKS}/>
-                    {stateCurrency === 'ether'
-                      ? <Switch>{ETHER_LINKS}</Switch>
-                      : <Switch>{BITCOIN_LINKS}</Switch>}
+                      links={CURRENCIES_LINKS}/>
+                      <Switch>{getCurrentRoutes(stateCurrency)}</Switch>
                 </MuiThemeProvider>
               </Web3Context.Provider>
             </GlobalReducerContext.Provider>

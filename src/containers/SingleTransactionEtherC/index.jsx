@@ -78,14 +78,14 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   dispatchMethod={dispatchMethod}
                   stateContract={state}
                   stateMethod={stateMethod}
-                  recalculateButton={e => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
+                  recalculateButton={() => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
             {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length
               ? <ButtonWCS
                   className={classes.button}
                   disabled={!(!!stateMethod.publicKey
                       && !!state.contractAddress
                       && stateMethod.methodType === 'transaction')}
-                  onClick={e => downloadOneTransaction(state, stateMethod)}>
+                  onClick={ () => downloadOneTransaction(state, stateMethod)}>
                   Download Transaction
                 </ButtonWCS> : ''}
 
