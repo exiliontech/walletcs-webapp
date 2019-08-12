@@ -4,7 +4,6 @@ import cx from 'classnames';
 import CreatableSelect, { components } from 'react-select';
 import { withStyles } from '@material-ui/core/styles';
 import NoSsr from '@material-ui/core/NoSsr';
-import arrow from './arrow.svg';
 
 const styles = theme => ({
   root: {
@@ -34,7 +33,7 @@ const DropdownIndicator = props => (
 
 const DropDownWCS = (props) => {
   const { classes, placeHolder, items } = props;
-  const { onChange } = props;
+  const { onChange, selectedOption } = props;
 
   const newItems = items.map(val => ({ label: val.name, value: val.name }));
 
@@ -97,11 +96,11 @@ const DropDownWCS = (props) => {
 
   };
 
-  console.log(classes.dropdownContainer);
   return (
       <div className={cx(classes.root, classes.dropdownContainer)}>
         <NoSsr>
           <CreatableSelect
+              value={selectedOption ? { label: selectedOption, value: selectedOption } : null}
               components = {{ DropdownIndicator }}
               classes={classes}
               options={newItems}
@@ -119,6 +118,7 @@ DropDownWCS.propTypes = {
   theme: PropTypes.object.isRequired,
   items: PropTypes.array,
   placeHolder: PropTypes.string,
+  selectedOption: PropTypes.string,
 };
 
 export default withStyles(styles, { withTheme: true })(DropDownWCS);

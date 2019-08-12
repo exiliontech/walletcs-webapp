@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import SnackbarWCS from '../../components/SnackbarWCS';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
-import TableBatchBitcon from './TableBatchBitcoin';
+import TableBatchBitcoin from './TableBatchBitcoin';
 import AddBitcoinTransaction from './AddBitcoinTransaction';
 import { bitcoinReducer, initStateBitcoin } from '../../reducers';
 
@@ -25,7 +25,7 @@ const BatchTransactionBitcoin = ({ className, ...props }) => {
                 dispatchParent={dispatchBitcoin}
                 classes={classes}
                 onCancel={() => setIsAddingTransaction(false)}/>
-          : <TableBatchBitcon
+          : <TableBatchBitcoin
                 stateParent={stateBitcoin}
                 dispatchParent={dispatchBitcoin}
                 classes={classes}

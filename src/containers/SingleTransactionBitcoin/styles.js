@@ -91,5 +91,13 @@ containerAdditionArea: {
 },
 AdditionalInput: {
     marginLeft: 12,
+},
+containerButtons: {
+    display: 'flex',
+},
+uploadFileContainer: {
+    display: 'flex',
+    marginTop: 40,
+    marginLeft: 40,
 }
 });

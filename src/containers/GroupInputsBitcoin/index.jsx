@@ -93,21 +93,20 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
   return (
       <React.Fragment>
         {state.from_addresses.map((value, index) => <InputWCS
-            value={value.value}
-            className={state.from_addresses.length - 1 > index ? classes.input : classes.lastInput}
-            label="from"
-            parentState={state}
-            validator={validateAddress}
-            onChange={(e) => {
-              dispatch({ type: 'set_from', index, payload: e.target.value });
-            }}
-            isRedirect />)}
-            <Button
-              className={classes.addButtonFrom}
-              color="secondary"
-              onClick={handlerAddFromAddress}>
-              Add address from
-            </Button>
+          value={value.value || ''}
+          className={state.from_addresses.length - 1 > index ? classes.input : classes.lastInput}
+          label="from"
+          validator={validateAddress}
+          onChange={(e) => {
+            dispatch({ type: 'set_from', index, payload: e.target.value });
+          }}
+          isRedirect />)}
+          <Button
+            className={classes.addButtonFrom}
+            color="secondary"
+            onClick={handlerAddFromAddress}>
+            Add address from
+          </Button>
         {state.from_addresses.length > 1
           ? <AddButton onClick={handlerDeleteFromAddress} className={classes.deleteButtonFrom}/>
           : ''}

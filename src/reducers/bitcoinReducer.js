@@ -1,7 +1,7 @@
 export const initStateBitcoin = {
-  from_addresses: [{ value: null }],
-  to_addresses: [{ value: null }],
-  amounts: [{ value: null }],
+  from_addresses: [{ value: '' }],
+  to_addresses: [{ value: '' }],
+  amounts: [{ value: '' }],
   change_address: null,
   fee: null,
   table: [],
@@ -33,6 +33,14 @@ export const bitcoinReducer = (state, action) => {
         state.amounts.push({ value: action.payload });
       }
       return ({ ...state });
+    case 'replace_from_csv':
+      return ({
+        ...state,
+        from_addresses: action.payload.from_addresses.map(value => ({ value })),
+        to_addresses: action.payload.to_addresses.map(value => ({ value })),
+        amounts: action.payload.amounts.map(value => ({ value })),
+        change_address: action.payload.change_address,
+      });
     case 'delete_from':
       state.from_addresses.pop();
       return ({ ...state });
@@ -51,7 +59,7 @@ export const bitcoinReducer = (state, action) => {
     case 'reset_data':
       return ({ ...initStateBitcoin, from_address: state.from_address });
     case 'add_to_table':
-      let {table} = state;
+      let { table } = state;
       table.push(action.payload);
       return { ...state, table };
     case 'delete_from_table':

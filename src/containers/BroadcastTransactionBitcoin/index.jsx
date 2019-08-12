@@ -12,7 +12,7 @@ import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   const { classes } = props;
   const [state, dispatch] = useReducer(broadcastReducer, initStateBroadcast);
-  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
+  const { dispatchGlobal } = useContext(GlobalReducerContext);
   const [isBroadcasted, stateBroadcasted] = useState(false);
 
   const onDelete = (index) => {

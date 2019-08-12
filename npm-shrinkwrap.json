@@ -1328,9 +1328,9 @@
       },
       "dependencies": {
         "core-js": {
-          "version": "3.2.0",
-          "resolved": "https://registry.npmjs.org/core-js/-/core-js-3.2.0.tgz",
-          "integrity": "sha512-gybgLzmr7SQRSF6UzGYXducx4eE10ONQlyEnQoqiGPbmbn7zLkb73tPfc4YbZN0lvcTQwoLNPjq4RuCaCumGyQ=="
+          "version": "3.2.1",
+          "resolved": "https://registry.npmjs.org/core-js/-/core-js-3.2.1.tgz",
+          "integrity": "sha512-Qa5XSVefSVPRxy2XfUC13WbvqkxhkwB3ve+pgCQveNgYzbM/UxZeu1dcOX/xr4UmfUd+muuvsaxilQzCyUurMw=="
         },
         "lodash": {
           "version": "4.17.15",
@@ -16113,9 +16113,9 @@
       }
     },
     "walletcs": {
-      "version": "0.10.3",
-      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-0.10.3.tgz",
-      "integrity": "sha512-y/M/6Mu+qMKaPrQMP9QfjMf44p9hQ55UaMUR6oipHinGzF9qfM6vAxsQjYrg8XL/0lc/WP9Dn4Z/3s3XJIAgkA==",
+      "version": "0.10.8",
+      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-0.10.8.tgz",
+      "integrity": "sha512-sdqZncRtk6DsEkJjanPtonQQU322hENDSfme3B1qhIvA7Q6TfPMS0oWpsf7O4vqDXVFHchejxmRAWiX1FtFUzw==",
       "requires": {
         "@babel/plugin-proposal-class-properties": "^7.3.0",
         "@babel/register": "^7.0.0",

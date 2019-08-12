@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {
   checkAddress, FileTransactionGenerator, EtherTransaction,
-  FileTransactionReader, ConverterCSVToTxObject,
+  ConverterEtherCSVToTxObject,
 } from 'walletcs';
 
 import { Button} from '@material-ui/core';
@@ -17,23 +17,12 @@ import TableWCS from '../../components/TableWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import ModalWrappedWCS from '../../components/ModalWCS';
 import ButtonInputFile from '../../components/ButtonInputFileWCS';
-import QuestionToolTipWCS from '../../components/QuestionToolTipWCS';
-import ToolTipsWCS from '../../components/ToolTipsWCS';
-import QuestionIcon from '../../components/QuestionToolTipWCS/QuestionIcon';
+import QuestionMarkButton from '../../components/QuestionToolTipWCS/QuestionButton';
 
 const styles = theme => ({
   iconButton: {
   },
 });
-
-const QuestionMarkButton = (props) => {
-  const { onClick } = props;
-
-  return (
-      <ToolTipsWCS {...props}>
-        <QuestionIcon onClick={onClick}/>
-      </ToolTipsWCS>);
-};
 
 const TableBatchEther = ({ className, ...props }) => {
   const {
@@ -68,7 +57,7 @@ const TableBatchEther = ({ className, ...props }) => {
 
   const handleLoadFile = (e) => {
     const file = e.target.result;
-    const converter = new ConverterCSVToTxObject(
+    const converter = new ConverterEtherCSVToTxObject(
       file,
       stateMethod.publicKey,
       process.env.REACT_APP_ETH_NETWORK_SEND,
