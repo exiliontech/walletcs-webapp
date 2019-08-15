@@ -63,16 +63,16 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
         stateBitcoin.to_addresses.map(val => val.value),
         stateBitcoin.amounts.map(val => val.value),
         stateBitcoin.change_address,
-        stateBitcoin.fee,
+        null,
         'single',
       );
       dispatchBitcoin({
         type: 'set_fee',
-        payload: (JSON.parse(bttx.getJsonTransaction()).fee  / (10 ** 8)).toString(),
+        payload: (bttx.getFee() / (10 ** 8)).toString(),
       });
     };
     calculateFee();
-  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses, stateBitcoin.amounts]);
+  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses]);
 
 
   return (
@@ -88,11 +88,13 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
             <div className={classes.additionalArea}>
               <div className={classes.containerAdditionArea}>
                 <DropDownWCS
+                  selectLabel='Change'
                   classes={classes}
                   items={stateBitcoin.from_addresses.map(val => (val.value && checkBitcoinAddress(val.value) ? { name: val.value } : {}))}
                   onChange={value => dispatchBitcoin({ type: 'set_change_address', payload: value })}
                   placeHolder='Choose change address.'
-                  selectedOption={stateBitcoin.change_address}/>
+                  selectedOption={stateBitcoin.change_address}
+                  onInputChange={value => dispatchBitcoin({ type: 'set_change_address', payload: value })}/>
               </div>
                 <SecondaryInputWCS
                   className={classes.AdditionalInput}

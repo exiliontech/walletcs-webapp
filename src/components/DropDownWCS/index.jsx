@@ -21,6 +21,13 @@ const styles = theme => ({
     left: 0,
     right: 0,
   },
+  selectLabel: {
+    fontSize: 15,
+    marginTop: 0,
+    marginBottom: 2,
+    textAlign: 'left',
+    color: '#6E7782',
+  },
 });
 
 const DropdownIndicator = props => (
@@ -33,7 +40,8 @@ const DropdownIndicator = props => (
 
 const DropDownWCS = (props) => {
   const { classes, placeHolder, items } = props;
-  const { onChange, selectedOption } = props;
+  const { onChange, selectedOption, selectLabel } = props;
+  const { onInputChange } = props;
 
   const newItems = items.map(val => ({ label: val.name, value: val.name }));
 
@@ -99,6 +107,7 @@ const DropDownWCS = (props) => {
   return (
       <div className={cx(classes.root, classes.dropdownContainer)}>
         <NoSsr>
+          <p className={classes.selectLabel}>{selectLabel}</p>
           <CreatableSelect
               value={selectedOption ? { label: selectedOption, value: selectedOption } : null}
               components = {{ DropdownIndicator }}
@@ -107,6 +116,9 @@ const DropDownWCS = (props) => {
               onChange={newVal => onChange(newVal.value)}
               placeholder={placeHolder}
               styles={customStyles}
+              onInputChange={onInputChange}
+              onSelectResetsInput={false}
+              onBlurResetsInput={false}
           />
         </NoSsr>
       </div>
@@ -119,6 +131,8 @@ DropDownWCS.propTypes = {
   items: PropTypes.array,
   placeHolder: PropTypes.string,
   selectedOption: PropTypes.string,
+  selectLabel: PropTypes.string,
+  onInputChange: PropTypes.func,
 };
 
 export default withStyles(styles, { withTheme: true })(DropDownWCS);
