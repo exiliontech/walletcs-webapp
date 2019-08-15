@@ -287,11 +287,6 @@
             "lodash": "^4.17.13",
             "to-fast-properties": "^2.0.0"
           }
-        },
-        "lodash": {
-          "version": "4.17.15",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
-          "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A=="
         }
       }
     },
@@ -1331,11 +1326,6 @@
           "version": "3.2.1",
           "resolved": "https://registry.npmjs.org/core-js/-/core-js-3.2.1.tgz",
           "integrity": "sha512-Qa5XSVefSVPRxy2XfUC13WbvqkxhkwB3ve+pgCQveNgYzbM/UxZeu1dcOX/xr4UmfUd+muuvsaxilQzCyUurMw=="
-        },
-        "lodash": {
-          "version": "4.17.15",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
-          "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A=="
         }
       }
     },
@@ -4094,11 +4084,6 @@
           "version": "2.0.1",
           "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
           "integrity": "sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE="
-        },
-        "lodash": {
-          "version": "4.17.15",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
-          "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A=="
         }
       }
     },
@@ -16113,9 +16098,9 @@
       }
     },
     "walletcs": {
-      "version": "0.10.8",
-      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-0.10.8.tgz",
-      "integrity": "sha512-sdqZncRtk6DsEkJjanPtonQQU322hENDSfme3B1qhIvA7Q6TfPMS0oWpsf7O4vqDXVFHchejxmRAWiX1FtFUzw==",
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/walletcs/-/walletcs-1.0.0.tgz",
+      "integrity": "sha512-BsU/PYYizxH/OeKjRELlXtQC6raAW3R0D8pTIhqQju75zpgEoYcY6nGq1l6OT/CZB8l/FNZul65ACVljdMgTqg==",
       "requires": {
         "@babel/plugin-proposal-class-properties": "^7.3.0",
         "@babel/register": "^7.0.0",

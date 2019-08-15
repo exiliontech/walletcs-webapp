@@ -38,9 +38,9 @@ export const bitcoinReducer = (state, action) => {
     case 'replace_from_csv':
       return ({
         ...state,
-        from_addresses: action.payload.from_addresses.map(value => ({ value })),
-        to_addresses: action.payload.to_addresses.map(value => ({ value })),
-        amounts: action.payload.amounts.map(value => ({ value })),
+        from_addresses: action.payload.from_addresses.length ? action.payload.from_addresses.map(value => ({ value })) : initStateBitcoin.from_addresses,
+        to_addresses: action.payload.to_addresses.length ? action.payload.to_addresses.map(value => ({ value })) : initStateBitcoin.to_addresses,
+        amounts: action.payload.amounts.length ? action.payload.amounts.map(value => ({ value })) : initStateBitcoin.amounts,
         change_address: action.payload.change_address,
       });
     case 'delete_from':

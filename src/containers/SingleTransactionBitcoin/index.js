@@ -1,9 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { FileTransactionGenerator, BitcoinTransaction, checkBitcoinAddress,
-  ConverterBitcoinCSVToTxObject } from 'walletcs';
+import {
+  FileTransactionGenerator, BitcoinTransaction, checkBitcoinAddress,
+  ConverterBitcoinCSVToTxObject,
+} from 'walletcs';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import { downloadFile } from '../SingleTransactionEtherC/actionsSingleTransaction';
@@ -26,9 +28,16 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
 
   const generateFile = async () => {
     const fileGenerator = new FileTransactionGenerator(stateBitcoin.change_address);
-    const bttx = new BitcoinTransaction(stateBitcoin.from_addresses.map(val => val.value), mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
-    const transaction = await bttx.createTx(stateBitcoin.to_addresses.map(val => val.value), stateBitcoin.amounts.map(val => val.value), stateBitcoin.change_address, stateBitcoin.fee);
-    fileGenerator.addTx(null, transaction, process.env.REACT_APP_BITCOIN_NETWORK);
+    const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
+    await bttx.createTx(
+      stateBitcoin.from_addresses.map(val => val.value),
+      stateBitcoin.to_addresses.map(val => val.value),
+      stateBitcoin.amounts.map(val => val.value),
+      stateBitcoin.change_address,
+      stateBitcoin.fee,
+      'single',
+    );
+    fileGenerator.addTx(null, JSON.parse(bttx.getJsonTransaction()), process.env.REACT_APP_BITCOIN_NETWORK);
     downloadFile('tr-', fileGenerator.generateJson());
   };
 
@@ -45,6 +54,26 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
     fileReader.onload = ev => handleLoadFile(ev);
     fileReader.readAsText(e.target.files[0]);
   };
+
+  useEffect(() => {
+    const calculateFee = async () => {
+      const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
+      await bttx.createTx(
+        stateBitcoin.from_addresses.map(val => val.value),
+        stateBitcoin.to_addresses.map(val => val.value),
+        stateBitcoin.amounts.map(val => val.value),
+        stateBitcoin.change_address,
+        stateBitcoin.fee,
+        'single',
+      );
+      dispatchBitcoin({
+        type: 'set_fee',
+        payload: (JSON.parse(bttx.getJsonTransaction()).fee  / (10 ** 8)).toString(),
+      });
+    };
+    calculateFee();
+  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses, stateBitcoin.amounts, stateBitcoin.change_address, stateBitcoin.fee]);
+
 
   return (
         <ContentCardWCS className={cx(
