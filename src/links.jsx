@@ -30,7 +30,6 @@ export const ETHER_ROUTES = [
 
 export const BITCOIN_ROUTES = [
   <Route path={CURRENCIES_LINKS.bitcoin_single} exact component={SingleTransactionBitcoin}/>,
-  <Route path={CURRENCIES_LINKS.bitcoin_batch} exact component={BatchTransactionBitcon}/>,
   <Route path={CURRENCIES_LINKS.bitcoin_broadcast} exact component={BroadcastTransactionBitcoin}/>,
   <Route path='*' render={() => <Redirect to={{ pathname: CURRENCIES_LINKS.bitcoin_single }} />} />,
 

@@ -28,13 +28,13 @@ const BitcoinHeader = ({className, ...props}) => {
             Single Transaction
           </TabContainer>
         </Link>
-        <Link to={links.bitcoin_batch}
-              style={{ textDecoration: 'none'}}
-              className={cx(classes.link, window.location.pathname === links.bitcoin_batch ? classes.linkSelected: false)}>
-          <TabContainer>
-            Batch Transaction
-          </TabContainer>
-        </Link>
+        {/*<Link to={links.bitcoin_batch}*/}
+        {/*      style={{ textDecoration: 'none'}}*/}
+        {/*      className={cx(classes.link, window.location.pathname === links.bitcoin_batch ? classes.linkSelected: false)}>*/}
+        {/*  <TabContainer>*/}
+        {/*    Batch Transaction*/}
+        {/*  </TabContainer>*/}
+        {/*</Link>*/}
         <Link to={links.bitcoin_broadcast}
               style={{ textDecoration: 'none'}}
               className={cx(classes.link, window.location.pathname === links.bitcoin_broadcast ? classes.linkSelected: false)}>

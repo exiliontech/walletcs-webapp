@@ -32,7 +32,7 @@ const App = () => {
     setCurrency(val);
   };
 
-  const initMetaMask = () => {
+  const initNode = () => {
     const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby'
       ? 'https://rinkeby.infura.io/v3/15397ed5cc24454d92a27f16c5445692'
       : 'https://mainnet.infura.io/v3/15397ed5cc24454d92a27f16c5445692';
@@ -54,7 +54,7 @@ const App = () => {
                   dispatchGlobal: dispatch,
                   currentCurrency: stateCurrency,
                 }}>
-              <Web3Context.Provider value={initMetaMask()}>
+              <Web3Context.Provider value={initNode()}>
                 <MuiThemeProvider theme={WalletCSTheme}>
                   <Header
                       handleCurrency={handleCurrency}
