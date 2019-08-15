@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const initStateBitcoin = {
   from_addresses: [{ value: '' }],
   to_addresses: [{ value: '' }],
@@ -42,14 +44,11 @@ export const bitcoinReducer = (state, action) => {
         change_address: action.payload.change_address,
       });
     case 'delete_from':
-      state.from_addresses.pop();
-      return ({ ...state });
+      return ({ ...state, from_addresses: _.filter(state.from_addresses, (val, index) => index !== action.index) });
     case 'delete_to':
-      state.to_addresses.pop();
-      return ({ ...state });
+      return ({ ...state, to_addresses: _.filter(state.to_addresses, (val, index) => index !== action.index) });
     case 'delete_amount':
-      state.amounts.pop();
-      return ({ ...state });
+      return ({ ...state, amounts: _.filter(state.amounts, (val, index) => index !== action.index) });
     case 'set_change_address':
       return ({ ...state, change_address: action.payload });
     case 'set_fee':
