@@ -72,7 +72,7 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
       });
     };
     calculateFee();
-  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses, stateBitcoin.amounts, stateBitcoin.change_address, stateBitcoin.fee]);
+  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses, stateBitcoin.amounts]);
 
 
   return (
