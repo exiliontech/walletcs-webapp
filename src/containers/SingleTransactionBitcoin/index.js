@@ -1,7 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
+import React, {
+  useReducer, useEffect, useRef, useContext,
+} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import * as _ from 'lodash';
 import {
   FileTransactionGenerator, BitcoinTransaction, checkBitcoinAddress,
   ConverterBitcoinCSVToTxObject,
@@ -18,6 +21,7 @@ import SecondaryInputWCS from '../../components/SecondaryInputWCS';
 import { isDecimal } from '../../utils';
 import ButtonInputFile from '../../components/ButtonInputFileWCS';
 import QuestionMarkButton from '../../components/QuestionToolTipWCS/QuestionButton';
+import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 
 const mapNetworks = { BTC_MAINNET: 'main', BTC_TESTNET: 'test3' };
 
@@ -25,6 +29,7 @@ const mapNetworks = { BTC_MAINNET: 'main', BTC_TESTNET: 'test3' };
 const SingleTransactionBitcoin = ({ className, ...props }) => {
   const { classes } = props;
   const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
+  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
 
   const generateFile = async () => {
     const fileGenerator = new FileTransactionGenerator(stateBitcoin.change_address);
@@ -58,21 +63,30 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   useEffect(() => {
     const calculateFee = async () => {
       const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
-      await bttx.createTx(
-        stateBitcoin.from_addresses.map(val => val.value),
-        stateBitcoin.to_addresses.map(val => val.value),
-        stateBitcoin.amounts.map(val => val.value),
-        stateBitcoin.change_address,
-        null,
-        'single',
-      );
-      dispatchBitcoin({
-        type: 'set_fee',
-        payload: (bttx.getFee() / (10 ** 8)).toString(),
-      });
+      console.log(stateBitcoin.from_addresses && stateBitcoin.to_addresses
+          && stateBitcoin.amounts && stateBitcoin.change_address);
+      if (stateBitcoin.from_addresses && stateBitcoin.to_addresses
+          && stateBitcoin.amounts && stateBitcoin.change_address) {
+        try {
+          await bttx.createTx(
+            stateBitcoin.from_addresses.map(val => val.value),
+            stateBitcoin.to_addresses.filter(val => !val.value).map(val => val.value),
+            stateBitcoin.amounts.map(val => val.value),
+            stateBitcoin.change_address,
+            null,
+            'single',
+          );
+          dispatchBitcoin({
+            type: 'set_fee',
+            payload: (bttx.getFee() / (10 ** 8)).toString(),
+          });
+        } catch (e) {
+          console.error('ERROR: ', e);
+        }
+      }
     };
     calculateFee();
-  }, [stateBitcoin.from_addresses, stateBitcoin.to_addresses]);
+  }, [stateBitcoin]);
 
 
   return (
@@ -90,11 +104,13 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
                 <DropDownWCS
                   selectLabel='Change'
                   classes={classes}
-                  items={stateBitcoin.from_addresses.map(val => (val.value && checkBitcoinAddress(val.value) ? { name: val.value } : {}))}
+                  items={ _.unionBy(stateBitcoin.from_addresses.map(val => (val.value && checkBitcoinAddress(val.value) ? { name: val.value } : {})), e => e.value)}
                   onChange={value => dispatchBitcoin({ type: 'set_change_address', payload: value })}
                   placeHolder='Choose change address.'
                   selectedOption={stateBitcoin.change_address}
-                  onInputChange={value => dispatchBitcoin({ type: 'set_change_address', payload: value })}/>
+                  // TODO: Bug in the react-select input
+                  // onInputChange={ value => dispatchBitcoin({ type: 'set_change_address', payload: value })}
+                />
               </div>
                 <SecondaryInputWCS
                   className={classes.AdditionalInput}
