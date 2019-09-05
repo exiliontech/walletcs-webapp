@@ -112,27 +112,27 @@ const BroadcastWCS = ({ className, ...props }) => {
                       </InputAdornment>
                   ),
                 }}/>
+           <div className={classes.containerButtons}>
+            <ButtonWCS
+                className={classes.button}
+                disabled={!parentState.table.length || isBroadcasted}
+                onClick={onBroadcast}>
+              Broadcast Transaction
+            </ButtonWCS>
+            {onDownloadReport
+              ? <ButtonWCS
+                    className={classes.button}
+                    disabled={!isBroadcasted}
+                    onClick={onDownloadReport}>
+                  Download Report
+                </ButtonWCS> : ''}
+            </div>
             <TableWCS
                 headers={['ADDRESS', 'METHOD']}
                 isDelete={true}
                 onDelete={onDelete}
                 onClick={onOpenModal}
                 rows={parentState.rows || []}/>
-                <div className={classes.containerButtons}>
-                  <ButtonWCS
-                      className={classes.button}
-                      disabled={!parentState.table.length || isBroadcasted}
-                      onClick={onBroadcast}>
-                    Broadcast Transaction
-                  </ButtonWCS>
-                  {onDownloadReport
-                    ? <ButtonWCS
-                          className={classes.button}
-                          disabled={!isBroadcasted}
-                          onClick={onDownloadReport}>
-                        Download Report
-                      </ButtonWCS> : ''}
-                </div>
           </div>
         </ContentCardWCS>
         {parentState.modalIsOpen

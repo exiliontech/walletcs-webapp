@@ -122,13 +122,6 @@ const TableBatchEther = ({ className, ...props }) => {
               isRedirect
               textQuestionTip='Аccount associated with the private key that will be used to sign this transaction' />
 
-          <TableWCS
-              headers={['ADDRESS', 'METHOD']}
-              rows={stateContract.table}
-              isDelete={true}
-              onDelete={onDelete}
-              onClick={onOpenModal}/>
-
           <div className={classes.containerAddTransaction}>
             <Button
                 color="secondary"
@@ -159,6 +152,12 @@ const TableBatchEther = ({ className, ...props }) => {
               onClick={downloadBatchTransaction}>
             Download Transactions
           </ButtonWCS>
+          <TableWCS
+              headers={['ADDRESS', 'METHOD']}
+              rows={stateContract.table}
+              isDelete={true}
+              onDelete={onDelete}
+              onClick={onOpenModal}/>
         </div>
         {modalIsOpen ? <ModalWrappedWCS
             isOpen={modalIsOpen}
