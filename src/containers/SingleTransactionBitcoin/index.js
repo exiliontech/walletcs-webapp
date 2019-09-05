@@ -63,8 +63,6 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   useEffect(() => {
     const calculateFee = async () => {
       const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
-      console.log(stateBitcoin.from_addresses && stateBitcoin.to_addresses
-          && stateBitcoin.amounts && stateBitcoin.change_address);
       if (stateBitcoin.from_addresses && stateBitcoin.to_addresses
           && stateBitcoin.amounts && stateBitcoin.change_address) {
         try {

@@ -84,10 +84,10 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
       ['transaction_id', 'address', 'amount', 'success', 'error_details'],
     ];
 
-    const { resultsTable } = state;
+    const { resultsBroadcastTable } = state;
 
-    for (let i = 0; i < resultsTable.length; i += 1) {
-      const row = resultsTable[i];
+    for (let i = 0; i < resultsBroadcastTable.length; i += 1) {
+      const row = resultsBroadcastTable[i];
       rows.push([row.transaction_id, row.to, row.value, row.success, row.error_details]);
     }
 

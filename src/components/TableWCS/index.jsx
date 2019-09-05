@@ -76,8 +76,9 @@ const TableWCS = ({ className, ...props }) => {
                     <TableCell
                         className={classes.tableCell}
                         onClick={() => onClick(index)}
-                        style={{ cursor: 'pointer' }}>{
-                          row ? row.contractAddress || row.params.filter(val => val.name.startsWith('to'))[0].value : ''}</TableCell>
+                        style={{ cursor: 'pointer' }}>
+                      <a style={ { textDecoration: 'underline' } }>{row ? row.contractAddress || row.params.filter(val => val.name.startsWith('to'))[0].value : ''}</a>
+                    </TableCell>
                     <TableCell
                         align="right"
                         className={classes.tableCell}>{row ? row.methodName || 'Transfer' : ''}
