@@ -37,7 +37,7 @@ const App = () => {
       ? 'https://rinkeby.infura.io/v3/15397ed5cc24454d92a27f16c5445692'
       : 'https://mainnet.infura.io/v3/15397ed5cc24454d92a27f16c5445692';
     try {
-      const provider = new ethers.providers.JsonRpcProvider(network, 'rinkeby');
+      const provider = new ethers.providers.JsonRpcProvider(network);
       return { provider };
     } catch (e) {
       return { provider: null };
