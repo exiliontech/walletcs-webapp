@@ -35,6 +35,7 @@ const EtherTransferFields = ({ className, ...props }) => {
   const getNonce = () => {
     if (checkAddress(stateMethod.publicKey)) {
       provider.getTransactionCount(stateMethod.publicKey).then((count) => {
+        console.log('GET NONCE: ', count);
         const params = validationInput(stateMethod.methodParams, count.toString(), 'nonce');
         dispatchMethod({ type: 'set_params', payload: params });
       }).catch(error => console.error(error));
@@ -43,7 +44,7 @@ const EtherTransferFields = ({ className, ...props }) => {
 
   useEffect(() => {
     getNonce();
-  }, [getNonce, stateMethod.publicKey]);
+  }, [stateMethod.publicKey]);
 
   return (
       <ContentCardWCS

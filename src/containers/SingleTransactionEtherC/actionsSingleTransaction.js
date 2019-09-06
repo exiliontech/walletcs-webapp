@@ -93,6 +93,7 @@ export const useMethodInfo = (stateContract) => {
 
         if (checkAddress(state.publicKey)) {
           nonce = await provider.getTransactionCount(state.publicKey);
+          console.log('GET NONCE AWAIT: ', nonce);
           dispatch({ type: 'set_nonce', payload: nonce });
         }
 
