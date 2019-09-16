@@ -1,4 +1,4 @@
-## Walletcs-webapp ![GitHub package.json version](https://img.shields.io/github/package-json/v/walletcs/walletcs-webapp) [![GitHub license](https://img.shields.io/github/license/walletcs/walletcs-app.svg)](https://github.com/walletcs/walletcs-webapp/blob/master/LICENSE)
+## Walletcs-webapp ![GitHub package.json version](https://img.shields.io/github/package-json/v/walletcs/walletcs-webapp) [![GitHub license](https://img.shields.io/github/license/walletcs/walletcs-app.svg)](https://github.com/walletcs/walletcs-webapp/blob/master/LICENSE) [![pipeline status](https://gitlab.com/walletcs/walletcs-webapp/badges/master/pipeline.svg)](https://gitlab.com/walletcs/walletcs-webapp/commits/master)
 <img alt="Gitlab pipeline status" src="https://img.shields.io/gitlab/pipeline/walletcs/walletcs-webapp">
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
