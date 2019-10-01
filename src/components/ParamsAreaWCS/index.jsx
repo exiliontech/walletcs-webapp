@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { checkAddress } from 'walletcs';
+import { checkEtherAddress } from '../../utils';
 import { withStyles } from "@material-ui/core/styles";
 import InputWCS from '../InputWCS'
 import SecondaryInputWCS from '../SecondaryInputWCS';
@@ -48,7 +48,7 @@ const ParamsAreaWCS = ({ className, ...props }) => {
       return true;
     }
     if (type === 'address') {
-      return checkAddress(value)
+      return checkEtherAddress(value);
     }
     if (type.indexOf('uint') > -1) {
       let data = parseInt(value);

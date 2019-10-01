@@ -30,7 +30,7 @@ const BroadcastWCS = ({ className, ...props }) => {
     classes, parentState, onOpenModal, onAttachFile, onDelete,
   } = props;
   const {
-    onCloseModal, onBroadcast, onDownloadReport, isBroadcasted, currency,
+    onCloseModal, onBroadcast, isBroadcasted, currency,
   } = props;
   const { parentDispatch } = props;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -119,13 +119,6 @@ const BroadcastWCS = ({ className, ...props }) => {
                 onClick={onBroadcast}>
               Broadcast Transaction
             </ButtonWCS>
-            {onDownloadReport
-              ? <ButtonWCS
-                    className={classes.button}
-                    disabled={!isBroadcasted}
-                    onClick={onDownloadReport}>
-                  Download Report
-                </ButtonWCS> : ''}
             </div>
             <TableWCS
                 headers={['ADDRESS', 'METHOD']}
@@ -155,7 +148,6 @@ BroadcastWCS.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   parentState: PropTypes.object.isRequired,
   parentDispatch: PropTypes.func.isRequired,
-  onDownloadReport: PropTypes.func,
   currency: PropTypes.string,
   isBroadcasted: PropTypes.bool,
 };

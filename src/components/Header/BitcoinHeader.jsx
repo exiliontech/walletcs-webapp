@@ -2,9 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import {styles} from './styles';
+import { styles } from './styles';
 
 const TabContainer = (props) => {
   return (
@@ -28,13 +28,6 @@ const BitcoinHeader = ({className, ...props}) => {
             Single Transaction
           </TabContainer>
         </Link>
-        {/*<Link to={links.bitcoin_batch}*/}
-        {/*      style={{ textDecoration: 'none'}}*/}
-        {/*      className={cx(classes.link, window.location.pathname === links.bitcoin_batch ? classes.linkSelected: false)}>*/}
-        {/*  <TabContainer>*/}
-        {/*    Batch Transaction*/}
-        {/*  </TabContainer>*/}
-        {/*</Link>*/}
         <Link to={links.bitcoin_broadcast}
               style={{ textDecoration: 'none'}}
               className={cx(classes.link, window.location.pathname === links.bitcoin_broadcast ? classes.linkSelected: false)}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { checkBitcoinAddress, addressIsMainNet } from 'walletcs';
+import { checkBitcoinAddress, addressIsMainNet } from '../../utils';
 import { Button } from '@material-ui/core';
 import InputWCS from '../../components/InputWCS';
 import { MINIMUM_AMOUNT_IN_BITCOIN, COF_BTC_SATOSHI, NETWORKS } from '../../consts/bitcoin';
@@ -78,7 +78,7 @@ const GroupInputsBitcoin = ({ className, ...props }) => {
 
   const validateAmount = (amount) => {
     if (!!amount && amount < MINIMUM_AMOUNT_IN_BITCOIN) {
-      return `amount should be more than ${MINIMUM_AMOUNT_IN_BITCOIN}  
+      return `amount should be more than ${MINIMUM_AMOUNT_IN_BITCOIN}
       bitcoin ( ${MINIMUM_AMOUNT_IN_BITCOIN * COF_BTC_SATOSHI} satoshi)`;
     }
     return null;

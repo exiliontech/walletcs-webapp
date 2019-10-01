@@ -1,82 +1,68 @@
-import React, {
-  useReducer, useEffect, useRef, useContext,
-} from 'react';
+import React, { useReducer, useEffect, useContext } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as _ from 'lodash';
+import * as structures from '@exiliontech/walletcs/lib/base/structures';
+import { BitcoinTxBuilder, TransactionConstructor } from '@exiliontech/walletcs/lib/transactions';
 import {
-  FileTransactionGenerator, BitcoinTransaction, checkBitcoinAddress,
-  ConverterBitcoinCSVToTxObject,
-} from 'walletcs';
+  checkBitcoinAddress,
+  isDecimal, getBitcoinOutxs, combineFromObjec, combineToObject,
+} from '../../utils';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import ButtonWCS from '../../components/ButtonWCS';
 import { downloadFile } from '../SingleTransactionEtherC/actionsSingleTransaction';
-
 import { bitcoinReducer, initStateBitcoin } from '../../reducers';
 import GroupInputsBitcoin from '../GroupInputsBitcoin';
 import { styles } from './styles';
 import DropDownWCS from '../../components/DropDownWCS';
 import SecondaryInputWCS from '../../components/SecondaryInputWCS';
-import { isDecimal } from '../../utils';
-import ButtonInputFile from '../../components/ButtonInputFileWCS';
-import QuestionMarkButton from '../../components/QuestionToolTipWCS/QuestionButton';
-import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 
-const mapNetworks = { BTC_MAINNET: 'main', BTC_TESTNET: 'test3' };
+
+import Web3Context from '../../contexts/Web3Context';
 
 
 const SingleTransactionBitcoin = ({ className, ...props }) => {
   const { classes } = props;
   const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
-  const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
+  const { bitcoinProvider } = useContext(Web3Context);
+
+
+  const _convertStateToTxFormat = async () => {
+    const outxs = await getBitcoinOutxs(_.map(stateBitcoin.from_addresses, val => val.value), bitcoinProvider);
+    const from = combineFromObjec(_.map(stateBitcoin.from_addresses, val => val.value), stateBitcoin.change_address);
+    const to = combineToObject(_.map(stateBitcoin.to_addresses, val => val.value), _.map(stateBitcoin.amounts, val => parseFloat(val.value)));
+    return [outxs, from, to];
+  };
 
   const generateFile = async () => {
-    const fileGenerator = new FileTransactionGenerator(stateBitcoin.change_address);
-    const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
-    await bttx.createTx(
-      stateBitcoin.from_addresses.map(val => val.value),
-      stateBitcoin.to_addresses.map(val => val.value),
-      stateBitcoin.amounts.map(val => val.value),
-      stateBitcoin.change_address,
-      stateBitcoin.fee,
-      'single',
-    );
-    fileGenerator.addTx(null, JSON.parse(bttx.getJsonTransaction()), process.env.REACT_APP_BITCOIN_NETWORK);
-    downloadFile('tr-', fileGenerator.generateJson());
+    const bitcoinFile = structures.BitcoinFileTransaction;
+    const [outxs, from, to] = await _convertStateToTxFormat();
+    bitcoinFile.from.push(...from);
+    bitcoinFile.to.push(...to);
+    bitcoinFile.outx.push(...outxs);
+    bitcoinFile.fee = stateBitcoin.fee || 0;
+    downloadFile('tr-', JSON.stringify(bitcoinFile));
   };
 
-  const handleLoadFile = (e) => {
-    const file = e.target.result;
-    const converter = new ConverterBitcoinCSVToTxObject(file);
-    converter.convert().then((rows) => {
-      dispatchBitcoin({ type: 'replace_from_csv', payload: rows });
-    });
-  };
-
-  const onUploadCSVFile = (e) => {
-    const fileReader = new FileReader();
-    fileReader.onload = ev => handleLoadFile(ev);
-    fileReader.readAsText(e.target.files[0]);
+  const generateTx = async () => {
+    const builder = new BitcoinTxBuilder();
+    const director = new TransactionConstructor(builder);
+    const [outxs, from, to] = await _convertStateToTxFormat();
+    const tx = director.buildBitcoinTx(outxs, from, to);
+    return tx;
   };
 
   useEffect(() => {
     const calculateFee = async () => {
-      const bttx = new BitcoinTransaction(mapNetworks[process.env.REACT_APP_BITCOIN_NETWORK] || 'test3');
       if (stateBitcoin.from_addresses && stateBitcoin.to_addresses
           && stateBitcoin.amounts && stateBitcoin.change_address) {
         try {
-          await bttx.createTx(
-            stateBitcoin.from_addresses.map(val => val.value),
-            stateBitcoin.to_addresses.filter(val => !val.value).map(val => val.value),
-            stateBitcoin.amounts.map(val => val.value),
-            stateBitcoin.change_address,
-            null,
-            'single',
-          );
+          const tx = await generateTx();
+          console.log('TX:', tx);
           dispatchBitcoin({
             type: 'set_fee',
-            payload: (bttx.getFee() / (10 ** 8)).toString(),
+            payload: (tx.fee / (10 ** 8)).toString(),
           });
         } catch (e) {
           console.error('ERROR: ', e);
@@ -84,7 +70,7 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
       }
     };
     calculateFee();
-  }, [stateBitcoin]);
+  }, [stateBitcoin.amounts, stateBitcoin.change_address, stateBitcoin.from_addresses, stateBitcoin.to_addresses]);
 
 
   return (
@@ -126,17 +112,6 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
                          onClick={generateFile}>
                 Download Transaction
               </ButtonWCS>
-              <div className={classes.uploadFileContainer}>
-                <ButtonInputFile onAttachFile={onUploadCSVFile}
-                               classes={classes}
-                               accept='.csv'>
-                Upload csv file
-              </ButtonInputFile>
-               <QuestionMarkButton
-                onClick={() => window.open('https://github.com/walletcs/walletcs-app#batch-operations', '_blank')}
-                classes={classes.iconButton}
-                text={'File format information.'}/>
-              </div>
             </div>
           </div>
         </ContentCardWCS>

@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from 'react';
-import { ethers } from 'ethers';
 
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { InfuraProvider, BlockCypherProvider } from '@exiliontech/walletcs-lib-ext';
 import WalletCSTheme from './themes';
 import Header from './components/Header';
 import Web3Context from './contexts/Web3Context';
@@ -11,6 +11,7 @@ import GlobalReducerContext from './contexts/GlobalReducerContext';
 import RedirectMainNet from './components/RedirectMainNet';
 import { globalReducer, initStateGlobal } from './reducers';
 import { CURRENCIES_LINKS, getCurrentRoutes } from './links';
+import { INFURA_URI } from './consts/ethereum';
 
 const listCurrencies = ['ether', 'bitcoin'];
 
@@ -32,17 +33,24 @@ const App = () => {
     setCurrency(val);
   };
 
-  const initNode = () => {
-    const network = process.env.REACT_APP_ETH_NETWORK_SEND === 'rinkeby'
-      ? 'https://rinkeby.infura.io/v3/15397ed5cc24454d92a27f16c5445692'
-      : 'https://mainnet.infura.io/v3/15397ed5cc24454d92a27f16c5445692';
+  const initNodeEther = () => {
+    const network = INFURA_URI[process.env.REACT_APP_ETH_NETWORK_SEND];
     try {
-      const provider = new ethers.providers.JsonRpcProvider(network);
-      return { provider };
+      return new InfuraProvider(network, process.env.REACT_APP_ETH_NETWORK_SEND);
     } catch (e) {
-      return { provider: null };
+      return null;
     }
   };
+
+  const initNodeBitcoin = () => {
+    try {
+      return new BlockCypherProvider(process.env.REACT_APP_BTC_NETWORK_SEND);
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const initNode = () => ({ bitcoinProvider: initNodeBitcoin(), etherProvider: initNodeEther() });
 
   return (
         <Router>

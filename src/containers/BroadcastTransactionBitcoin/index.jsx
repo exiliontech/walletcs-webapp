@@ -1,18 +1,21 @@
 import React, { useContext, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FileTransactionReader, BitcoinTransaction } from 'walletcs';
 import { withStyles } from '@material-ui/core/styles';
+import * as _ from 'lodash';
 import { SnackbarProvider } from 'notistack';
 import { broadcastReducer, initStateBroadcast } from '../../reducers';
 import { styles } from './styles.js';
 import BroadcastWCS from '../../components/BroadcastWCS';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
+import { parserBitcoinFile } from "../../utils";
+import Web3Context from "../../contexts/Web3Context";
 
 
 const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   const { classes } = props;
   const [state, dispatch] = useReducer(broadcastReducer, initStateBroadcast);
   const { dispatchGlobal } = useContext(GlobalReducerContext);
+  const { bitcoinProvider } = useContext(Web3Context);
   const [isBroadcasted, stateBroadcasted] = useState(false);
 
   const onDelete = (index) => {
@@ -21,22 +24,20 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
 
   const handleLoadFile = (e) => {
     try {
-      const parser = new FileTransactionReader(e.target.result);
-      parser.parserFile(true);
+      const transactions = parserBitcoinFile(e.target.result);
       dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result).transactions });
-      dispatch({ type: 'set_table', payload: parser.transactions });
+      dispatch({ type: 'set_table', payload: transactions });
 
       const rows = [];
-      console.log(parser.transactions);
-      for (const key in parser.transactions) {
-        const contractAddress = parser.transactions[key].params[0].to;
+      _.each(transactions, (tx) => {
+        const contractAddress = tx.params[0].to;
         const methodName = 'Transfer';
         rows.push({
           contractAddress,
           methodName,
-          params: parser.transactions[key].params,
+          params: tx.params,
         });
-      }
+      });
 
       dispatch({ type: 'set_rows', payload: rows });
     } catch (e) {
@@ -63,10 +64,9 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
 
   const onBroadcast = async (e) => {
     try {
-      for (const key in state.originTransactions) {
-        const network = process.env.REACT_APP_BITCOIN_NETWORK === 'BTC_TESTNET' ? 'test3' : 'main';
-        await BitcoinTransaction.broadcastTx(state.originTransactions[key].transaction, network);
-      }
+      _.each(state.originTransactions, async (rawTx) => {
+        await bitcoinProvider.broadcast(rawTx);
+      });
       dispatchGlobal({ type: 'set_global_success', payload: 'Success send all transactions.' });
     } catch (e) {
       const msg = e.message ? e.message : e;

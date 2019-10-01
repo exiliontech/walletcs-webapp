@@ -32,14 +32,7 @@ const EtherHeader = ({className, ...props}) => {
               style={{ textDecoration: 'none'}}
               className={cx(classes.link, window.location.pathname === links.eth_single ? classes.linkSelected: false)}>
           <TabContainer>
-            Smart Contract Single
-          </TabContainer>
-        </Link>
-        <Link to={links.eth_batch}
-              style={{ textDecoration: 'none' }}
-              className={cx(classes.link, window.location.pathname === links.eth_batch ? classes.linkSelected: false)}>
-          <TabContainer>
-            Batch Transactions
+            Smart Contract
           </TabContainer>
         </Link>
         <Link to={links.eth_broadcast}
