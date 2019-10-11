@@ -2,10 +2,12 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-import axios from 'axios';
 import { useContext, useEffect, useReducer } from 'react';
 import { ethers } from 'ethers';
-import { checkAddress, EtherTransaction, FileTransactionGenerator } from 'walletcs';
+import * as structures from '@exiliontech/walletcs/src/base/structures';
+import * as _ from 'lodash';
+import {DEFAULT_PARAMS, GAS_PRICE} from '../../consts/ethereum';
+import { checkEtherAddress } from '../../utils';
 import Web3Context from '../../contexts/Web3Context';
 import GlobalReducerContext from '../../contexts/GlobalReducerContext';
 import {
@@ -17,33 +19,28 @@ export const GAS_LIMIT = 21000;
 export const useContractInfo = () => {
   // Calculates contract information
   const [state, dispatch] = useReducer(contractReducer, initStateContractReducer);
-  const { provider } = useContext(Web3Context);
+  const { etherProvider } = useContext(Web3Context);
   const { dispatchGlobal } = useContext(GlobalReducerContext);
 
   const getContractInformation = async () => {
-    if (checkAddress(state.contractAddress)) {
+    if (checkEtherAddress(state.contractAddress)) {
       try {
         dispatchGlobal({ type: 'set_is_loading_contract' });
-        const url = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${state.contractAddress}`;
-        const urlToken = `https://api-rinkeby.etherscan.io/api?module=account&action=tokentx&contractaddress=${state.contractAddress}&page=1&offset=1`;
 
-        let response = await axios(url);
-        if (response.data.status === '0') {
-          dispatchGlobal({ type: 'set_global_error', payload: response.data.result });
-        } else {
-          const abi = JSON.parse(response.data.result);
+        const stringAbi = await etherProvider.getAbi(state.contractAddress);
+        if (!stringAbi) throw Error('This is not contract address or contract is not verified.');
+        if (stringAbi) {
+          const abi = JSON.parse(stringAbi);
           dispatch({ type: 'set_abi', payload: abi });
-
-          const contract = new ethers.Contract(state.contractAddress, abi, provider);
+          console.log('ABI:', abi);
+          const contract = new ethers.Contract(state.contractAddress, abi, new ethers.providers.JsonRpcProvider(etherProvider.url));
+          console.log('CONTRACT:', contract);
           dispatch({ type: 'set_contract', payload: contract });
-
-          response = await axios(urlToken);
-
-          if (response.data.status === '1') {
-            dispatch({
-              type: 'set_contract_name',
-              payload: response.data.result[0] ? response.data.result[0].tokenName : undefined,
-            });
+          console.log(etherProvider);
+          const contractName = await etherProvider.getContractName(state.contractAddress);
+          console.log('CONTRACT NAME:', contractName);
+          if (!contractName) {
+            dispatch({ type: 'set_contract_name', payload: contractName });
           } else {
             let name;
             try {
@@ -71,7 +68,7 @@ export const useContractInfo = () => {
 
 export const useMethodInfo = (stateContract) => {
   // This method calculates method information and returns stateMethod and dispatchMethod
-  const { provider } = useContext(Web3Context);
+  const { etherProvider } = useContext(Web3Context);
   const [state, dispatch] = useReducer(methodReducer, initStateMethodReducer);
   const { dispatchGlobal } = useContext(GlobalReducerContext);
 
@@ -82,23 +79,22 @@ export const useMethodInfo = (stateContract) => {
       const method = stateContract.abi.filter(val => state.methodName === val.name)[0];
       let params = method ? method.inputs : [];
       const _inter = new ethers.utils.Interface(stateContract.abi);
-
+      
       // If method with Gas limit
       dispatch({ type: 'set_method_type', payload: _inter.functions[method.name].type });
 
       if (_inter.functions[method.name].type === 'transaction') {
         let nonce = 0;
-        const gasPrice = await provider.getGasPrice();
-        dispatch({ type: 'set_gas_price', payload: gasPrice.toNumber() });
+        const gasPrice = parseInt(await etherProvider.getGasPrice(), 16);
+        dispatch({ type: 'set_gas_price', payload: gasPrice });
 
-        if (checkAddress(state.publicKey)) {
-          nonce = await provider.getTransactionCount(state.publicKey);
-          console.log('GET NONCE AWAIT: ', nonce);
+        if (checkEtherAddress(state.publicKey)) {
+          nonce = parseInt(await etherProvider.getNonce(state.publicKey), 16);
           dispatch({ type: 'set_nonce', payload: nonce });
         }
 
         const defaultData = [
-          { name: 'gasPrice', value: gasPrice.toNumber() || 100000000, type: 'uint256' },
+          { name: 'gasPrice', value: gasPrice || GAS_PRICE, type: 'uint256' },
           { name: 'gasLimit', value: null, type: 'uint256' },
           { name: 'nonce', value: nonce, type: 'uint256' }];
 
@@ -143,7 +139,7 @@ export const downloadFile = (name, data) => {
 
 export const downloadOneTransaction = (stateContract, stateMethod) => {
   const { contractAddress, abi } = stateContract;
-  let { methodParams, methodName, publicKey } = stateMethod;
+  let { methodParams, publicKey, methodName } = stateMethod;
 
   // TODO: Need more reasonable solution for a undefined publicKey
   if (!publicKey) {
@@ -153,27 +149,40 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
       }
     }
   }
-
-  const transaction = EtherTransaction.createTx(publicKey, contractAddress, methodParams, abi, methodName);
-  const fileGenerator = new FileTransactionGenerator(publicKey);
-
-  if (EtherTransaction.checkCorrectTx(transaction)) {
-    fileGenerator.addTx(contractAddress, transaction, process.env.REACT_APP_ETH_NETWORK);
-    fileGenerator.addContract(contractAddress, abi);
-  }
-  downloadFile('tr-', fileGenerator.generateJson());
+  const transaction = createTxFromParams(contractAddress, publicKey, methodParams, abi, methodName);
+  const etherFile = structures.EtherFileTransaction;
+  etherFile.transactions.push(transaction);
+  etherFile.contracts.push(abi);
+  downloadFile('tr-', JSON.stringify(etherFile));
 };
 
-const calculateGasLimit = async (transaction, params, publicKey, provider) => {
+const createTxFromParams = (contractAddress, publicKey, methodParams, abi, methodName) => {
+  const transaction = structures.EtherTransaction;
+  if (contractAddress) transaction.to.push({ address: contractAddress });
+  else transaction.to.push({ address: _.map(_.filter(methodParams, value => value.name === 'to'), val => val.value)[0] });
+  transaction.from.push({ address: publicKey });
+  transaction.nonce = _.map(_.filter(methodParams, value => value.name === 'nonce'), val => val.value)[0] || 0;
+  transaction.gasLimit = _.map(_.filter(methodParams, value => value.name === 'gasLimit'), val => val.value)[0] || GAS_LIMIT;
+  transaction.gasPrice = _.map(_.filter(methodParams, value => value.name === 'gasPrice'), val => val.value)[0] || GAS_PRICE;
+  const filteredParams = _.filter(methodParams, param => !DEFAULT_PARAMS.includes(param.name));
+  if (filteredParams.length) {
+    const values = _.map(filteredParams, val => val.value);
+    const inter = new ethers.utils.Interface(abi);
+    transaction.data = inter.functions[methodName].encode(values);
+  }
+  return transaction;
+};
+
+export const calculateGasLimit = async (transaction, provider, params) => {
   // Calculate gas limit
+  console.log(transaction, provider, params);
   try {
     const tx = shallowCopy(transaction);
-    tx.from = publicKey;
-    const estimateGas = await provider.estimateGas(tx);
-
+    let estimateGas = parseInt(await provider.getGasLimit(tx), 16);
+    if (!estimateGas) estimateGas = GAS_LIMIT;
     for (const key in params) {
       if (params[key].name === 'gasLimit') {
-        params[key].value = estimateGas.toNumber();
+        params[key].value = estimateGas;
       }
     }
   } catch (e) {
@@ -188,12 +197,14 @@ const calculateGasLimit = async (transaction, params, publicKey, provider) => {
 
 export const recalculateGasLimit = async (stateContract, stateMethod, dispatchMethod, dispatchGlobal, provider) => {
   // Recalculate gasLimit
-  const { contractAddress, abi } = stateContract || { contractAddress: null, abi: null };
-  const { methodParams, methodName, publicKey } = stateMethod;
-
-  const transaction = EtherTransaction.createTx(publicKey, contractAddress, methodParams, abi, methodName);
-
-  const params = await calculateGasLimit(transaction, stateMethod.methodParams, publicKey, provider);
+  const { contractAddress } = stateContract || { contractAddress: null, abi: null };
+  const { methodParams } = stateMethod;
+  const transaction = {
+    to: contractAddress,
+    gasPrice: `0x${_.filter(methodParams, val => val.name === 'gasPrice')[0].value.toString(16)}`,
+    nonce: `0x${_.filter(methodParams, val => val.name === 'nonce')[0].value.toString(16)}`,
+  };
+  const params = await calculateGasLimit(transaction, provider, methodParams);
   dispatchMethod({ type: 'set_params', payload: params });
 };
 
@@ -209,7 +220,11 @@ export const validationInput = (params, val, name) => {
       if (params[key].type.indexOf('[]') > -1) {
         val = val.split(',');
       } else if (params[key].type.indexOf('uint') > -1) {
-        if (val.indexOf(',') > -1) {
+        if (Number.isInteger(val)){
+
+        } else if (val.startsWith('0x')) {
+          val = parseInt(val, 16);
+        } else if (val.indexOf(',') > -1) {
           val = val.replace(',', '.');
           val = ethers.utils.parseEther(val);
         } else if (val.indexOf(',') > -1) {

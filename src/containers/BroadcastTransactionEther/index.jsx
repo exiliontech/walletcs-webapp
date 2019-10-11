@@ -1,9 +1,10 @@
 import React, { useContext, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
-import { checkAddress, FileTransactionReader } from 'walletcs';
 import { withStyles } from '@material-ui/core/styles';
 import { utils } from 'ethers';
 import { SnackbarProvider } from 'notistack';
+import * as _ from 'lodash';
+import { parserEtherFile } from "../../utils";
 import { broadcastReducer, initStateBroadcast } from '../../reducers';
 import Web3Context from '../../contexts/Web3Context';
 import BroadcastWCS from '../../components/BroadcastWCS';
@@ -16,7 +17,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   const { classes } = props;
   const [state, dispatch] = useReducer(broadcastReducer, initStateBroadcast);
   const { dispatchGlobal } = useContext(GlobalReducerContext);
-  const { provider } = useContext(Web3Context);
+  const { etherProvider } = useContext(Web3Context);
   const [isBroadcasted, stateBroadcasted] = useState(false);
 
   const onDelete = (index) => {
@@ -25,19 +26,17 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
 
   const handleLoadFile = (e) => {
     try {
-      const parser = new FileTransactionReader(e.target.result);
-      parser.parserFile();
+      const transactions = parserEtherFile(e.target.result);
 
-      dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result).transactions });
-      dispatch({ type: 'set_table', payload: parser.transactions });
+      dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result) });
+      dispatch({ type: 'set_table', payload: transactions });
 
       const rows = [];
-      for (const key in parser.transactions) {
-        const contractAddress = parser.transactions[key].transaction.to;
-        const methodName = parser.transactions[key].transaction.data.name || 'Transfer';
+      _.each(transactions, (tx) => {
+        const contractAddress = tx.transaction.to;
+        const methodName = tx.transaction.data.name || 'Transfer';
         rows.push({ contractAddress, methodName });
-      }
-
+      });
       dispatch({ type: 'set_rows', payload: rows });
     } catch (error) {
       dispatchGlobal({ type: 'set_global_error', payload: 'File type is not correct or file is for another network.' });
@@ -60,11 +59,11 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     dispatch({ type: 'set_modal_open' });
   };
 
-  const onBroadcast = async (event) => {
-    for (const key in state.originTransactions) {
-      const readableTransaction = state.table[key].transaction;
+  const onBroadcast = async () => {
+    _.each(state.originTransactions, async (rawTx, index) => {
+      const readableTransaction = state.table[index].transaction;
       try {
-        const tx = await provider.sendTransaction(state.originTransactions[key].transaction);
+        const tx = await etherProvider.broadcast(rawTx);
         readableTransaction.success = true;
         readableTransaction.transaction_id = tx.hash;
         readableTransaction.isVisible = true;
@@ -75,41 +74,8 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
         readableTransaction.isVisible = true;
         dispatch({ type: 'add_result', payload: readableTransaction });
       }
-    }
-    stateBroadcasted(true);
-  };
-
-  const createCSVReport = () => {
-    const rows = [
-      ['transaction_id', 'address', 'amount', 'success', 'error_details'],
-    ];
-
-    const { resultsBroadcastTable } = state;
-
-    for (let i = 0; i < resultsBroadcastTable.length; i += 1) {
-      const row = resultsBroadcastTable[i];
-      rows.push([row.transaction_id, row.to, row.value, row.success, row.error_details]);
-    }
-
-    let csvContent = 'data:text/csv;charset=utf-8,';
-
-    rows.forEach((rowArray) => {
-      const row = rowArray.join(',');
-      csvContent += `${row}\r\n`;
     });
-    return csvContent;
-  };
-
-  const onDownloadReport = () => {
-    const data = createCSVReport();
-    const encodedUri = encodeURI(data);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    const date = Date.now();
-    link.setAttribute('download', `Report-${date}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    stateBroadcasted(true);
   };
 
   const onOpenModal = (index) => {
@@ -156,7 +122,6 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
           onCloseModal={onCloseModal}
           onDelete={onDelete}
           onOpenModal={onOpenModal}
-          onDownloadReport={onDownloadReport}
           parentState={state}
           parentDispatch={dispatch}
           isBroadcasted={isBroadcasted}

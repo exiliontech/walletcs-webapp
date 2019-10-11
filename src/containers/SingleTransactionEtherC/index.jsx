@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { checkAddress } from 'walletcs';
+import { checkEtherAddress } from '../../utils';
 import ContentCardWCS from '../../components/ContentCardWCS';
 import InputWCS from '../../components/InputWCS';
 import ButtonWCS from '../../components/ButtonWCS';
@@ -21,7 +21,7 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
   const { classes } = props;
 
   const [state, dispatch] = useContractInfo();
-  const { provider } = useContext(Web3Context);
+  const { etherProvider } = useContext(Web3Context);
   const [stateMethod, dispatchMethod] = useMethodInfo(state);
   const { stateGlobal, dispatchGlobal } = useContext(GlobalReducerContext);
 
@@ -53,10 +53,9 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                 className={classes.input}
                 label="Contract"
                 value={state.contractAddress}
-                error={state.contractAddress ? !checkAddress(state.contractAddress) : false}
-                helperText={state.contractAddress && !checkAddress(state.contractAddress) ? 'Not correct address format' : ''}
-                onChange={e => dispatch({ type: 'set_contract_address', payload: e.target.value })
-                }
+                error={state.contractAddress ? !checkEtherAddress(state.contractAddress) : false}
+                helperText={state.contractAddress && !checkEtherAddress(state.contractAddress) ? 'Not correct address format' : ''}
+                onChange={e => dispatch({ type: 'set_contract_address', payload: e.target.value })}
                 isRedirect
                 isQuestion
                 textQuestionTip='Address associated with the contract on a blockchain'/>
@@ -65,20 +64,19 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                 isQuestion
                 label='Public key of a signatory'
                 value={stateMethod.publicKey}
-                error={stateMethod.publicKey ? !checkAddress(stateMethod.publicKey) : false}
-                helperText={stateMethod.publicKey && !checkAddress(stateMethod.publicKey) ? 'Not correct address format' : ''}
+                error={stateMethod.publicKey ? !checkEtherAddress(stateMethod.publicKey) : false}
+                helperText={stateMethod.publicKey && !checkEtherAddress(stateMethod.publicKey) ? 'Not correct address format' : ''}
                 onChange={(e) => {
                   dispatchMethod({ type: 'set_public_key', payload: e.target.value });
                 }}
                 isRedirect
                 textQuestionTip={'Account associated with the private key that will be used to sign this transaction'}/>
-
             {state.contractAddress
               ? <DetailInformation
                   dispatchMethod={dispatchMethod}
                   stateContract={state}
                   stateMethod={stateMethod}
-                  recalculateButton={() => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, provider)}/> : ''}
+                  recalculateButton={() => recalculateGasLimit(state, stateMethod, dispatchMethod, dispatchGlobal, etherProvider)}/> : ''}
             {stateMethod.methodType === 'transaction' && !!stateMethod.methodParams.length
               ? <ButtonWCS
                   className={classes.button}
@@ -119,7 +117,7 @@ const SingleTransactionEtherC = ({ className, ...props }) => {
                   message={stateGlobal.error}
                   variant='error'
                   isOpen={true}
-                  onClose={e => dispatchGlobal({ type: 'set_global_error', payload: undefined })}/> : ''}
+                  onClose={() => dispatchGlobal({ type: 'set_global_error', payload: undefined })}/> : ''}
         </ContentCardWCS>
       </React.Fragment>
   );

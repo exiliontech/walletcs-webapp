@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/register": "^7.6.2",
+    "@exiliontech/walletcs": "^2.0.21",
+    "@exiliontech/walletcs-lib-ext": "^1.0.5",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
@@ -25,11 +28,10 @@
     "react-web3": "^1.2.0",
     "semantic-ui-react": "^0.86.0",
     "tar": "^4.4.8",
-    "walletcs": "^1.1.2",
     "web3": "^1.0.0-beta.48"
   },
   "scripts": {
-    "start": "cross-env CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='rinkeby' react-scripts start",
+    "start": "cross-env CI=false REACT_APP_BITCOIN_NETWORK='BTC_TESTNET' REACT_APP_ETH_NETWORK='ETH' REACT_APP_ETH_NETWORK_SEND='rinkeby' REACT_APP_BTC_NETWORK_SEND='test3' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
