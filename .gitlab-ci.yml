@@ -1,4 +1,4 @@
-image: node:11.0.0
+git image: node:11.0.0
 
 stages:
   - production

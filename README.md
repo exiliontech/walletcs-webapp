@@ -1,3 +1,5 @@
+## Walletcs-webapp ![GitHub package.json version](https://img.shields.io/github/package-json/v/walletcs/walletcs-webapp) [![GitHub license](https://img.shields.io/github/license/walletcs/walletcs-app.svg)](https://github.com/walletcs/walletcs-webapp/blob/master/LICENSE)
+<img alt="Gitlab pipeline status" src="https://img.shields.io/gitlab/pipeline/walletcs/walletcs-webapp">
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
