@@ -1,11 +1,8 @@
-git image: node:11.0.0
-
 stages:
   - production
   - develop
 
 production:
-  type: deploy
   stage: production
   image: node:11.0.0
   script:
@@ -19,7 +16,6 @@ production:
     - master
 
 develop:
-  type: deploy
   stage: develop
   image: node:11.0.0
   script:
