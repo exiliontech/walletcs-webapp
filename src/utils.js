@@ -58,11 +58,13 @@ export const combineToObject = (toAddresses, amounts) => _.map(toAddresses, (to,
 
 export const getBitcoinOutxs = async (fromAddresses, provider) => {
   const uniqFromAddresses = _.uniq(fromAddresses);
-  const result = [];
-  _.each(uniqFromAddresses, async (from) => {
-    result.push(...await provider.getOutxs(from));
-  });
-  return result;
+
+  const result = await Promise.all(uniqFromAddresses.map(async from => {
+    return await provider.getOutxs(from);
+  }));
+
+  return Array.prototype.concat.apply([], result);
+
 };
 
 const onRedirectToEtherscan = (address) => {
@@ -94,19 +96,26 @@ export const parserBitcoinFile = (file) => {
 
   // Decode all transaction from file
   const { transactions } = json;
-  _.each(transactions, (rawTx) => {
+
+  const arrr = transactions.map((rawTx) => {
     const tx = Transaction.fromHex(rawTx);
 
-    const params = [];
-    _.each(tx.outx, (out) => {
+    const params = tx.outs.map((out) => {
+      let to;
+
       try {
-        params.push({ value: out.value, to: address.fromOutputScript(out.script) });
+        to = address.fromOutputScript(out.script);
       } catch (e) {
-        console.log(e);
+        console.warn(e);
       }
+
+      return { value: out.value, to };
     });
+
     return { contract: null, transaction: tx, params };
   });
+
+  return arrr;
 };
 
 export const parserEtherFile = (file) => {

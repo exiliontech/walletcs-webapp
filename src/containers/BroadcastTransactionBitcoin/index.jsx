@@ -25,6 +25,7 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   const handleLoadFile = (e) => {
     try {
       const transactions = parserBitcoinFile(e.target.result);
+
       dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result).transactions });
       dispatch({ type: 'set_table', payload: transactions });
 

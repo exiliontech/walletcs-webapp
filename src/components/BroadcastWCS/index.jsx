@@ -114,9 +114,10 @@ const BroadcastWCS = ({ className, ...props }) => {
                 }}/>
            <div className={classes.containerButtons}>
             <ButtonWCS
-                className={classes.button}
-                disabled={!parentState.table.length || isBroadcasted}
-                onClick={onBroadcast}>
+              className={classes.button}
+              disabled={!parentState.table || !parentState.table.length || isBroadcasted}
+              onClick={onBroadcast}
+            >
               Broadcast Transaction
             </ButtonWCS>
             </div>

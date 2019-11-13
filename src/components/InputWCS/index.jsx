@@ -70,7 +70,7 @@ const InputWCS = ({ className, ...props }) => {
         FormHelperTextProps={{ error: classes.error, ...props }}
         error={validator ? !!validator(value) : null}
         helperText={validator ? validator(value) : null}
-        onRedirectClicc={onRedirectClick}
+        onRedirectClick={onRedirectClick}
         InputProps={{
           endAdornment: isQuestion || isRedirect ? (
               <InputAdornment position="start">

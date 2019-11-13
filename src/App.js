@@ -34,9 +34,9 @@ const App = () => {
   };
 
   const initNodeEther = () => {
-    const network = INFURA_URI[process.env.REACT_APP_ETH_NETWORK_SEND];
+    const url = INFURA_URI[process.env.REACT_APP_ETH_NETWORK_SEND];
     try {
-      return new InfuraProvider(network, process.env.REACT_APP_ETH_NETWORK_SEND);
+      return new InfuraProvider(url, process.env.REACT_APP_ETH_NETWORK_SEND);
     } catch (e) {
       return null;
     }
