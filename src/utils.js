@@ -123,8 +123,9 @@ export const parserEtherFile = (file) => {
   
   // Decode all transaction from file
   const transactions = [];
-  _.each(transactions, (rawTx) => {
+  _.each(json.transactions, (rawTx) => {
     const tx = ethers.utils.parseTransaction(rawTx);
+
     if (tx.data !== '0x') {
       InfuraProvider.addABI(json.contracts.map((obj) => { if (obj.contract === tx.to) return obj.abi; })[0]);
       tx.data = InfuraProvider.decodeMethod(tx.data);

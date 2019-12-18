@@ -158,15 +158,22 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
 
 const createTxFromParams = (contractAddress, publicKey, methodParams, abi, methodName) => {
   const transaction = structures.EtherTransaction;
-  if (contractAddress) transaction.to.push({ address: contractAddress });
-  else transaction.to.push({ address: _.map(_.filter(methodParams, value => value.name === 'to'), val => val.value)[0] });
+  if (contractAddress) {
+    transaction.to.push({ address: contractAddress });
+  } else {
+    transaction.to.push({
+      address: methodParams.find(value => value.name === 'to').value,
+      amount: methodParams.find(value => value.name === 'value').value
+    });
+  }
+
   transaction.from.push({ address: publicKey });
-  transaction.nonce = _.map(_.filter(methodParams, value => value.name === 'nonce'), val => val.value)[0] || 0;
-  transaction.gasLimit = _.map(_.filter(methodParams, value => value.name === 'gasLimit'), val => val.value)[0] || GAS_LIMIT;
-  transaction.gasPrice = _.map(_.filter(methodParams, value => value.name === 'gasPrice'), val => val.value)[0] || GAS_PRICE;
-  const filteredParams = _.filter(methodParams, param => !DEFAULT_PARAMS.includes(param.name));
+  transaction.nonce = methodParams.find(value => value.name === 'nonce').value || 0;
+  transaction.gasLimit = methodParams.find(value => value.name === 'gasLimit').value || GAS_LIMIT;
+  transaction.gasPrice = methodParams.find(value => value.name === 'gasPrice').value || GAS_PRICE;
+  const filteredParams = methodParams.filter(param => !DEFAULT_PARAMS.includes(param.name));
   if (filteredParams.length) {
-    const values = _.map(filteredParams, val => val.value);
+    const values = filteredParams.map(val => val.value);
     const inter = new ethers.utils.Interface(abi);
     transaction.data = inter.functions[methodName].encode(values);
   }
@@ -201,8 +208,8 @@ export const recalculateGasLimit = async (stateContract, stateMethod, dispatchMe
   const { methodParams } = stateMethod;
   const transaction = {
     to: contractAddress,
-    gasPrice: `0x${_.filter(methodParams, val => val.name === 'gasPrice')[0].value.toString(16)}`,
-    nonce: `0x${_.filter(methodParams, val => val.name === 'nonce')[0].value.toString(16)}`,
+    gasPrice: `0x${methodParams.find(val => val.name === 'gasPrice').value.toString(16)}`,
+    nonce: `0x${methodParams.find(val => val.name === 'nonce').value.toString(16)}`,
   };
   const params = await calculateGasLimit(transaction, provider, methodParams);
   dispatchMethod({ type: 'set_params', payload: params });

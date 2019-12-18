@@ -60,12 +60,14 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   };
 
   const onBroadcast = async () => {
-    _.each(state.originTransactions, async (rawTx, index) => {
+    const txs = state.originTransactions.transactions;
+
+    txs.forEach(async (rawTx, index) => {
       const readableTransaction = state.table[index].transaction;
       try {
         const tx = await etherProvider.broadcast(rawTx);
         readableTransaction.success = true;
-        readableTransaction.transaction_id = tx.hash;
+        // readableTransaction.transaction_id = tx.hash;
         readableTransaction.isVisible = true;
         dispatch({ type: 'add_result', payload: readableTransaction });
       } catch (e) {

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/register": "^7.6.2",
-    "@exiliontech/walletcs": "^2.0.24",
+    "@exiliontech/walletcs": "^2.0.25",
     "@exiliontech/walletcs-lib-ext": "^1.0.8",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
