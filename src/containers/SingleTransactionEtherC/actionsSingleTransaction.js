@@ -4,6 +4,7 @@
 /* eslint-disable no-restricted-syntax */
 import { useContext, useEffect, useReducer } from 'react';
 import { ethers } from 'ethers';
+import cloneDeep from 'clone-deep';
 import * as structures from '@exiliontech/walletcs/src/base/structures';
 import * as _ from 'lodash';
 import {DEFAULT_PARAMS, GAS_PRICE} from '../../consts/ethereum';
@@ -150,14 +151,15 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
     }
   }
   const transaction = createTxFromParams(contractAddress, publicKey, methodParams, abi, methodName);
-  const etherFile = structures.EtherFileTransaction;
+  const etherFile = cloneDeep(structures.EtherFileTransaction);
   etherFile.transactions.push(transaction);
   etherFile.contracts.push(abi);
   downloadFile('tr-', JSON.stringify(etherFile));
 };
 
 const createTxFromParams = (contractAddress, publicKey, methodParams, abi, methodName) => {
-  const transaction = structures.EtherTransaction;
+  const transaction = cloneDeep(structures.EtherTransaction);
+
   if (contractAddress) {
     transaction.to.push({ address: contractAddress });
   } else {

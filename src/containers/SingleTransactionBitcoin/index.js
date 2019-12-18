@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect, useContext } from 'react';
 import cx from 'classnames';
+import cloneDeep from 'clone-deep';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as _ from 'lodash';
@@ -36,7 +37,7 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   };
 
   const generateFile = async () => {
-    const bitcoinFile = structures.BitcoinFileTransaction;
+    const bitcoinFile = cloneDeep(structures.BitcoinFileTransaction);
     const [outxs, from, to] = await _convertStateToTxFormat();
     bitcoinFile.from.push(...from);
     bitcoinFile.to.push(...to);
