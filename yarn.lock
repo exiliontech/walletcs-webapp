@@ -1002,23 +1002,23 @@
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.8.2.tgz#576ff7fb1230185b619a75d258cbc98f0867a8dc"
   integrity sha512-rLu3wcBWH4P5q1CGoSSH/i9hrXs7SlbRLkoq9IGuoPYNGQvDJ3pt/wmOM+XgYjIDRMVIdkUWt0RsfzF50JfnCw==
 
-"@exiliontech/walletcs-lib-ext@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@exiliontech/walletcs-lib-ext/-/walletcs-lib-ext-1.0.8.tgz#f7cf81cfa7c22443e55412826b9f20d7d284c8fb"
-  integrity sha512-Ns1OV2bB0pQCtwxC1JmSttk+GwI4bMQz7yQNMQlfpVoyzVs84sTKsbttyoX279vWKBeIorUiLxPkqD3qvCrB+g==
+"@exiliontech/walletcs-lib-ext@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@exiliontech/walletcs-lib-ext/-/walletcs-lib-ext-1.0.9.tgz#d0aef935bd095eed86a28918324177aca34c96df"
+  integrity sha512-/ZTBNa0qq+a8MrHTKBILo5urVDDjID7UQe+mg8hAk47fshGr1Ab6WHrjY0iHQW9nS8Hwsr3J14M+swB+nFvcrA==
   dependencies:
     "@babel/polyfill" "^7.6.0"
-    "@exiliontech/walletcs" "^2.0.21"
+    "@exiliontech/walletcs" "^2.0.26"
     abi-decoder "^2.2.2"
     ethers "^4.0.37"
     husky "^3.0.9"
     typescript "^3.6.3"
     whatwg-fetch "^3.0.0"
 
-"@exiliontech/walletcs@^2.0.21":
-  version "2.0.24"
-  resolved "https://registry.yarnpkg.com/@exiliontech/walletcs/-/walletcs-2.0.24.tgz#b2daae150f6d2cd52af40aff76e0be1ca4b8a8e0"
-  integrity sha512-ugx73xLsni6vaUtyK/sBAz/eQnLfDII+DrKqAamxxdwt5yKXYnIse83fI2rqUv9DNoWW1C4Dp0LpHCttGB8FTQ==
+"@exiliontech/walletcs@^2.0.26":
+  version "2.0.26"
+  resolved "https://registry.yarnpkg.com/@exiliontech/walletcs/-/walletcs-2.0.26.tgz#7aab969ddfbd24c6dc8fa00657540c91334c869a"
+  integrity sha512-sE29IutClfs/lKFVz7Sc2dfBs+535sIGEqX4GQpENIwwPMBQLPAkGKracvxbDeiZrtRyOM59Nw6TRDnflGaeIw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.3.0"
     "@babel/runtime" "^7.6.3"
@@ -1028,25 +1028,7 @@
     bip39 "^3.0.2"
     bitcoinjs-lib "^5.0.1"
     bitcore-lib "^8.6.0"
-    ethers "^4.0.25"
-    extends-classes "^1.0.5"
-    lodash "^4.17.15q"
-    papaparse "^5.0.0"
-    web3 "^1.0.0"
-
-"@exiliontech/walletcs@^2.0.25":
-  version "2.0.25"
-  resolved "https://registry.yarnpkg.com/@exiliontech/walletcs/-/walletcs-2.0.25.tgz#a5d09c211d0eceb8cb2864f7772ed58f18cba1b5"
-  integrity sha512-LIIrZ73hx99g4xkP1fTR/4Q8fvc+L6LvsqaurE2yUyOsqlu3ue0jtw3RNpuvI4S5AKlSkykYGkv0LiWauUvh7w==
-  dependencies:
-    "@babel/plugin-proposal-class-properties" "^7.3.0"
-    "@babel/runtime" "^7.6.3"
-    abi-decoder "^1.2.0"
-    babel-polyfill "^6.26.0"
-    bip32 "^2.0.4"
-    bip39 "^3.0.2"
-    bitcoinjs-lib "^5.0.1"
-    bitcore-lib "^8.6.0"
+    clone-deep "^4.0.1"
     ethers "^4.0.25"
     extends-classes "^1.0.5"
     lodash "^4.17.15q"

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Transaction, address } from 'bitcoinjs-lib';
-import { InfuraProvider } from 'ethers/providers';
+import { InfuraProvider } from '@exiliontech/walletcs-lib-ext';
 import * as _ from 'lodash';
 
 const GAS_LIMIT = 21000;
@@ -127,7 +127,8 @@ export const parserEtherFile = (file) => {
     const tx = ethers.utils.parseTransaction(rawTx);
 
     if (tx.data !== '0x') {
-      InfuraProvider.addABI(json.contracts.map((obj) => { if (obj.contract === tx.to) return obj.abi; })[0]);
+      const abi = json.contracts.find(obj => obj.address === tx.to).abi;
+      InfuraProvider.addABI(abi);
       tx.data = InfuraProvider.decodeMethod(tx.data);
     }
     transactions.push({ contract: tx.to, transaction: tx });

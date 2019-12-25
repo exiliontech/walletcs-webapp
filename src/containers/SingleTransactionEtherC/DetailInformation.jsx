@@ -24,7 +24,7 @@ const DetailInformation = (props) => {
             className={classes.dropDown}
             defaultInput="Choose method"
             disabled={!stateMethod.methodParams}
-            value={stateMethod.methodName}
+            selectedOption={stateMethod.methodName}
             items={stateContract.abi.filter(val => val.type === 'function')}
             onChange={(value) => {
               dispatchMethod({ type: 'set_method_name', payload: value });

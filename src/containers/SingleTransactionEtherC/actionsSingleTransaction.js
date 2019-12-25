@@ -153,7 +153,10 @@ export const downloadOneTransaction = (stateContract, stateMethod) => {
   const transaction = createTxFromParams(contractAddress, publicKey, methodParams, abi, methodName);
   const etherFile = cloneDeep(structures.EtherFileTransaction);
   etherFile.transactions.push(transaction);
-  etherFile.contracts.push(abi);
+  etherFile.contracts.push({
+    address: contractAddress,
+    abi
+  });
   downloadFile('tr-', JSON.stringify(etherFile));
 };
 

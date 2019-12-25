@@ -104,6 +104,8 @@ const DropDownWCS = (props) => {
 
   };
 
+  console.warn('selectedOption', selectedOption);
+
   return (
       <div className={cx(classes.root, classes.dropdownContainer)}>
         <NoSsr>

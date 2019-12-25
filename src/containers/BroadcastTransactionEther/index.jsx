@@ -47,6 +47,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = ev => handleLoadFile(ev);
+
     if (!file || !file.name.endsWith('.json' || '.csv')) {
       dispatchGlobal({ type: 'set_global_error', payload: 'File type is not correct.' });
     } else {
@@ -66,14 +67,24 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
       const readableTransaction = state.table[index].transaction;
       try {
         const tx = await etherProvider.broadcast(rawTx);
+
+        if (tx.message) {
+          throw new Error(tx.message);
+        }
+
         readableTransaction.success = true;
-        // readableTransaction.transaction_id = tx.hash;
+        readableTransaction.transaction_id = tx;
         readableTransaction.isVisible = true;
+
         dispatch({ type: 'add_result', payload: readableTransaction });
       } catch (e) {
         readableTransaction.success = false;
+        console.warn(e.message);
+
         readableTransaction.error_details = e.message ? e.message : e;
         readableTransaction.isVisible = true;
+        console.warn(readableTransaction);
+        
         dispatch({ type: 'add_result', payload: readableTransaction });
       }
     });
@@ -98,11 +109,20 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
       return list;
     };
 
-    const params = parse(transaction.data.params);
-    params.push({ key: 'gasLimit', value: transaction.gasLimit });
-    params.push({ key: 'gasPrice', value: transaction.gasPrice });
-    params.push({ key: 'nonce', value: transaction.nonce });
-    if (transaction.value) params.push({ key: 'value', value: utils.formatEther(utils.parseEther(transaction.value)) });
+    const { data: transactionData, gasLimit, gasPrice, nonce, value } = transaction;
+
+    const params = parse(transactionData.params);
+    params.push({ key: 'gasLimit', value: utils.formatEther(gasLimit) });
+    params.push({ key: 'gasPrice', value: utils.formatEther(gasPrice) });
+    params.push({ key: 'nonce', value: nonce });
+
+    if (transaction.value) {
+      params.push({
+        key: 'value',
+        value: utils.formatEther(value)
+      });
+    }
+
     formatedData.details = params;
 
     dispatch({ type: 'set_modal_data', payload: formatedData });

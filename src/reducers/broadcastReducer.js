@@ -30,13 +30,13 @@ export const broadcastReducer = (state, action) => {
     case 'set_origin_transactions':
       return { ...state, originTransactions: action.payload };
     case 'delete_transaction':
-      const _t = state.table;
-      const _ot = state.originTransactions;
-      const _rows = state.rows;
-      _ot.splice(action.payload, 1);
-      _t.splice(action.payload, 1);
-      _rows.splice(action.payload, 1);
-      return { ...state, ...{ rows: _rows, originTransactions: _ot, table: _t } };
+      const { table, originTransactions, rows } = state;
+
+      originTransactions.transactions.splice(action.payload, 1);
+      table.splice(action.payload, 1);
+      rows.splice(action.payload, 1);
+
+      return { ...state, rows, originTransactions, table };
     default:
       throw new Error(`Unexpected param: ${action.type}`);
   }
