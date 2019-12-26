@@ -1,4 +1,6 @@
-## Walletcs-webapp [![pipeline status](https://gitlab.com/walletcs/walletcs-webapp/badges/master/pipeline.svg)](https://gitlab.com/walletcs/walletcs-webapp/commits/master)
+## Walletcs-webapp
+
+<a href="https://gitlab.com/walletcs/walletcs-webapp/commits/master"><img alt="pipeline status" src="https://gitlab.com/walletcs/walletcs-webapp/badges/master/pipeline.svg" /></a>
 
 ## Available Scripts
 
