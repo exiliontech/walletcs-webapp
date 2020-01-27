@@ -26,6 +26,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
 
   const handleLoadFile = (e) => {
     try {
+      console.warn('transactions ATMTA', e.target.result);
       const transactions = parserEtherFile(e.target.result);
 
       dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result) });
@@ -39,6 +40,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
       });
       dispatch({ type: 'set_rows', payload: rows });
     } catch (error) {
+      console.warn(error);
       dispatchGlobal({ type: 'set_global_error', payload: 'File type is not correct or file is for another network.' });
     }
   };
@@ -130,25 +132,27 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   };
 
   return (
-      <SnackbarProvider maxSnack={12}
-                        autoHideDuration={999999}
-                        preventDuplicate
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
-                        }}>
-        <BroadcastWCS
-          classes={classes}
-          onAttachFile={onAttachFile}
-          onBroadcast={onBroadcast}
-          onCloseModal={onCloseModal}
-          onDelete={onDelete}
-          onOpenModal={onOpenModal}
-          parentState={state}
-          parentDispatch={dispatch}
-          isBroadcasted={isBroadcasted}
-          currency='ether_tx'/>
-      </SnackbarProvider>
+    <SnackbarProvider
+      maxSnack={12}
+      autoHideDuration={999999}
+      preventDuplicate
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+    >
+      <BroadcastWCS
+        classes={classes}
+        onAttachFile={onAttachFile}
+        onBroadcast={onBroadcast}
+        onCloseModal={onCloseModal}
+        onDelete={onDelete}
+        onOpenModal={onOpenModal}
+        parentState={state}
+        parentDispatch={dispatch}
+        isBroadcasted={isBroadcasted}
+        currency='ether_tx'/>
+    </SnackbarProvider>
   );
 };
 

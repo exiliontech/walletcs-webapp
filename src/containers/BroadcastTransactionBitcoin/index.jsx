@@ -105,18 +105,28 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   };
 
   return (
-      <SnackbarProvider>
+    <SnackbarProvider
+      maxSnack={12}
+      autoHideDuration={999999}
+      preventDuplicate
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+    >
       <BroadcastWCS
-          classes={classes}
-          onAttachFile={onAttachFile}
-          onBroadcast={onBroadcast}
-          onCloseModal={onCloseModal}
-          onDelete={onDelete}
-          onOpenModal={onOpenModal}
-          currency={'bitcoin'}
-          isBroadcasted={isBroadcasted}
-          parentState={state}/>
-      </SnackbarProvider>
+        classes={classes}
+        onAttachFile={onAttachFile}
+        onBroadcast={onBroadcast}
+        onCloseModal={onCloseModal}
+        onDelete={onDelete}
+        onOpenModal={onOpenModal}
+        currency={'bitcoin'}
+        isBroadcasted={isBroadcasted}
+        parentDispatch={dispatch}
+        parentState={state}
+      />
+    </SnackbarProvider>
   );
 };
 

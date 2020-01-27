@@ -101,26 +101,23 @@ const DropDownWCS = (props) => {
         backgroundColor: state.isSelected ? '#010D17' : '#FFFFFF',
       },
     }),
-
   };
-
-  console.warn('selectedOption', selectedOption);
 
   return (
       <div className={cx(classes.root, classes.dropdownContainer)}>
         <NoSsr>
           <p className={classes.selectLabel}>{selectLabel}</p>
           <CreatableSelect
-              value={selectedOption ? { label: selectedOption, value: selectedOption } : null}
-              components = {{ DropdownIndicator }}
-              classes={classes}
-              options={newItems}
-              onChange={newVal => onChange(newVal.value)}
-              placeholder={placeHolder}
-              styles={customStyles}
-              onInputChange={onInputChange}
-              onSelectResetsInput={false}
-              onBlurResetsInput={false}
+            value={selectedOption ? { label: selectedOption, value: selectedOption } : null}
+            components = {{ DropdownIndicator }}
+            classes={classes}
+            options={newItems}
+            onChange={newVal => onChange(newVal.value)}
+            placeholder={placeHolder}
+            styles={customStyles}
+            onInputChange={onInputChange}
+            onSelectResetsInput={false}
+            onBlurResetsInput={false}
           />
         </NoSsr>
       </div>

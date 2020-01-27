@@ -55,6 +55,7 @@ const TableWCS = ({ className, ...props }) => {
   const {
     classes, rows, headers, isDelete, onDelete, onClick,
   } = props;
+  console.warn(rows);
 
   return (
       <>
