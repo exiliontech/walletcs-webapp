@@ -1,9 +1,10 @@
-import React, { useReducer, useEffect, useContext } from 'react';
+import React, { useReducer, useEffect, useContext, useMemo } from 'react';
 import cx from 'classnames';
 import cloneDeep from 'clone-deep';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as _ from 'lodash';
+import { useDebouncedCallback } from 'use-debounce';
 import * as structures from '@exiliontech/walletcs/lib/base/structures';
 import { BitcoinTxBuilder, TransactionConstructor } from '@exiliontech/walletcs/lib/transactions';
 import {
@@ -28,6 +29,10 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   const [stateBitcoin, dispatchBitcoin] = useReducer(bitcoinReducer, initStateBitcoin);
   const { bitcoinProvider } = useContext(Web3Context);
   const changeAddress = stateBitcoin.from_addresses[0].value;
+  const amounts = stateBitcoin.amounts.map(a => a.value);
+  const { from_addresses, to_addresses } = stateBitcoin;
+  
+  const isTempValid = from_addresses.every(a => checkBitcoinAddress(a.value || '')) && to_addresses.every(a => checkBitcoinAddress(a.value || ''));
 
   const _convertStateToTxFormat = async () => {
     const outxs = await getBitcoinOutxs(_.map(stateBitcoin.from_addresses, val => val.value), bitcoinProvider);
@@ -55,9 +60,9 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   };
 
   const calculateFee = async () => {
-    const amounts = stateBitcoin.amounts.filter(i => !!i.value);;
+    const amounts = stateBitcoin.amounts.filter(i => !!i.value);
     const fromAddresses = stateBitcoin.from_addresses.filter(i => !!i.value);
-    const toAddresses = stateBitcoin.to_addresses.filter(i => !!i.value);;
+    const toAddresses = stateBitcoin.to_addresses.filter(i => !!i.value);
 
     if (fromAddresses.length && toAddresses.length
         && amounts.length && stateBitcoin.change_address) {
@@ -74,9 +79,15 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
     }
   };
 
-  useEffect(() => {
-    calculateFee();
-  }, [stateBitcoin]);
+  const [debouncedFunction, cancel] = useDebouncedCallback(
+    () => {
+      calculateFee();
+    },
+    1000,
+    { maxWait: 4000 }
+  );
+
+  useEffect(() => debouncedFunction(), amounts);
 
   useEffect(() => {
     dispatchBitcoin({ type: 'set_change_address', payload: changeAddress })
@@ -117,7 +128,7 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
             </div>
             <div className={classes.containerButtons}>
               <ButtonWCS className={classes.button}
-                         disabled={!stateBitcoin.change_address}
+                         disabled={!isTempValid}
                          onClick={generateFile}>
                 Download Transaction
               </ButtonWCS>

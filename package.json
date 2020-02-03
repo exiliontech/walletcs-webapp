@@ -29,6 +29,7 @@
     "react-web3": "^1.2.0",
     "semantic-ui-react": "^0.86.0",
     "tar": "^4.4.8",
+    "use-debounce": "^3.3.0",
     "web3": "^1.0.0-beta.48"
   },
   "scripts": {
