@@ -2,8 +2,8 @@ import React, { useContext, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { utils } from 'ethers';
-import { SnackbarProvider } from 'notistack';
 import * as _ from 'lodash';
+import { useSnackbar } from 'notistack';
 import { parserEtherFile } from "../../utils";
 import { broadcastReducer, initStateBroadcast } from '../../reducers';
 import Web3Context from '../../contexts/Web3Context';
@@ -19,6 +19,7 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   const { dispatchGlobal } = useContext(GlobalReducerContext);
   const { etherProvider } = useContext(Web3Context);
   const [isBroadcasted, stateBroadcasted] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const onDelete = (index) => {
     dispatch({ type: 'delete_transaction', payload: index });
@@ -26,7 +27,6 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
 
   const handleLoadFile = (e) => {
     try {
-      console.warn('transactions ATMTA', e.target.result);
       const transactions = parserEtherFile(e.target.result);
 
       dispatch({ type: 'set_origin_transactions', payload: JSON.parse(e.target.result) });
@@ -77,6 +77,8 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
         readableTransaction.success = true;
         readableTransaction.transaction_id = tx;
         readableTransaction.isVisible = true;
+
+        enqueueSnackbar(`${tx} Broadcasted successfully`, { variant: 'success' });
 
         dispatch({ type: 'add_result', payload: readableTransaction });
       } catch (e) {
@@ -132,27 +134,18 @@ const BroadcastTransactionEther = ({ className, ...props }) => {
   };
 
   return (
-    <SnackbarProvider
-      maxSnack={12}
-      autoHideDuration={999999}
-      preventDuplicate
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-    >
-      <BroadcastWCS
-        classes={classes}
-        onAttachFile={onAttachFile}
-        onBroadcast={onBroadcast}
-        onCloseModal={onCloseModal}
-        onDelete={onDelete}
-        onOpenModal={onOpenModal}
-        parentState={state}
-        parentDispatch={dispatch}
-        isBroadcasted={isBroadcasted}
-        currency='ether_tx'/>
-    </SnackbarProvider>
+    <BroadcastWCS
+      classes={classes}
+      onAttachFile={onAttachFile}
+      onBroadcast={onBroadcast}
+      onCloseModal={onCloseModal}
+      onDelete={onDelete}
+      onOpenModal={onOpenModal}
+      parentState={state}
+      parentDispatch={dispatch}
+      isBroadcasted={isBroadcasted}
+      currency='ether_tx'
+    />
   );
 };
 

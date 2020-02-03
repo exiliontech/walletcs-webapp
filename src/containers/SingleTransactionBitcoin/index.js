@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as _ from 'lodash';
 import { useDebouncedCallback } from 'use-debounce';
+import { useSnackbar } from 'notistack';
 import * as structures from '@exiliontech/walletcs/lib/base/structures';
 import { BitcoinTxBuilder, TransactionConstructor } from '@exiliontech/walletcs/lib/transactions';
 import {
@@ -19,10 +20,7 @@ import GroupInputsBitcoin from '../GroupInputsBitcoin';
 import { styles } from './styles';
 import DropDownWCS from '../../components/DropDownWCS';
 import SecondaryInputWCS from '../../components/SecondaryInputWCS';
-
-
 import Web3Context from '../../contexts/Web3Context';
-
 
 const SingleTransactionBitcoin = ({ className, ...props }) => {
   const { classes } = props;
@@ -30,9 +28,13 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
   const { bitcoinProvider } = useContext(Web3Context);
   const changeAddress = stateBitcoin.from_addresses[0].value;
   const amounts = stateBitcoin.amounts.map(a => a.value);
-  const { from_addresses, to_addresses } = stateBitcoin;
+  const { from_addresses, to_addresses, fee } = stateBitcoin;
+  const { enqueueSnackbar } = useSnackbar();
   
-  const isTempValid = from_addresses.every(a => checkBitcoinAddress(a.value || '')) && to_addresses.every(a => checkBitcoinAddress(a.value || ''));
+  const isTempValid = from_addresses.every(a => checkBitcoinAddress(a.value || '')) &&
+    to_addresses.every(a => checkBitcoinAddress(a.value || '')) &&
+    amounts.every(a => !!a) &&
+    fee > 0;
 
   const _convertStateToTxFormat = async () => {
     const outxs = await getBitcoinOutxs(_.map(stateBitcoin.from_addresses, val => val.value), bitcoinProvider);
@@ -68,11 +70,20 @@ const SingleTransactionBitcoin = ({ className, ...props }) => {
         && amounts.length && stateBitcoin.change_address) {
       try {
         const tx = await generateTx();
-        console.log('TX:', tx);
-        dispatchBitcoin({
-          type: 'set_fee',
-          payload: (tx.fee / (10 ** 8)).toString(),
-        });
+
+        // TODO check BTC account balance
+        if (tx.fee < 0) {
+          enqueueSnackbar('Not enough funds', { variant: 'error' });
+          dispatchBitcoin({
+            type: 'set_fee',
+            payload: "0",
+          });
+        } else {
+          dispatchBitcoin({
+            type: 'set_fee',
+            payload: (tx.fee / (10 ** 8)).toString(),
+          });
+        }
       } catch (e) {
         console.error('ERROR: ', e);
       }

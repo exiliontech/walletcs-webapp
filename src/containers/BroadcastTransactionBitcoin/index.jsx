@@ -2,7 +2,7 @@ import React, { useContext, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as _ from 'lodash';
-import { SnackbarProvider } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { broadcastReducer, initStateBroadcast } from '../../reducers';
 import { styles } from './styles.js';
 import BroadcastWCS from '../../components/BroadcastWCS';
@@ -17,6 +17,7 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   const { dispatchGlobal } = useContext(GlobalReducerContext);
   const { bitcoinProvider } = useContext(Web3Context);
   const [isBroadcasted, stateBroadcasted] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const onDelete = (index) => {
     dispatch({ type: 'delete_transaction', payload: index });
@@ -69,6 +70,7 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
         await bitcoinProvider.broadcast(rawTx);
       });
       dispatchGlobal({ type: 'set_global_success', payload: 'Success send all transactions.' });
+      enqueueSnackbar('Broadcasted successfully', { variant: 'success' });
     } catch (e) {
       const msg = e.message ? e.message : e;
       dispatchGlobal({ type: 'set_global_error', payload: `Error in tx: ${msg.split('(')[0]}` });
@@ -105,28 +107,18 @@ const BroadcastTransactionBitcoin = ({ className, ...props }) => {
   };
 
   return (
-    <SnackbarProvider
-      maxSnack={12}
-      autoHideDuration={999999}
-      preventDuplicate
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-    >
-      <BroadcastWCS
-        classes={classes}
-        onAttachFile={onAttachFile}
-        onBroadcast={onBroadcast}
-        onCloseModal={onCloseModal}
-        onDelete={onDelete}
-        onOpenModal={onOpenModal}
-        currency={'bitcoin'}
-        isBroadcasted={isBroadcasted}
-        parentDispatch={dispatch}
-        parentState={state}
-      />
-    </SnackbarProvider>
+    <BroadcastWCS
+      classes={classes}
+      onAttachFile={onAttachFile}
+      onBroadcast={onBroadcast}
+      onCloseModal={onCloseModal}
+      onDelete={onDelete}
+      onOpenModal={onOpenModal}
+      currency={'bitcoin'}
+      isBroadcasted={isBroadcasted}
+      parentDispatch={dispatch}
+      parentState={state}
+    />
   );
 };
 

@@ -4,6 +4,7 @@ import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { InfuraProvider, BlockCypherProvider } from '@exiliontech/walletcs-lib-ext';
+import { SnackbarProvider } from 'notistack';
 import WalletCSTheme from './themes';
 import Header from './components/Header';
 import Web3Context from './contexts/Web3Context';
@@ -53,29 +54,32 @@ const App = () => {
   const initNode = () => ({ bitcoinProvider: initNodeBitcoin(), etherProvider: initNodeEther() });
 
   return (
-        <Router>
-          <div className="App">
-            <div className="content">
-            <GlobalReducerContext.Provider
-                value={{
-                  stateGlobal: state,
-                  dispatchGlobal: dispatch,
-                  currentCurrency: stateCurrency,
-                }}>
-              <Web3Context.Provider value={initNode()}>
-                <MuiThemeProvider theme={WalletCSTheme}>
-                  <Header
-                      handleCurrency={handleCurrency}
-                      currentCurrency={stateCurrency}
-                      links={CURRENCIES_LINKS}/>
-                      <Switch>{getCurrentRoutes(stateCurrency)}</Switch>
-                </MuiThemeProvider>
-              </Web3Context.Provider>
-            </GlobalReducerContext.Provider>
-            </div>
-            <RedirectMainNet />
-          </div>
-        </Router>
+    <Router>
+      <div className="App">
+        <div className="content">
+        <GlobalReducerContext.Provider
+            value={{
+              stateGlobal: state,
+              dispatchGlobal: dispatch,
+              currentCurrency: stateCurrency,
+            }}>
+          <Web3Context.Provider value={initNode()}>
+            <MuiThemeProvider theme={WalletCSTheme}>
+              <Header
+                handleCurrency={handleCurrency}
+                currentCurrency={stateCurrency}
+                links={CURRENCIES_LINKS}
+              />
+                <SnackbarProvider>
+                  <Switch>{getCurrentRoutes(stateCurrency)}</Switch>
+                </SnackbarProvider>
+            </MuiThemeProvider>
+          </Web3Context.Provider>
+        </GlobalReducerContext.Provider>
+        </div>
+        <RedirectMainNet />
+      </div>
+    </Router>
   );
 };
 
